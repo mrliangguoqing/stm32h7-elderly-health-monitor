@@ -1,0 +1,38 @@
+# --- Keil MDK-ARM (uVision) 临时文件 ---
+# 忽略编译产生的中间文件和输出文件
+*/Listings/*
+*/Objects/*
+*.o
+*.d
+*.crf
+*.htm
+*.lnp
+*.axf
+*.sct
+*.dep
+*.iex
+*.map
+*.lst
+*.build_log.htm
+*.htm
+*.uvgui.*
+*.uvguix.*
+*.scvd
+*.dbgconf
+*.bak
+
+# --- STM32CubeMX 相关 ---
+# CubeMX 备份文件
+*.backup
+
+# --- 操作系统和编辑器临时文件 ---
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.swp
+
+# --- 其他 ---
+# 忽略仿真器产生的日志
+JLinkLog.txt
+*.log

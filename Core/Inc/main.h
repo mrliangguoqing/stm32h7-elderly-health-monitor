@@ -33,6 +33,7 @@ extern "C" {
 /* USER CODE BEGIN Includes */
 #include "bsp_dwt.h"
 #include "debug.h"
+#include "bsp_aht30.h"
 /* USER CODE END Includes */
 
 /* Exported types ------------------------------------------------------------*/

@@ -18,6 +18,7 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
+#include "i2c.h"
 #include "usart.h"
 #include "gpio.h"
 
@@ -92,13 +93,15 @@ int main(void)
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
   MX_USART1_UART_Init();
+  MX_I2C1_Init();
   /* USER CODE BEGIN 2 */
   
     BSP_DWT_Init();
+    BSP_AHT30_Init();
 
-    printf("Hello STM32H7");
+    printf("Hello STM32H7\r\n");
     BSP_DWT_DelayMs(1000);
-    printf("Hello GitHub");
+    printf("Hello GitHub\r\n");
 
   /* USER CODE END 2 */
 
@@ -109,6 +112,17 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
+
+    if (BSP_AHT30_Update() == 0)
+    {
+      AHT30_Data_t current_data = BSP_AHT30_GetData();
+      printf("AHT30 Sensor Data:\r\n");
+      printf("Temperature: %.2f °C\r\n", current_data.temperature);
+      printf("Humidity   : %.2f %%\r\n", current_data.humidity);
+      printf("Status Byte: 0x%02X\r\n", current_data.status);
+      printf("\r\n---------------------------\r\n\r\n");
+    }
+    BSP_DWT_DelayMs(2000);
   }
   /* USER CODE END 3 */
 }

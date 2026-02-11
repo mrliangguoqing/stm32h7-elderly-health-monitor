@@ -25,7 +25,8 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-
+#include "FreeRTOS.h"
+#include "task.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -58,7 +59,33 @@ static void MPU_Config(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
+void AHT30Task(void *pvParameters)
+{
+  for (;;)
+  {
+    if (BSP_AHT30_Update() == 0)
+    {
+      AHT30_Data_t current_data = BSP_AHT30_GetData();
+      printf("AHT30 Sensor Data:\r\n");
+      printf("Temperature: %.2f °C\r\n", current_data.temperature);
+      printf("Humidity   : %.2f %%\r\n", current_data.humidity);
+      printf("Status Byte: 0x%02X\r\n", current_data.status);
+      printf("\r\n---------------------------\r\n\r\n");
+    }
+    vTaskDelay(pdMS_TO_TICKS(2000));
+  }
+}
 
+void LcdTask(void *pvParameters)
+{
+  for (;;)
+  {
+    LCD_Clear(BLUE);
+    vTaskDelay(pdMS_TO_TICKS(20));
+    LCD_Clear(BLACK);
+    vTaskDelay(pdMS_TO_TICKS(20));
+  }
+}
 /* USER CODE END 0 */
 
 /**
@@ -105,17 +132,19 @@ int main(void)
   MX_I2C1_Init();
   MX_FMC_Init();
   /* USER CODE BEGIN 2 */
-  
-    BSP_DWT_Init();
-    BSP_AHT30_Init();
 
-    printf("Hello STM32H7\r\n");
+  BSP_DWT_Init();
+  BSP_AHT30_Init();
+  LCD_Init();
 
-    LCD_Init();//初始化LCD
-    
-    LCD_Clear(BLUE);
+  LCD_Clear(WHITE);
 
-    printf("Hello GitHub\r\n");
+  printf("Hello STM32H7\r\n");
+  printf("Hello GitHub\r\n");
+
+  xTaskCreate(AHT30Task, "AHT30Task", 256, NULL, 1, NULL);
+  xTaskCreate(LcdTask, "LcdTask", 256, NULL, 2, NULL);
+  vTaskStartScheduler();
 
   /* USER CODE END 2 */
 
@@ -126,17 +155,6 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-
-    if (BSP_AHT30_Update() == 0)
-    {
-      AHT30_Data_t current_data = BSP_AHT30_GetData();
-      printf("AHT30 Sensor Data:\r\n");
-      printf("Temperature: %.2f °C\r\n", current_data.temperature);
-      printf("Humidity   : %.2f %%\r\n", current_data.humidity);
-      printf("Status Byte: 0x%02X\r\n", current_data.status);
-      printf("\r\n---------------------------\r\n\r\n");
-    }
-    BSP_DWT_DelayMs(2000);
   }
   /* USER CODE END 3 */
 }
@@ -230,6 +248,28 @@ void MPU_Config(void)
   /* Enables the MPU */
   HAL_MPU_Enable(MPU_PRIVILEGED_DEFAULT);
 
+}
+
+/**
+  * @brief  Period elapsed callback in non blocking mode
+  * @note   This function is called  when TIM6 interrupt took place, inside
+  * HAL_TIM_IRQHandler(). It makes a direct call to HAL_IncTick() to increment
+  * a global variable "uwTick" used as application time base.
+  * @param  htim : TIM handle
+  * @retval None
+  */
+void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
+{
+  /* USER CODE BEGIN Callback 0 */
+
+  /* USER CODE END Callback 0 */
+  if (htim->Instance == TIM6)
+  {
+    HAL_IncTick();
+  }
+  /* USER CODE BEGIN Callback 1 */
+
+  /* USER CODE END Callback 1 */
 }
 
 /**

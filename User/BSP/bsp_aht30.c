@@ -3,7 +3,7 @@
 #define AHT30_TIMEOUT 100   /* I2C 发送或接受的超时时间 */
 
 /* 内部静态实例 */
-static AHT30_t h_aht30;     
+static AHT30_t h_aht30;
 
 /**
  * @brief  AHT30 I2C 底层写函数适配 (基于 STM32 HAL 库)
@@ -36,6 +36,7 @@ static uint8_t AHT30_I2C_Read(uint8_t addr, uint8_t *data, uint16_t len, void *i
 /**
  * @brief  BSP 层 AHT30 传感器初始化
  * @note   完成硬件接口绑定、地址赋值并执行传感器上电初始化
+ * @param  None
  * @retval 0-成功, 其他-失败
  */
 uint8_t BSP_AHT30_Init(void)
@@ -55,6 +56,7 @@ uint8_t BSP_AHT30_Init(void)
 /**
  * @brief  BSP 层 AHT30 数据更新触发
  * @note   通过 I2C 触发测量并读取最新温湿度数据至内部结构体
+ * @param  None
  * @retval 0-成功, 1-通讯错误, 2-CRC校验失败
  */
 uint8_t BSP_AHT30_Update(void)
@@ -64,6 +66,7 @@ uint8_t BSP_AHT30_Update(void)
 
 /**
  * @brief  获取 AHT30 缓存的温湿度数据
+ * @param  None
  * @retval 包含温度、湿度及状态字的 AHT30_Data_t 结构体
  */
 AHT30_Data_t BSP_AHT30_GetData(void)

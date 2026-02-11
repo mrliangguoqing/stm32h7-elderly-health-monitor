@@ -34,6 +34,7 @@ extern "C" {
 #include "bsp_dwt.h"
 #include "debug.h"
 #include "bsp_aht30.h"
+#include "lcd.h"
 /* USER CODE END Includes */
 
 /* Exported types ------------------------------------------------------------*/
@@ -59,6 +60,8 @@ void Error_Handler(void);
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/
+#define LCD_RES_Pin GPIO_PIN_8
+#define LCD_RES_GPIO_Port GPIOC
 
 /* USER CODE BEGIN Private defines */
 

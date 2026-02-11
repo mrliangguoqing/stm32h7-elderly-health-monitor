@@ -2,7 +2,8 @@
 
 /**
  * @brief  DWT初始化，用DWT实现阻塞延时
- * @retval 无
+ * @param  None
+ * @retval None
  */
 void BSP_DWT_Init(void)
 {
@@ -23,7 +24,7 @@ void BSP_DWT_Init(void)
  * @brief  微秒延时函数
  * @note   在移植到其它芯片上后，要测试后才能使用
  * @param  _us: 要延时的微秒数，单位 1us
- * @retval 无
+ * @retval None
  */
 void BSP_DWT_DelayUs(uint32_t _us)
 {
@@ -45,7 +46,7 @@ void BSP_DWT_DelayUs(uint32_t _us)
  * @brief  毫秒延时函数
  * @note   形参不可超过 429496
  * @param  _ms: 要延时的毫秒数，单位 1ms
- * @retval 无
+ * @retval None
  */
 void BSP_DWT_DelayMs(uint32_t _ms)
 {

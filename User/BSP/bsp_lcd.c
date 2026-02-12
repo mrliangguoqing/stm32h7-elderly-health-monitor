@@ -1,4 +1,4 @@
-#include "lcd.h"
+#include "bsp_lcd.h"
 #include "main.h"
 
 _lcd_dev lcddev;

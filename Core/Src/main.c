@@ -25,8 +25,7 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-#include "FreeRTOS.h"
-#include "task.h"
+
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -59,33 +58,7 @@ static void MPU_Config(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-void AHT30Task(void *pvParameters)
-{
-  for (;;)
-  {
-    if (BSP_AHT30_Update() == 0)
-    {
-      AHT30_Data_t current_data = BSP_AHT30_GetData();
-      printf("AHT30 Sensor Data:\r\n");
-      printf("Temperature: %.2f °C\r\n", current_data.temperature);
-      printf("Humidity   : %.2f %%\r\n", current_data.humidity);
-      printf("Status Byte: 0x%02X\r\n", current_data.status);
-      printf("\r\n---------------------------\r\n\r\n");
-    }
-    vTaskDelay(pdMS_TO_TICKS(2000));
-  }
-}
 
-void LcdTask(void *pvParameters)
-{
-  for (;;)
-  {
-    LCD_Clear(BLUE);
-    vTaskDelay(pdMS_TO_TICKS(20));
-    LCD_Clear(BLACK);
-    vTaskDelay(pdMS_TO_TICKS(20));
-  }
-}
 /* USER CODE END 0 */
 
 /**
@@ -137,14 +110,10 @@ int main(void)
   BSP_AHT30_Init();
   LCD_Init();
 
-  LCD_Clear(WHITE);
-
   printf("Hello STM32H7\r\n");
   printf("Hello GitHub\r\n");
 
-  xTaskCreate(AHT30Task, "AHT30Task", 256, NULL, 1, NULL);
-  xTaskCreate(LcdTask, "LcdTask", 256, NULL, 2, NULL);
-  vTaskStartScheduler();
+  APP_Init();
 
   /* USER CODE END 2 */
 

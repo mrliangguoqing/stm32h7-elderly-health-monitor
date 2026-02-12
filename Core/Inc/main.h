@@ -36,6 +36,7 @@ extern "C" {
 #include "bsp_aht30.h"
 #include "bsp_lcd.h"
 #include "app_main.h"
+#include "app_config.h"
 /* USER CODE END Includes */
 
 /* Exported types ------------------------------------------------------------*/

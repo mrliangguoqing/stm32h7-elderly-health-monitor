@@ -24,9 +24,10 @@
  *
  */
 
-
 #ifndef FREERTOS_CONFIG_H
 #define FREERTOS_CONFIG_H
+
+#include "app_config.h"
 
 /*-----------------------------------------------------------
  * Application specific definitions.
@@ -47,6 +48,28 @@
 	void vGenerateM7ToM4Interrupt( void * xUpdatedMessageBuffer );
 #endif
 
+
+
+#if (APP_SYSTEM_MONITOR_ENABLE == 1)
+
+/* 在 app_system_monitor.c 文件中定义，放在 50us 的定时器中自加 */
+extern volatile uint32_t ulHighFrequencyTimerTicks;
+
+/* Run time stats gathering definitions. */
+/* This demo makes use of one or more example stats formatting functions.  These
+format the raw data provided by the uxTaskGetSystemState() function in to human
+readable ASCII form.  See the notes in the implementation of vTaskList() within
+FreeRTOS/Source/tasks.c for limitations. */
+/* 用于获取FreeRTOS的任务执行情况和CPU使用率 */
+#define configUSE_TRACE_FACILITY	                1
+#define configGENERATE_RUN_TIME_STATS               1
+#define configUSE_STATS_FORMATTING_FUNCTIONS        1
+#define portCONFIGURE_TIMER_FOR_RUN_TIME_STATS()    (ulHighFrequencyTimerTicks = 0ul)
+#define portGET_RUN_TIME_COUNTER_VALUE()            ulHighFrequencyTimerTicks
+
+#endif
+
+
 #define configUSE_PREEMPTION                    1
 #define configUSE_IDLE_HOOK                     0
 #define configUSE_TICK_HOOK                     0
@@ -56,7 +79,7 @@
 #define configMINIMAL_STACK_SIZE                ( ( uint16_t ) 128 )
 #define configTOTAL_HEAP_SIZE                   ( ( size_t ) ( 20 * 1024 ) )
 #define configMAX_TASK_NAME_LEN                 ( 16 )
-#define configUSE_TRACE_FACILITY                1
+// #define configUSE_TRACE_FACILITY                1
 #define configUSE_16_BIT_TICKS                  0
 #define configIDLE_SHOULD_YIELD                 1
 #define configUSE_MUTEXES                       1
@@ -66,7 +89,7 @@
 #define configUSE_MALLOC_FAILED_HOOK            0
 #define configUSE_APPLICATION_TASK_TAG          0
 #define configUSE_COUNTING_SEMAPHORES           1
-#define configGENERATE_RUN_TIME_STATS           0
+// #define configGENERATE_RUN_TIME_STATS           0
 
 #define configSUPPORT_STATIC_ALLOCATION         0
 #define configSUPPORT_DYNAMIC_ALLOCATION        1

@@ -19,6 +19,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 #include "i2c.h"
+#include "tim.h"
 #include "usart.h"
 #include "gpio.h"
 #include "fmc.h"
@@ -58,7 +59,9 @@ static void MPU_Config(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-
+#if (APP_SYSTEM_MONITOR_ENABLE == 1)
+    extern volatile uint32_t ulHighFrequencyTimerTicks;
+#endif
 /* USER CODE END 0 */
 
 /**
@@ -104,14 +107,14 @@ int main(void)
   MX_USART1_UART_Init();
   MX_I2C1_Init();
   MX_FMC_Init();
+  MX_TIM7_Init();
   /* USER CODE BEGIN 2 */
+  
+  HAL_TIM_Base_Start_IT(&htim7);
 
   BSP_DWT_Init();
   BSP_AHT30_Init();
   LCD_Init();
-
-  printf("Hello STM32H7\r\n");
-  printf("Hello GitHub\r\n");
 
   APP_Init();
 
@@ -238,6 +241,12 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
   }
   /* USER CODE BEGIN Callback 1 */
 
+  if (htim->Instance == TIM7)
+  {
+#if (APP_SYSTEM_MONITOR_ENABLE == 1)
+      ulHighFrequencyTimerTicks++;
+#endif
+  }
   /* USER CODE END Callback 1 */
 }
 

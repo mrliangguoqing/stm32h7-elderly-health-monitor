@@ -29,5 +29,7 @@ void APP_Init(void)
     /* 启动调度器 */
     vTaskStartScheduler();
 
-    while (1);
+    while (1)
+    {
+    }
 }

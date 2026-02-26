@@ -340,7 +340,7 @@
               <MiscControls></MiscControls>
               <Define>USE_PWR_LDO_SUPPLY,USE_HAL_DRIVER,STM32H743xx</Define>
               <Undefine></Undefine>
-              <IncludePath>../Core/Inc;../Drivers/STM32H7xx_HAL_Driver/Inc;../Drivers/STM32H7xx_HAL_Driver/Inc/Legacy;../Drivers/CMSIS/Device/ST/STM32H7xx/Include;../Drivers/CMSIS/Include;../User;../User/BSP;../User/Devices;../User/Middlewares/FreeRTOS;../User/Middlewares/FreeRTOS/include;../User/Middlewares/FreeRTOS/r0p1;../User/App;..\User\Middlewares\LVGL\GUI\lvgl;..\User\Middlewares\LVGL\GUI\lvgl\src;..\User\Middlewares\LVGL\GUI\lvgl\examples\porting</IncludePath>
+              <IncludePath>../Core/Inc;../Drivers/STM32H7xx_HAL_Driver/Inc;../Drivers/STM32H7xx_HAL_Driver/Inc/Legacy;../Drivers/CMSIS/Device/ST/STM32H7xx/Include;../Drivers/CMSIS/Include;../User;../User/BSP;../User/Devices;../User/Middlewares/FreeRTOS;../User/Middlewares/FreeRTOS/include;../User/Middlewares/FreeRTOS/r0p1;../User/App;..\User\Middlewares\LVGL\GUI;..\User\Middlewares\LVGL\GUI\lvgl;..\User\Middlewares\LVGL\GUI\lvgl\src;..\User\Middlewares\LVGL\GUI\lvgl\examples\porting;..\User\Middlewares\LVGL\GUI_APP\demos\widgets\assets;..\User\Middlewares\LVGL\GUI_APP\demos\widgets</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -3312,6 +3312,91 @@
               <FileName>lv_win.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\User\Middlewares\LVGL\GUI\lvgl\src\widgets\win\lv_win.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>lvgl/demo</GroupName>
+          <Files>
+            <File>
+              <FileName>img_clothes.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\User\Middlewares\LVGL\GUI_APP\demos\widgets\assets\img_clothes.c</FilePath>
+            </File>
+            <File>
+              <FileName>img_demo_widgets_avatar.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\User\Middlewares\LVGL\GUI_APP\demos\widgets\assets\img_demo_widgets_avatar.c</FilePath>
+            </File>
+            <File>
+              <FileName>img_demo_widgets_needle.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\User\Middlewares\LVGL\GUI_APP\demos\widgets\assets\img_demo_widgets_needle.c</FilePath>
+            </File>
+            <File>
+              <FileName>img_lvgl_logo.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\User\Middlewares\LVGL\GUI_APP\demos\widgets\assets\img_lvgl_logo.c</FilePath>
+            </File>
+            <File>
+              <FileName>lv_demo_widgets.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\User\Middlewares\LVGL\GUI_APP\demos\widgets\lv_demo_widgets.c</FilePath>
+            </File>
+            <File>
+              <FileName>img_benchmark_avatar.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\User\Middlewares\LVGL\GUI_APP\demos\benchmark\assets\img_benchmark_avatar.c</FilePath>
+            </File>
+            <File>
+              <FileName>img_benchmark_lvgl_logo_argb.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\User\Middlewares\LVGL\GUI_APP\demos\benchmark\assets\img_benchmark_lvgl_logo_argb.c</FilePath>
+            </File>
+            <File>
+              <FileName>img_benchmark_lvgl_logo_rgb.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\User\Middlewares\LVGL\GUI_APP\demos\benchmark\assets\img_benchmark_lvgl_logo_rgb.c</FilePath>
+            </File>
+            <File>
+              <FileName>lv_font_benchmark_montserrat_12_aligned.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\User\Middlewares\LVGL\GUI_APP\demos\benchmark\assets\lv_font_benchmark_montserrat_12_aligned.c</FilePath>
+            </File>
+            <File>
+              <FileName>lv_font_benchmark_montserrat_14_aligned.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\User\Middlewares\LVGL\GUI_APP\demos\benchmark\assets\lv_font_benchmark_montserrat_14_aligned.c</FilePath>
+            </File>
+            <File>
+              <FileName>lv_font_benchmark_montserrat_16_aligned.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\User\Middlewares\LVGL\GUI_APP\demos\benchmark\assets\lv_font_benchmark_montserrat_16_aligned.c</FilePath>
+            </File>
+            <File>
+              <FileName>lv_font_benchmark_montserrat_18_aligned.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\User\Middlewares\LVGL\GUI_APP\demos\benchmark\assets\lv_font_benchmark_montserrat_18_aligned.c</FilePath>
+            </File>
+            <File>
+              <FileName>lv_font_benchmark_montserrat_20_aligned.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\User\Middlewares\LVGL\GUI_APP\demos\benchmark\assets\lv_font_benchmark_montserrat_20_aligned.c</FilePath>
+            </File>
+            <File>
+              <FileName>lv_font_benchmark_montserrat_24_aligned.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\User\Middlewares\LVGL\GUI_APP\demos\benchmark\assets\lv_font_benchmark_montserrat_24_aligned.c</FilePath>
+            </File>
+            <File>
+              <FileName>lv_font_benchmark_montserrat_26_aligned.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\User\Middlewares\LVGL\GUI_APP\demos\benchmark\assets\lv_font_benchmark_montserrat_26_aligned.c</FilePath>
+            </File>
+            <File>
+              <FileName>lv_demo_benchmark.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\User\Middlewares\LVGL\GUI_APP\demos\benchmark\lv_demo_benchmark.c</FilePath>
             </File>
           </Files>
         </Group>

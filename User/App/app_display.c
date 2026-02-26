@@ -9,6 +9,10 @@
 #include "task.h"
 #include "bsp_lcd.h"
 
+#include "lvgl.h"
+#include "lv_port_disp_template.h"
+#include "lv_demo_widgets.h"
+
 /* 任务句柄：用于外部管理该任务（如删除、挂起、获取状态） */
 TaskHandle_t xDisplayTaskHandle = NULL;
 
@@ -19,12 +23,29 @@ TaskHandle_t xDisplayTaskHandle = NULL;
  */
 static void Display_Task(void *pvParameters)
 {
+    
+    
+    lv_init();  /* 初始化 LVGL 核心库 */
+    lv_port_disp_init(); /* 初始化显示接口 */
+
+//    lv_obj_t * btn = lv_button_create(lv_screen_active());
+//    lv_obj_set_size(btn, 150, 50);
+//    lv_obj_center(btn);
+//    lv_obj_t * label = lv_label_create(btn);
+//    lv_label_set_text(label, "Hello STM32!");
+//    lv_obj_center(label);
+    
+#if LV_USE_DEMO_WIDGETS
+    lv_demo_benchmark(); 
+#endif
+
     for (;;)
     {
-        LCD_Clear(BLUE);
-        vTaskDelay(pdMS_TO_TICKS(20));
-        LCD_Clear(BLACK);
-        vTaskDelay(pdMS_TO_TICKS(20));
+        uint32_t time_till_next = lv_timer_handler();
+        
+        /* time_till_next 是 LVGL 建议的下次执行时间，通常在 1-30ms 之间 */
+        if(time_till_next < 5) time_till_next = 5; 
+        vTaskDelay(pdMS_TO_TICKS(time_till_next));
     }
 }
 
@@ -37,8 +58,8 @@ void App_Display_Init(void)
 {
     xTaskCreate(Display_Task,
                 "Display_Task",
-                256,
+                2048,
                 NULL,
-                2,
+                1,
                 &xDisplayTaskHandle);
 }

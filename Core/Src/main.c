@@ -26,7 +26,7 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-
+#include "lvgl.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -114,7 +114,6 @@ int main(void)
 
   BSP_DWT_Init();
   BSP_AHT30_Init();
-  LCD_Init();
 
   APP_Init();
 
@@ -238,6 +237,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
   if (htim->Instance == TIM6)
   {
     HAL_IncTick();
+    lv_tick_inc(1); // 增加 1ms 的心跳
   }
   /* USER CODE BEGIN Callback 1 */
 

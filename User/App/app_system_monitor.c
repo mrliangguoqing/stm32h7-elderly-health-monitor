@@ -57,7 +57,7 @@ void App_System_Monitor_Init(void)
                 "System_Monitor_Task",
                 256,
                 NULL,
-                1,
+                2,
                 &xSystemMonitorTaskHandle);
 }
 

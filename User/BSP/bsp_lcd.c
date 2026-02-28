@@ -142,13 +142,14 @@ void LCD_SetDirection(uint8_t direction)
  */
 void LCD_Init(void)
 {
-	// 复位操作 (根据实际引脚修改)
-	HAL_GPIO_WritePin(LCD_RES_GPIO_Port, LCD_RES_Pin, GPIO_PIN_RESET);
-	BSP_DWT_DelayMs(50);
-	HAL_GPIO_WritePin(LCD_RES_GPIO_Port, LCD_RES_Pin, GPIO_PIN_SET);
-	BSP_DWT_DelayMs(50);
+	/* 复位操作，准备初始化 */
+	/* 因 LCD 和 GT911 共用复位引脚，在 GT911_Init 中统一执行复位操作，故此处注释 */
+	// HAL_GPIO_WritePin(LCD_RES_GPIO_Port, LCD_RES_Pin, GPIO_PIN_RESET);
+	// BSP_DWT_DelayMs(50);
+	// HAL_GPIO_WritePin(LCD_RES_GPIO_Port, LCD_RES_Pin, GPIO_PIN_SET);
+	// BSP_DWT_DelayMs(50);
 
-	// ST7796S 核心初始化序列
+	/* ST7796S 核心初始化序列 */
 	LCD_WR_REG(0xF0);
 	LCD_WR_DATA(0xC3);
 	LCD_WR_REG(0xF0);
@@ -188,7 +189,7 @@ void LCD_Init(void)
 	LCD_WR_DATA(0xA5);
 	LCD_WR_DATA(0x33);
 
-	// Gamma 设置
+	/* Gamma 设置 */
 	LCD_WR_REG(0xE0);
 	LCD_WR_DATA(0xF0);
 	LCD_WR_DATA(0x09);
@@ -231,6 +232,6 @@ void LCD_Init(void)
 	HAL_Delay(120);
 	LCD_WR_REG(0X29);
 
-	LCD_SetDirection(3); // 默认横屏
+	LCD_SetDirection(3); /* 默认横屏 */
 	LCD_Clear(WHITE);
 }

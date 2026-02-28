@@ -26,7 +26,7 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-#include "lvgl.h"
+
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -108,13 +108,18 @@ int main(void)
   MX_I2C1_Init();
   MX_FMC_Init();
   MX_TIM7_Init();
+  MX_I2C2_Init();
   /* USER CODE BEGIN 2 */
-  
+
   HAL_TIM_Base_Start_IT(&htim7);
 
+  /* BSP 层模块初始化 */
   BSP_DWT_Init();
-  BSP_AHT30_Init();
-
+  // BSP_AHT30_Init();
+  BSP_GT911_Init();
+  LCD_Init(); /* 初始化 LCD */
+  
+  /* APP 层模块初始化 */
   APP_Init();
 
   /* USER CODE END 2 */
@@ -237,7 +242,6 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
   if (htim->Instance == TIM6)
   {
     HAL_IncTick();
-    lv_tick_inc(1); // 增加 1ms 的心跳
   }
   /* USER CODE BEGIN Callback 1 */
 

@@ -54,7 +54,7 @@
           <CreateLib>0</CreateLib>
           <CreateHexFile>1</CreateHexFile>
           <DebugInformation>1</DebugInformation>
-          <BrowseInformation>1</BrowseInformation>
+          <BrowseInformation>0</BrowseInformation>
           <ListingPath></ListingPath>
           <HexFormatSelection>1</HexFormatSelection>
           <Merge32K>0</Merge32K>
@@ -81,7 +81,7 @@
           </BeforeMake>
           <AfterMake>
             <RunUserProg1>0</RunUserProg1>
-            <RunUserProg2>1</RunUserProg2>
+            <RunUserProg2>0</RunUserProg2>
             <UserProg1Name></UserProg1Name>
             <UserProg2Name></UserProg2Name>
             <UserProg1Dos16Mode>0</UserProg1Dos16Mode>
@@ -340,7 +340,7 @@
               <MiscControls></MiscControls>
               <Define>USE_PWR_LDO_SUPPLY,USE_HAL_DRIVER,STM32H743xx</Define>
               <Undefine></Undefine>
-              <IncludePath>../Core/Inc;../Drivers/STM32H7xx_HAL_Driver/Inc;../Drivers/STM32H7xx_HAL_Driver/Inc/Legacy;../Drivers/CMSIS/Device/ST/STM32H7xx/Include;../Drivers/CMSIS/Include;../User;../User/BSP;../User/Devices;../User/Middlewares/FreeRTOS;../User/Middlewares/FreeRTOS/include;../User/Middlewares/FreeRTOS/r0p1;../User/App;..\User\Middlewares\LVGL\GUI;..\User\Middlewares\LVGL\GUI\lvgl;..\User\Middlewares\LVGL\GUI\lvgl\src;..\User\Middlewares\LVGL\GUI\lvgl\examples\porting;..\User\Middlewares\LVGL\GUI_APP\demos\widgets\assets;..\User\Middlewares\LVGL\GUI_APP\demos\widgets</IncludePath>
+              <IncludePath>../Core/Inc;../Drivers/STM32H7xx_HAL_Driver/Inc;../Drivers/STM32H7xx_HAL_Driver/Inc/Legacy;../Drivers/CMSIS/Device/ST/STM32H7xx/Include;../Drivers/CMSIS/Include;../User;../User/BSP;../User/Devices;../User/Middlewares/FreeRTOS;../User/Middlewares/FreeRTOS/include;../User/Middlewares/FreeRTOS/r0p1;../User/App;../User/Middlewares/LVGL/GUI;../User/Middlewares/LVGL/GUI/lvgl;../User/Middlewares/LVGL/GUI/lvgl/src;../User/Middlewares/LVGL/GUI/lvgl/examples/porting;../User/Middlewares/LVGL/GUI_APP/demos/widgets/assets;../User/Middlewares/LVGL/GUI_APP/demos/widgets</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -1041,6 +1041,41 @@
           </Files>
         </Group>
         <Group>
+          <GroupName>User/Bsp</GroupName>
+          <Files>
+            <File>
+              <FileName>debug.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\User\debug.c</FilePath>
+            </File>
+            <File>
+              <FileName>aht30.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\User\Devices\aht30.c</FilePath>
+            </File>
+            <File>
+              <FileName>bsp_dwt.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\User\BSP\bsp_dwt.c</FilePath>
+            </File>
+            <File>
+              <FileName>bsp_aht30.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\User\BSP\bsp_aht30.c</FilePath>
+            </File>
+            <File>
+              <FileName>bsp_lcd.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\User\Bsp\bsp_lcd.c</FilePath>
+            </File>
+            <File>
+              <FileName>bsp_gt911.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\User\BSP\bsp_gt911.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
           <GroupName>User/App</GroupName>
           <Files>
             <File>
@@ -1049,9 +1084,9 @@
               <FilePath>..\User\App\app_main.c</FilePath>
             </File>
             <File>
-              <FileName>app_display.c</FileName>
+              <FileName>app_lvgl.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\User\App\app_display.c</FilePath>
+              <FilePath>..\User\App\app_lvgl.c</FilePath>
             </File>
             <File>
               <FileName>app_system_monitor.c</FileName>
@@ -1093,35 +1128,15 @@
               <FileType>1</FileType>
               <FilePath>..\User\Middlewares\FreeRTOS\r0p1\port.c</FilePath>
             </File>
-          </Files>
-        </Group>
-        <Group>
-          <GroupName>User/Bsp</GroupName>
-          <Files>
             <File>
-              <FileName>debug.c</FileName>
+              <FileName>event_groups.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\User\debug.c</FilePath>
+              <FilePath>..\User\Middlewares\FreeRTOS\event_groups.c</FilePath>
             </File>
             <File>
-              <FileName>aht30.c</FileName>
+              <FileName>stream_buffer.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\User\Devices\aht30.c</FilePath>
-            </File>
-            <File>
-              <FileName>bsp_dwt.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\User\BSP\bsp_dwt.c</FilePath>
-            </File>
-            <File>
-              <FileName>bsp_aht30.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\User\BSP\bsp_aht30.c</FilePath>
-            </File>
-            <File>
-              <FileName>bsp_lcd.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\User\Bsp\bsp_lcd.c</FilePath>
+              <FilePath>..\User\Middlewares\FreeRTOS\stream_buffer.c</FilePath>
             </File>
           </Files>
         </Group>

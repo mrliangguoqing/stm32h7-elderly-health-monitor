@@ -54,7 +54,17 @@ void MX_GPIO_Init(void)
   __HAL_RCC_GPIOA_CLK_ENABLE();
 
   /*Configure GPIO pin Output Level */
+  HAL_GPIO_WritePin(GT911_INT_GPIO_Port, GT911_INT_Pin, GPIO_PIN_SET);
+
+  /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(LCD_RES_GPIO_Port, LCD_RES_Pin, GPIO_PIN_SET);
+
+  /*Configure GPIO pin : GT911_INT_Pin */
+  GPIO_InitStruct.Pin = GT911_INT_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+  GPIO_InitStruct.Pull = GPIO_PULLUP;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
+  HAL_GPIO_Init(GT911_INT_GPIO_Port, &GPIO_InitStruct);
 
   /*Configure GPIO pin : LCD_RES_Pin */
   GPIO_InitStruct.Pin = LCD_RES_Pin;

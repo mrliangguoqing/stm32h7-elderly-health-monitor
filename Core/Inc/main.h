@@ -35,6 +35,7 @@ extern "C" {
 #include "debug.h"
 #include "bsp_aht30.h"
 #include "bsp_lcd.h"
+#include "bsp_gt911.h"
 #include "app_main.h"
 #include "app_config.h"
 /* USER CODE END Includes */
@@ -62,6 +63,8 @@ void Error_Handler(void);
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/
+#define GT911_INT_Pin GPIO_PIN_13
+#define GT911_INT_GPIO_Port GPIOB
 #define LCD_RES_Pin GPIO_PIN_8
 #define LCD_RES_GPIO_Port GPIOC
 

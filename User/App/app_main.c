@@ -9,7 +9,7 @@
 #include "FreeRTOS.h"
 #include "task.h"
 #include "app_config.h"
-#include "app_display.h"
+#include "app_lvgl.h"
 #include "app_system_monitor.h"
 
 /**
@@ -20,7 +20,7 @@
 void APP_Init(void)
 {
     /* 调用各 APP 模块的初始化接口 */
-    App_Display_Init();
+    App_Lvgl_Init();
 
 #if (APP_SYSTEM_MONITOR_ENABLE == 1)
     App_System_Monitor_Init();
@@ -29,7 +29,7 @@ void APP_Init(void)
     /* 启动调度器 */
     vTaskStartScheduler();
 
-    while (1)
+    for (;;)
     {
     }
 }

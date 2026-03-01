@@ -118,6 +118,7 @@ int main(void)
   // BSP_AHT30_Init();
   BSP_GT911_Init();
   BSP_LCD_Init(); /* 初始化 LCD */
+  BSP_GT911_BindLCD();
 
   /* APP 层模块初始化 */
   APP_Init();

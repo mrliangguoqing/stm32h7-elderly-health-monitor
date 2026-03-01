@@ -99,7 +99,7 @@ static bool touchpad_is_pressed(void)
     /*Your code comes here*/
     BSP_GT911_Scan();
 
-    if(gt911dev.sta & 0x80)
+    if(BSP_GT911_IsPressed() == true)
     {
         return true;
     }
@@ -108,12 +108,17 @@ static bool touchpad_is_pressed(void)
 }
 
 /*Get the x and y coordinates if the touchpad is pressed*/
-static void touchpad_get_xy(int32_t * x, int32_t * y)
+static void touchpad_get_xy(int32_t *x, int32_t *y)
 {
     /*Your code comes here*/
 
-    (*x) = gt911dev.x[0];
-    (*y) = gt911dev.y[0];
+    const gt911_touch_point_t *gt911_touch_point = BSP_GT911_GetTouchPoint();
+
+    if (gt911_touch_point != NULL)
+    {
+        (*x) = gt911_touch_point[0].x;
+        (*y) = gt911_touch_point[0].y;
+    }
 }
 
 #else /*Enable this file at the top*/

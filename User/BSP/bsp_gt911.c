@@ -8,12 +8,10 @@
 #define GT911_RST_Pin LCD_RES_Pin
 #define GT911_RST_GPIO_Port LCD_RES_GPIO_Port
 
-extern I2C_HandleTypeDef hi2c2;
+// extern I2C_HandleTypeDef hi2c2;
 
-_gt911_dev gt911dev = {{0}, {0}, 0};
-
-/* 定义 GT911 触摸点的坐标地址数组 */
-const uint16_t gt911_touch_point_addr[] = {0x8150, 0x8158, 0x8160, 0x8168, 0x8170};
+/* 内部静态实例 */
+static gt911_handle_t gt911_handle;
 
 /**
  * @brief  GI911 I2C 底层写函数
@@ -40,7 +38,7 @@ static uint8_t GT911_ReadData(uint16_t addr, uint8_t *data, uint8_t len)
 
 /**
  * @brief  GT911 传感器初始化
- * @note   因 LCD 和 GT911 共用复位引脚，在此函数中统一执行复位操作（先调用 BSP_GT911_Init ，再调用 LCD_Init）
+ * @note   因 LCD 和 GT911 共用复位引脚，在此函数中统一执行复位操作（先调用 BSP_GT911_Init ，再调用 BSP_LCD_Init）
  * @param  None
  * @retval 0-成功, 其他-失败
  */
@@ -108,6 +106,29 @@ uint8_t BSP_GT911_ReadId(void)
 }
 
 /**
+ * @brief  绑定 LCD 分辨率至 GT911 触摸句柄
+ * @note   该函数建立触摸坐标系与显示坐标系的对应关系，在 BSP_LCD_Init 后调用
+ * @param  NULL
+ * @retval 0-成功, 其他-失败
+ */
+uint8_t BSP_GT911_BindLCD(void)
+{
+	/* 获取 LCD 分辨率指针 */
+	const lcd_res_t *p_lcd_res = BSP_LCD_GetRes();
+
+	if (p_lcd_res != NULL)
+	{
+		/* 将 LCD 分辨率赋值为触摸句柄 */
+		gt911_handle.max_x = p_lcd_res->width;
+		gt911_handle.max_y = p_lcd_res->height;
+
+		return 0;
+	}
+
+	return 1;
+}
+
+/**
  * @brief  GT911 扫描函数
  * @note   读取触摸数据，将数据更新至结构体
  * @param  None
@@ -115,31 +136,33 @@ uint8_t BSP_GT911_ReadId(void)
  */
 uint8_t BSP_GT911_Scan(void)
 {
-	uint8_t buf[4], status, touch_number;
-    const lcd_res_t* p_lcd_res = BSP_LCD_GetRes();
+	uint8_t buf[4];
+
+	/* 定义 GT911 触摸点的坐标地址数组 */
+	static const uint16_t gt911_touch_point_addr[] = {0x8150, 0x8158, 0x8160, 0x8168, 0x8170};
 
 	/* 从 GT911 读取触摸状态寄存器，获取状态信息 */
-	if (GT911_ReadData(GT911_TOUCH_STATUS_REG_ADDR, &status, 1) != 0)
+	if (GT911_ReadData(GT911_TOUCH_STATUS_REG_ADDR, &gt911_handle.raw_status, 1) != 0)
 	{
 		return 1; /* 读取失败 */
 	}
 
 	/* 检查触摸状态的高位是否为 1，表示有触摸 */
-	if (status & 0x80)
+	if (gt911_handle.raw_status & 0x80)
 	{
 		/* 获取触摸点的数量，状态的低4位表示触摸点的数量 */
-		touch_number = status & 0x0F;
+		gt911_handle.touch_number = gt911_handle.raw_status & 0x0F;
 
 		uint8_t clean = 0;
 		/* 清除触摸状态寄存器，防止数据溢出或错误 */
 		GT911_WriteData(GT911_TOUCH_STATUS_REG_ADDR, clean);
 
-		if (touch_number <= GT911_TOUCH_NUMBER)
+		if (gt911_handle.touch_number <= GT911_TOUCH_NUMBER)
 		{
-			gt911dev.sta = 0x80; /* 设置触摸屏状态为触摸有效 */
+			gt911_handle.is_pressed = true; /* 设置触摸屏状态为触摸有效 */
 
 			/* 遍历所有触摸点，读取并处理坐标数据 */
-			for (uint8_t i = 0; i < touch_number; i++)
+			for (uint8_t i = 0; i < gt911_handle.touch_number; i++)
 			{
 				/* 从指定的触摸点坐标地址读取数据（每个触摸点4字节） */
 				if (GT911_ReadData(gt911_touch_point_addr[i], buf, 4) == 0)
@@ -149,11 +172,8 @@ uint8_t BSP_GT911_Scan(void)
 					uint16_t temp_x = ((uint16_t)buf[3] << 8) + buf[2];
 
 					/* 坐标变换：交换 X 和 Y 坐标，且翻转 X 坐标 */
-					gt911dev.x[i] = p_lcd_res->width - temp_x;
-					gt911dev.y[i] = temp_y;
-
-					/* 设置当前触摸点状态为有效 */
-					gt911dev.sta |= (1 << i);
+					gt911_handle.points[i].x = gt911_handle.max_x - temp_x;
+					gt911_handle.points[i].y = temp_y;
 				}
 			}
 			return 0; /* 成功获取触摸数据 */
@@ -161,9 +181,10 @@ uint8_t BSP_GT911_Scan(void)
 	}
 
 	/* 如果状态寄存器中的触摸标志位无效，或触摸点数为 0 */
-	if ((status & 0x8F) == 0x80 || (status & 0x0F) == 0)
+	if ((gt911_handle.raw_status & 0x8F) == 0x80 || (gt911_handle.raw_status & 0x0F) == 0)
 	{
-		gt911dev.sta = 0; /* 清除触摸状态 */
+		gt911_handle.is_pressed = false; /* 清除触摸状态 */
+		gt911_handle.touch_number = 0;
 	}
 
 	return 1; /* 没有触摸点或者读取失败 */
@@ -185,23 +206,15 @@ void BSP_GT911_Test(void)
 	{
 		BSP_GT911_Scan();
 
-		/* 当前有按下 (sta 的 bit7 为 1) */
-		if (gt911dev.sta & 0x80)
+		/* 当前有按下 */
+		if (gt911_handle.is_pressed == true)
 		{
-			uint8_t touch_number = 0;
-			for (uint8_t i = 0; i < GT911_TOUCH_NUMBER; i++)
-			{
-				if (gt911dev.sta & (1 << i))
-					touch_number++;
-			}
 
-			printf("TOUCH DOWN | Points: %d | ", touch_number);
-			for (uint8_t i = 0; i < 5; i++)
+			printf("TOUCH DOWN | Points: %d | ", gt911_handle.touch_number);
+
+			for (uint8_t i = 0; i < gt911_handle.touch_number; i++)
 			{
-				if (gt911dev.sta & (1 << i))
-				{
-					printf("P%d:[%3d,%3d] ", i, gt911dev.x[i], gt911dev.y[i]);
-				}
+				printf("P%d:[%3d,%3d] ", i, gt911_handle.points[i].x, gt911_handle.points[i].y);
 			}
 			printf("\r\n");
 			last_sta = 1; /* 标记当前处于按下状态 */
@@ -215,4 +228,23 @@ void BSP_GT911_Test(void)
 
 		BSP_DWT_DelayMs(10); /* 间隔 10ms 采样 */
 	}
+}
+
+/**
+ * @brief  检查触摸屏当前是否被按下
+ * @retval true: 有手指按下, false: 无手指按下
+ */
+bool BSP_GT911_IsPressed(void)
+{
+	return gt911_handle.is_pressed;
+}
+
+/**
+ * @brief  获取 GT911 的触摸点坐标信息
+ * @note   通过返回 const 指针，允许外部高效读取数据，同时防止外部直接修改私有结构体变量
+ * @retval 指向 GT911 坐标数据结构体的 const 指针 (只读地址)
+ */
+const gt911_touch_point_t *BSP_GT911_GetTouchPoint(void)
+{
+	return gt911_handle.points;
 }

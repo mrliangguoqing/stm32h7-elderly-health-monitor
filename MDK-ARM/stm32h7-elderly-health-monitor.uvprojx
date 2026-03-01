@@ -340,7 +340,7 @@
               <MiscControls></MiscControls>
               <Define>USE_PWR_LDO_SUPPLY,USE_HAL_DRIVER,STM32H743xx</Define>
               <Undefine></Undefine>
-              <IncludePath>../Core/Inc;../Drivers/STM32H7xx_HAL_Driver/Inc;../Drivers/STM32H7xx_HAL_Driver/Inc/Legacy;../Drivers/CMSIS/Device/ST/STM32H7xx/Include;../Drivers/CMSIS/Include;../User;../User/BSP;../User/Devices;../User/Middlewares/FreeRTOS;../User/Middlewares/FreeRTOS/include;../User/Middlewares/FreeRTOS/r0p1;../User/App;../User/Middlewares/LVGL/GUI;../User/Middlewares/LVGL/GUI/lvgl;../User/Middlewares/LVGL/GUI/lvgl/src;../User/Middlewares/LVGL/GUI/lvgl/examples/porting;../User/Middlewares/LVGL/GUI_APP/demos/widgets/assets;../User/Middlewares/LVGL/GUI_APP/demos/widgets</IncludePath>
+              <IncludePath>../Core/Inc;../Drivers/STM32H7xx_HAL_Driver/Inc;../Drivers/STM32H7xx_HAL_Driver/Inc/Legacy;../Drivers/CMSIS/Device/ST/STM32H7xx/Include;../Drivers/CMSIS/Include;../User;..\User\Bsp;../User/App;../User/Middlewares/FreeRTOS;../User/Middlewares/FreeRTOS/include;../User/Middlewares/FreeRTOS/r0p1;../User/Middlewares/LVGL/GUI;../User/Middlewares/LVGL/GUI/lvgl;../User/Middlewares/LVGL/GUI/lvgl/src;..\User\Middlewares\LVGL\GUI\lvgl\port;../User/Middlewares/LVGL/GUI_APP/demos/widgets/assets;../User/Middlewares/LVGL/GUI_APP/demos/widgets</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -1049,11 +1049,6 @@
               <FilePath>..\User\debug.c</FilePath>
             </File>
             <File>
-              <FileName>aht30.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\User\Devices\aht30.c</FilePath>
-            </File>
-            <File>
               <FileName>bsp_dwt.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\User\BSP\bsp_dwt.c</FilePath>
@@ -1141,22 +1136,22 @@
           </Files>
         </Group>
         <Group>
-          <GroupName>User/Middlewares/lvgl/src/example/porting</GroupName>
+          <GroupName>User/Middlewares/LVGL/port</GroupName>
           <Files>
             <File>
-              <FileName>lv_port_disp_template.c</FileName>
+              <FileName>lv_port_disp.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\User\Middlewares\LVGL\GUI\lvgl\examples\porting\lv_port_disp_template.c</FilePath>
+              <FilePath>..\User\Middlewares\LVGL\GUI\lvgl\port\lv_port_disp.c</FilePath>
             </File>
             <File>
-              <FileName>lv_port_indev_template.c</FileName>
+              <FileName>lv_port_indev.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\User\Middlewares\LVGL\GUI\lvgl\examples\porting\lv_port_indev_template.c</FilePath>
+              <FilePath>..\User\Middlewares\LVGL\GUI\lvgl\port\lv_port_indev.c</FilePath>
             </File>
           </Files>
         </Group>
         <Group>
-          <GroupName>User/Middlewares/lvgl/src</GroupName>
+          <GroupName>User/Middlewares/LVGL/src</GroupName>
           <Files>
             <File>
               <FileName>lv_init.c</FileName>
@@ -1166,7 +1161,7 @@
           </Files>
         </Group>
         <Group>
-          <GroupName>User/Middlewares/lvgl/src/core</GroupName>
+          <GroupName>User/Middlewares/LVGL/src/core</GroupName>
           <Files>
             <File>
               <FileName>lv_group.c</FileName>
@@ -1236,7 +1231,7 @@
           </Files>
         </Group>
         <Group>
-          <GroupName>User/Middlewares/lvgl/src/display</GroupName>
+          <GroupName>User/Middlewares/LVGL/src/display</GroupName>
           <Files>
             <File>
               <FileName>lv_display.c</FileName>
@@ -1246,7 +1241,7 @@
           </Files>
         </Group>
         <Group>
-          <GroupName>User/Middlewares/lvgl/src/draw</GroupName>
+          <GroupName>User/Middlewares/LVGL/src/draw</GroupName>
           <Files>
             <File>
               <FileName>lv_draw_dma2d.c</FileName>
@@ -1806,7 +1801,7 @@
           </Files>
         </Group>
         <Group>
-          <GroupName>User/Middlewares/lvgl/src/drivers</GroupName>
+          <GroupName>User/Middlewares/LVGL/src/drivers</GroupName>
           <Files>
             <File>
               <FileName>lv_linux_drm.c</FileName>
@@ -2086,7 +2081,7 @@
           </Files>
         </Group>
         <Group>
-          <GroupName>User/Middlewares/lvgl/src/font</GroupName>
+          <GroupName>User/Middlewares/LVGL/src/font</GroupName>
           <Files>
             <File>
               <FileName>lv_binfont_loader.c</FileName>
@@ -2256,7 +2251,7 @@
           </Files>
         </Group>
         <Group>
-          <GroupName>User/Middlewares/lvgl/src/indev</GroupName>
+          <GroupName>User/Middlewares/LVGL/src/indev</GroupName>
           <Files>
             <File>
               <FileName>lv_indev.c</FileName>
@@ -2276,7 +2271,7 @@
           </Files>
         </Group>
         <Group>
-          <GroupName>User/Middlewares/lvgl/src/layouts</GroupName>
+          <GroupName>User/Middlewares/LVGL/src/layouts</GroupName>
           <Files>
             <File>
               <FileName>lv_flex.c</FileName>
@@ -2296,7 +2291,7 @@
           </Files>
         </Group>
         <Group>
-          <GroupName>User/Middlewares/lvgl/src/libs</GroupName>
+          <GroupName>User/Middlewares/LVGL/src/libs</GroupName>
           <Files>
             <File>
               <FileName>code128.c</FileName>
@@ -2511,7 +2506,7 @@
           </Files>
         </Group>
         <Group>
-          <GroupName>User/Middlewares/lvgl/src/misc</GroupName>
+          <GroupName>User/Middlewares/LVGL/src/misc</GroupName>
           <Files>
             <File>
               <FileName>lv_cache_lru_ll.c</FileName>
@@ -2691,7 +2686,7 @@
           </Files>
         </Group>
         <Group>
-          <GroupName>User/Middlewares/lvgl/src/osal</GroupName>
+          <GroupName>User/Middlewares/LVGL/src/osal</GroupName>
           <Files>
             <File>
               <FileName>lv_cmsis_rtos2.c</FileName>
@@ -2746,7 +2741,7 @@
           </Files>
         </Group>
         <Group>
-          <GroupName>User/Middlewares/lvgl/src/others</GroupName>
+          <GroupName>User/Middlewares/LVGL/src/others</GroupName>
           <Files>
             <File>
               <FileName>lv_file_explorer.c</FileName>
@@ -2986,7 +2981,7 @@
           </Files>
         </Group>
         <Group>
-          <GroupName>User/Middlewares/lvgl/src/stdlib</GroupName>
+          <GroupName>User/Middlewares/LVGL/src/stdlib</GroupName>
           <Files>
             <File>
               <FileName>lv_mem_core_builtin.c</FileName>
@@ -3056,7 +3051,7 @@
           </Files>
         </Group>
         <Group>
-          <GroupName>User/Middlewares/lvgl/src/themes</GroupName>
+          <GroupName>User/Middlewares/LVGL/src/themes</GroupName>
           <Files>
             <File>
               <FileName>lv_theme_default.c</FileName>
@@ -3081,7 +3076,7 @@
           </Files>
         </Group>
         <Group>
-          <GroupName>User/Middlewares/lvgl/src/tick</GroupName>
+          <GroupName>User/Middlewares/LVGL/src/tick</GroupName>
           <Files>
             <File>
               <FileName>lv_tick.c</FileName>
@@ -3091,7 +3086,7 @@
           </Files>
         </Group>
         <Group>
-          <GroupName>User/Middlewares/lvgl/src/widgets</GroupName>
+          <GroupName>User/Middlewares/LVGL/src/widgets</GroupName>
           <Files>
             <File>
               <FileName>lv_3dtexture.c</FileName>
@@ -3331,7 +3326,7 @@
           </Files>
         </Group>
         <Group>
-          <GroupName>lvgl/demo</GroupName>
+          <GroupName>User/Middlewares/LVGL/demo</GroupName>
           <Files>
             <File>
               <FileName>img_clothes.c</FileName>

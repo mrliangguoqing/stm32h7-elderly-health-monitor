@@ -8,8 +8,8 @@
 #include "task.h"
 
 #include "lvgl.h"
-#include "lv_port_disp_template.h"
-#include "lv_port_indev_template.h"
+#include "lv_port_disp.h"
+#include "lv_port_indev.h"
 #include "lv_demo_widgets.h"
 
 /* 任务句柄：用于外部管理该任务（如删除、挂起、获取状态） */

@@ -1,5 +1,5 @@
 /**
- * @file lv_port_disp_templ.c
+ * @file lv_port_disp.c
  *
  */
 
@@ -9,7 +9,7 @@
 /*********************
  *      INCLUDES
  *********************/
-#include "lv_port_disp_template.h"
+#include "lv_port_disp.h"
 #include <stdbool.h>
 
 #include "stm32h7xx_hal.h"

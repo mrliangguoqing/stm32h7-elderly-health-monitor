@@ -161,7 +161,7 @@
           <SizeOfObject>0</SizeOfObject>
           <BreakByAccess>0</BreakByAccess>
           <BreakIfRCount>1</BreakIfRCount>
-          <Filename>..\User\Middlewares\LVGL\GUI\lvgl\examples\porting\lv_port_indev_template.c</Filename>
+          <Filename>D:\700_Development_Projects\701_GitHub_Repository\01_Personal\stm32h7-elderly-health-monitor\User\Middlewares\LVGL\GUI\lvgl\examples\porting\lv_port_indev_template.c</Filename>
           <ExecCommand></ExecCommand>
           <Expression>\\stm32h7_elderly_health_monitor\../User/Middlewares/LVGL/GUI/lvgl/examples/porting/lv_port_indev_template.c\83</Expression>
         </Bp>
@@ -764,7 +764,7 @@
 
   <Group>
     <GroupName>User/App</GroupName>
-    <tvExp>0</tvExp>
+    <tvExp>1</tvExp>
     <tvExpOptDlg>0</tvExpOptDlg>
     <cbSel>0</cbSel>
     <RteFlg>0</RteFlg>
@@ -911,8 +911,8 @@
   </Group>
 
   <Group>
-    <GroupName>User/Middlewares/lvgl/src/example/porting</GroupName>
-    <tvExp>0</tvExp>
+    <GroupName>User/Middlewares/LVGL/port</GroupName>
+    <tvExp>1</tvExp>
     <tvExpOptDlg>0</tvExpOptDlg>
     <cbSel>0</cbSel>
     <RteFlg>0</RteFlg>
@@ -923,8 +923,8 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\User\Middlewares\LVGL\GUI\lvgl\examples\porting\lv_port_disp_template.c</PathWithFileName>
-      <FilenameWithoutPath>lv_port_disp_template.c</FilenameWithoutPath>
+      <PathWithFileName>..\User\Middlewares\LVGL\GUI\lvgl\port\lv_port_disp.c</PathWithFileName>
+      <FilenameWithoutPath>lv_port_disp.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
@@ -935,15 +935,15 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\User\Middlewares\LVGL\GUI\lvgl\examples\porting\lv_port_indev_template.c</PathWithFileName>
-      <FilenameWithoutPath>lv_port_indev_template.c</FilenameWithoutPath>
+      <PathWithFileName>..\User\Middlewares\LVGL\GUI\lvgl\port\lv_port_indev.c</PathWithFileName>
+      <FilenameWithoutPath>lv_port_indev.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
   </Group>
 
   <Group>
-    <GroupName>User/Middlewares/lvgl/src</GroupName>
+    <GroupName>User/Middlewares/LVGL/src</GroupName>
     <tvExp>0</tvExp>
     <tvExpOptDlg>0</tvExpOptDlg>
     <cbSel>0</cbSel>
@@ -963,7 +963,7 @@
   </Group>
 
   <Group>
-    <GroupName>User/Middlewares/lvgl/src/core</GroupName>
+    <GroupName>User/Middlewares/LVGL/src/core</GroupName>
     <tvExp>0</tvExp>
     <tvExpOptDlg>0</tvExpOptDlg>
     <cbSel>0</cbSel>
@@ -1127,7 +1127,7 @@
   </Group>
 
   <Group>
-    <GroupName>User/Middlewares/lvgl/src/display</GroupName>
+    <GroupName>User/Middlewares/LVGL/src/display</GroupName>
     <tvExp>0</tvExp>
     <tvExpOptDlg>0</tvExpOptDlg>
     <cbSel>0</cbSel>
@@ -1147,7 +1147,7 @@
   </Group>
 
   <Group>
-    <GroupName>User/Middlewares/lvgl/src/draw</GroupName>
+    <GroupName>User/Middlewares/LVGL/src/draw</GroupName>
     <tvExp>0</tvExp>
     <tvExpOptDlg>0</tvExpOptDlg>
     <cbSel>0</cbSel>
@@ -2487,7 +2487,7 @@
   </Group>
 
   <Group>
-    <GroupName>User/Middlewares/lvgl/src/drivers</GroupName>
+    <GroupName>User/Middlewares/LVGL/src/drivers</GroupName>
     <tvExp>0</tvExp>
     <tvExpOptDlg>0</tvExpOptDlg>
     <cbSel>0</cbSel>
@@ -3155,7 +3155,7 @@
   </Group>
 
   <Group>
-    <GroupName>User/Middlewares/lvgl/src/font</GroupName>
+    <GroupName>User/Middlewares/LVGL/src/font</GroupName>
     <tvExp>0</tvExp>
     <tvExpOptDlg>0</tvExpOptDlg>
     <cbSel>0</cbSel>
@@ -3559,7 +3559,7 @@
   </Group>
 
   <Group>
-    <GroupName>User/Middlewares/lvgl/src/indev</GroupName>
+    <GroupName>User/Middlewares/LVGL/src/indev</GroupName>
     <tvExp>0</tvExp>
     <tvExpOptDlg>0</tvExpOptDlg>
     <cbSel>0</cbSel>
@@ -3603,7 +3603,7 @@
   </Group>
 
   <Group>
-    <GroupName>User/Middlewares/lvgl/src/layouts</GroupName>
+    <GroupName>User/Middlewares/LVGL/src/layouts</GroupName>
     <tvExp>0</tvExp>
     <tvExpOptDlg>0</tvExpOptDlg>
     <cbSel>0</cbSel>
@@ -3647,7 +3647,7 @@
   </Group>
 
   <Group>
-    <GroupName>User/Middlewares/lvgl/src/libs</GroupName>
+    <GroupName>User/Middlewares/LVGL/src/libs</GroupName>
     <tvExp>0</tvExp>
     <tvExpOptDlg>0</tvExpOptDlg>
     <cbSel>0</cbSel>
@@ -4159,7 +4159,7 @@
   </Group>
 
   <Group>
-    <GroupName>User/Middlewares/lvgl/src/misc</GroupName>
+    <GroupName>User/Middlewares/LVGL/src/misc</GroupName>
     <tvExp>0</tvExp>
     <tvExpOptDlg>0</tvExpOptDlg>
     <cbSel>0</cbSel>
@@ -4587,7 +4587,7 @@
   </Group>
 
   <Group>
-    <GroupName>User/Middlewares/lvgl/src/osal</GroupName>
+    <GroupName>User/Middlewares/LVGL/src/osal</GroupName>
     <tvExp>0</tvExp>
     <tvExpOptDlg>0</tvExpOptDlg>
     <cbSel>0</cbSel>
@@ -4715,7 +4715,7 @@
   </Group>
 
   <Group>
-    <GroupName>User/Middlewares/lvgl/src/others</GroupName>
+    <GroupName>User/Middlewares/LVGL/src/others</GroupName>
     <tvExp>0</tvExp>
     <tvExpOptDlg>0</tvExpOptDlg>
     <cbSel>0</cbSel>
@@ -5287,7 +5287,7 @@
   </Group>
 
   <Group>
-    <GroupName>User/Middlewares/lvgl/src/stdlib</GroupName>
+    <GroupName>User/Middlewares/LVGL/src/stdlib</GroupName>
     <tvExp>0</tvExp>
     <tvExpOptDlg>0</tvExpOptDlg>
     <cbSel>0</cbSel>
@@ -5451,7 +5451,7 @@
   </Group>
 
   <Group>
-    <GroupName>User/Middlewares/lvgl/src/themes</GroupName>
+    <GroupName>User/Middlewares/LVGL/src/themes</GroupName>
     <tvExp>0</tvExp>
     <tvExpOptDlg>0</tvExpOptDlg>
     <cbSel>0</cbSel>
@@ -5507,7 +5507,7 @@
   </Group>
 
   <Group>
-    <GroupName>User/Middlewares/lvgl/src/tick</GroupName>
+    <GroupName>User/Middlewares/LVGL/src/tick</GroupName>
     <tvExp>0</tvExp>
     <tvExpOptDlg>0</tvExpOptDlg>
     <cbSel>0</cbSel>
@@ -5527,7 +5527,7 @@
   </Group>
 
   <Group>
-    <GroupName>User/Middlewares/lvgl/src/widgets</GroupName>
+    <GroupName>User/Middlewares/LVGL/src/widgets</GroupName>
     <tvExp>0</tvExp>
     <tvExpOptDlg>0</tvExpOptDlg>
     <cbSel>0</cbSel>
@@ -6099,7 +6099,7 @@
   </Group>
 
   <Group>
-    <GroupName>lvgl/demo</GroupName>
+    <GroupName>User/Middlewares/LVGL/demo</GroupName>
     <tvExp>0</tvExp>
     <tvExpOptDlg>0</tvExpOptDlg>
     <cbSel>0</cbSel>

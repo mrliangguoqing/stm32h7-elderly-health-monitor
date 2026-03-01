@@ -1,5 +1,5 @@
 /**
- * @file lv_port_indev_templ.c
+ * @file lv_port_indev.c
  *
  */
 
@@ -9,7 +9,7 @@
 /*********************
  *      INCLUDES
  *********************/
-#include "lv_port_indev_template.h"
+#include "lv_port_indev.h"
 
 #include "bsp_gt911.h"
 

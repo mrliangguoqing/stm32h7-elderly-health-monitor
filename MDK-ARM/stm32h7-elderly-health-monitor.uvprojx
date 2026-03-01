@@ -340,7 +340,7 @@
               <MiscControls></MiscControls>
               <Define>USE_PWR_LDO_SUPPLY,USE_HAL_DRIVER,STM32H743xx</Define>
               <Undefine></Undefine>
-              <IncludePath>../Core/Inc;../Drivers/STM32H7xx_HAL_Driver/Inc;../Drivers/STM32H7xx_HAL_Driver/Inc/Legacy;../Drivers/CMSIS/Device/ST/STM32H7xx/Include;../Drivers/CMSIS/Include;../User;../User/BSP;../User/Devices;../User/Middlewares/FreeRTOS;../User/Middlewares/FreeRTOS/include;../User/Middlewares/FreeRTOS/r0p1;../User/App;../User/Middlewares/LVGL/GUI;../User/Middlewares/LVGL/GUI/lvgl;../User/Middlewares/LVGL/GUI/lvgl/src;..\User\Middlewares\LVGL\GUI\lvgl\port;../User/Middlewares/LVGL/GUI_APP/demos/widgets/assets;../User/Middlewares/LVGL/GUI_APP/demos/widgets</IncludePath>
+              <IncludePath>../Core/Inc;../Drivers/STM32H7xx_HAL_Driver/Inc;../Drivers/STM32H7xx_HAL_Driver/Inc/Legacy;../Drivers/CMSIS/Device/ST/STM32H7xx/Include;../Drivers/CMSIS/Include;../User;..\User\Bsp;../User/App;../User/Middlewares/FreeRTOS;../User/Middlewares/FreeRTOS/include;../User/Middlewares/FreeRTOS/r0p1;../User/Middlewares/LVGL/GUI;../User/Middlewares/LVGL/GUI/lvgl;../User/Middlewares/LVGL/GUI/lvgl/src;..\User\Middlewares\LVGL\GUI\lvgl\port;../User/Middlewares/LVGL/GUI_APP/demos/widgets/assets;../User/Middlewares/LVGL/GUI_APP/demos/widgets</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -1047,11 +1047,6 @@
               <FileName>debug.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\User\debug.c</FilePath>
-            </File>
-            <File>
-              <FileName>aht30.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\User\Devices\aht30.c</FilePath>
             </File>
             <File>
               <FileName>bsp_dwt.c</FileName>

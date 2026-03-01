@@ -116,6 +116,7 @@ uint8_t BSP_GT911_ReadId(void)
 uint8_t BSP_GT911_Scan(void)
 {
 	uint8_t buf[4], status, touch_number;
+    const lcd_res_t* p_lcd_res = BSP_LCD_GetRes();
 
 	/* 从 GT911 读取触摸状态寄存器，获取状态信息 */
 	if (GT911_ReadData(GT911_TOUCH_STATUS_REG_ADDR, &status, 1) != 0)
@@ -148,7 +149,7 @@ uint8_t BSP_GT911_Scan(void)
 					uint16_t temp_x = ((uint16_t)buf[3] << 8) + buf[2];
 
 					/* 坐标变换：交换 X 和 Y 坐标，且翻转 X 坐标 */
-					gt911dev.x[i] = lcddev.width - temp_x;
+					gt911dev.x[i] = p_lcd_res->width - temp_x;
 					gt911dev.y[i] = temp_y;
 
 					/* 设置当前触摸点状态为有效 */

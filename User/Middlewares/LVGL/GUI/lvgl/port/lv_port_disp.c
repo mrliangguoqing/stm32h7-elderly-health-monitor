@@ -19,12 +19,10 @@
  *      DEFINES
  *********************/
 #ifndef MY_DISP_HOR_RES
-//    #warning Please define or replace the macro MY_DISP_HOR_RES with the actual screen width, default value 320 is used for now.
     #define MY_DISP_HOR_RES    480
 #endif
 
 #ifndef MY_DISP_VER_RES
-//    #warning Please define or replace the macro MY_DISP_VER_RES with the actual screen height, default value 240 is used for now.
     #define MY_DISP_VER_RES    320
 #endif
 
@@ -141,7 +139,7 @@ static void disp_flush(lv_display_t * disp_drv, const lv_area_t * area, uint8_t 
 //        }
 //    }
     
-    LCD_FillRGBBlock(area->x1,area->y1,area->x2,area->y2,(uint16_t *)px_map);
+    BSP_LCD_FillRGBBlock(area->x1,area->y1,area->x2,area->y2,(uint16_t *)px_map);
     /*IMPORTANT!!!
      *Inform the graphics library that you are ready with the flushing*/
     lv_display_flush_ready(disp_drv);

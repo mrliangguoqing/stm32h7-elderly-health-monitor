@@ -117,8 +117,14 @@ int main(void)
   BSP_DWT_Init();
   // BSP_AHT30_Init();
   BSP_GT911_Init();
-  BSP_LCD_Init(); /* 初始化 LCD */
+  BSP_LCD_Init();
   BSP_GT911_BindLCD();
+  BSP_BH1750_Init(&(pal_i2c_interface_t){
+        .write    = PAL_I2C_Write,
+        .read     = PAL_I2C_Read,
+        .delay    = BSP_DWT_DelayMs,
+        .intf_ptr = &hi2c1
+    });
 
   /* APP 层模块初始化 */
   APP_Init();

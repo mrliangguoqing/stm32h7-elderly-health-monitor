@@ -108,7 +108,7 @@ uint8_t BSP_GT911_ReadId(void)
 /**
  * @brief  绑定 LCD 分辨率至 GT911 触摸句柄
  * @note   该函数建立触摸坐标系与显示坐标系的对应关系，在 BSP_LCD_Init 后调用
- * @param  NULL
+ * @param  None
  * @retval 0-成功, 其他-失败
  */
 uint8_t BSP_GT911_BindLCD(void)

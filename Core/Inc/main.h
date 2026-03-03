@@ -31,11 +31,16 @@ extern "C" {
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-#include "bsp_dwt.h"
 #include "debug.h"
+
+#include "pal_i2c_interface.h"
+
+#include "bsp_dwt.h"
 #include "bsp_aht30.h"
 #include "bsp_lcd.h"
 #include "bsp_gt911.h"
+#include "bsp_bh1750.h"
+
 #include "app_main.h"
 #include "app_config.h"
 /* USER CODE END Includes */

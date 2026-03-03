@@ -340,7 +340,7 @@
               <MiscControls></MiscControls>
               <Define>USE_PWR_LDO_SUPPLY,USE_HAL_DRIVER,STM32H743xx</Define>
               <Undefine></Undefine>
-              <IncludePath>../Core/Inc;../Drivers/STM32H7xx_HAL_Driver/Inc;../Drivers/STM32H7xx_HAL_Driver/Inc/Legacy;../Drivers/CMSIS/Device/ST/STM32H7xx/Include;../Drivers/CMSIS/Include;../User;..\User\Bsp;../User/App;../User/Middlewares/FreeRTOS;../User/Middlewares/FreeRTOS/include;../User/Middlewares/FreeRTOS/r0p1;../User/Middlewares/LVGL/GUI;../User/Middlewares/LVGL/GUI/lvgl;../User/Middlewares/LVGL/GUI/lvgl/src;..\User\Middlewares\LVGL\GUI\lvgl\port;../User/Middlewares/LVGL/GUI_APP/demos/widgets/assets;../User/Middlewares/LVGL/GUI_APP/demos/widgets</IncludePath>
+              <IncludePath>../Core/Inc;../Drivers/STM32H7xx_HAL_Driver/Inc;../Drivers/STM32H7xx_HAL_Driver/Inc/Legacy;../Drivers/CMSIS/Device/ST/STM32H7xx/Include;../Drivers/CMSIS/Include;../User;..\User\PAL;..\User\Bsp;../User/App;../User/Middlewares/FreeRTOS;../User/Middlewares/FreeRTOS/include;../User/Middlewares/FreeRTOS/r0p1;../User/Middlewares/LVGL/GUI;../User/Middlewares/LVGL/GUI/lvgl;../User/Middlewares/LVGL/GUI/lvgl/src;..\User\Middlewares\LVGL\GUI\lvgl\port;../User/Middlewares/LVGL/GUI_APP/demos/widgets/assets;../User/Middlewares/LVGL/GUI_APP/demos/widgets</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -1041,7 +1041,17 @@
           </Files>
         </Group>
         <Group>
-          <GroupName>User/Bsp</GroupName>
+          <GroupName>User/PAL</GroupName>
+          <Files>
+            <File>
+              <FileName>pal_i2c_interface.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\User\PAL\pal_i2c_interface.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>User/BSP</GroupName>
           <Files>
             <File>
               <FileName>debug.c</FileName>
@@ -1068,10 +1078,15 @@
               <FileType>1</FileType>
               <FilePath>..\User\BSP\bsp_gt911.c</FilePath>
             </File>
+            <File>
+              <FileName>bsp_bh1750.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\User\Bsp\bsp_bh1750.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
-          <GroupName>User/App</GroupName>
+          <GroupName>User/APP</GroupName>
           <Files>
             <File>
               <FileName>app_main.c</FileName>

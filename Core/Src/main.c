@@ -126,20 +126,12 @@ int main(void)
 
   /* BSP 层模块初始化 */
   BSP_DWT_Init();
-  // BSP_AHT30_Init();
+  BSP_AHT30_Init();
   BSP_GT911_Init();
   BSP_LCD_Init();
   BSP_GT911_BindLCD();
   BSP_BH1750_Init();
-while(1)
-{
-    if(BSP_BH1750_UpdateData() == 0)
-    {
-        const bh1750_data_t *p_bh1750_data = BSP_BH1750_GetData();
-        printf("data : %f\r\n",p_bh1750_data->lux);
-    }
-    HAL_Delay(500);
-}
+
   /* APP 层模块初始化 */
   APP_Init();
 

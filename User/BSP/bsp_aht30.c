@@ -16,34 +16,6 @@ static aht30_handle_t aht30_handle;
 static uint8_t AHT30_CRC8(uint8_t *message, uint8_t len);
 
 /**
- * @brief  AHT30 I2C 底层写函数
- * @param  addr: 传感器 I2C 地址
- * @param  data: 待发送数据缓冲区首地址
- * @param  len:  待发送数据长度
- * @param  intf_ptr: I2C 硬件句柄指针 (I2C_HandleTypeDef *)
- * @retval 0-成功, 1-失败
- */
-static uint8_t AHT30_I2C_Write(uint8_t addr, uint8_t *data, uint16_t len, void *intf_ptr)
-{
-    I2C_HandleTypeDef *hi2c = (I2C_HandleTypeDef *)intf_ptr;
-    return (HAL_I2C_Master_Transmit(hi2c, addr, data, len, AHT30_TIMEOUT) == HAL_OK) ? 0 : 1;
-}
-
-/**
- * @brief  AHT30 I2C 底层读函数
- * @param  addr: 传感器 I2C 地址
- * @param  data: 接收数据存储缓冲区首地址
- * @param  len:  待接收数据长度
- * @param  intf_ptr: I2C 硬件句柄指针 (I2C_HandleTypeDef *)
- * @retval 0-成功, 1-失败
- */
-static uint8_t AHT30_I2C_Read(uint8_t addr, uint8_t *data, uint16_t len, void *intf_ptr)
-{
-    I2C_HandleTypeDef *hi2c = (I2C_HandleTypeDef *)intf_ptr;
-    return (HAL_I2C_Master_Receive(hi2c, addr, data, len, AHT30_TIMEOUT) == HAL_OK) ? 0 : 1;
-}
-
-/**
  * @brief  BSP 层 AHT30 传感器初始化
  * @note   完成硬件接口绑定、地址赋值并执行传感器上电初始化
  * @param  None
@@ -51,14 +23,14 @@ static uint8_t AHT30_I2C_Read(uint8_t addr, uint8_t *data, uint16_t len, void *i
  */
 uint8_t BSP_AHT30_Init(void)
 {
-    /* 绑定接口 */
-    aht30_handle.interface.write = AHT30_I2C_Write;
-    aht30_handle.interface.read = AHT30_I2C_Read;
+    /* 配置硬件接口 */
+    aht30_handle.interface.write = PAL_STM32_I2C_Write;
+    aht30_handle.interface.read = PAL_STM32_I2C_Read;
     aht30_handle.interface.delay = BSP_DWT_DelayMs;
     aht30_handle.interface.intf_ptr = &hi2c1;
 
     /* 绑定从机地址参数 */
-    aht30_handle.dev_addr = AHT30_I2C_ADDR;
+    aht30_handle.dev_address = AHT30_I2C_SLAVE_ADDRESS;
 
     aht30_handle.interface.delay(5); /* 等待上电稳定 */
 
@@ -76,14 +48,14 @@ uint8_t BSP_AHT30_UpdateData(void)
     uint8_t buffer[7] = {0};
     uint32_t srh_raw = 0, st_raw = 0;
 
-    if (aht30_handle.interface.write(aht30_handle.dev_addr, start_cmd, 3, aht30_handle.interface.intf_ptr) != 0) /* 发送测量命令 */
+    if (aht30_handle.interface.write(aht30_handle.dev_address, start_cmd, 3, aht30_handle.interface.intf_ptr) != 0) /* 发送测量命令 */
     {
         return 1;
     }
 
     aht30_handle.interface.delay(85); /* 等待测量完成（手册要求 80ms） */
 
-    if (aht30_handle.interface.read(aht30_handle.dev_addr, buffer, 7, aht30_handle.interface.intf_ptr) != 0) /* 读取 7 字节原始数据 */
+    if (aht30_handle.interface.read(aht30_handle.dev_address, buffer, 7, aht30_handle.interface.intf_ptr) != 0) /* 读取 7 字节原始数据 */
     {
         return 1;
     }

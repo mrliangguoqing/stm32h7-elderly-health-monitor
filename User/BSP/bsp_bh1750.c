@@ -4,6 +4,8 @@
  */
 
 #include "bsp_bh1750.h"
+#include "bsp_dwt.h"
+
 #include "i2c.h"
 
 /* 内部静态实例 */
@@ -23,20 +25,18 @@ void BSP_BH1750_WriteCmd(uint8_t cmd)
 
 /**
  * @brief  BH1750 传感器初始化
- * @param  intf: 外部传入的 I2C 接口配置
+ * @param  None
  * @retval 0-成功, 其他-失败
  */
-uint8_t BSP_BH1750_Init(pal_i2c_interface_t *intf)
+uint8_t BSP_BH1750_Init(void)
 {
-	if (intf == NULL)
-	{
-		return 1;
-	}
+	/* 配置硬件接口 */
+	bh1750_handle.interface.write = PAL_STM32_I2C_Write;
+	bh1750_handle.interface.read = PAL_STM32_I2C_Read;
+	bh1750_handle.interface.delay = BSP_DWT_DelayMs;
+	bh1750_handle.interface.intf_ptr = &hi2c1;
 
-	/* 拷贝硬件接口配置 (Dependency Injection) */
-	bh1750_handle.interface = *intf;
-
-	/* 配置设备参数 (Device Layer Settings) */
+	/* 配置设备参数 */
 	bh1750_handle.dev_address = BH1750_I2C_SLAVE_ADDRESS;
 	bh1750_handle.mode = 2;
 	bh1750_handle.sensitivity = 69;

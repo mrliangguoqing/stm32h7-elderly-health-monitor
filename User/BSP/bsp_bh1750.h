@@ -43,7 +43,7 @@ typedef struct
 } bh1750_handle_t;
 
 /* 函数声明 */
-uint8_t BSP_BH1750_Init(pal_i2c_interface_t *intf);
+uint8_t BSP_BH1750_Init(void);
 void BSP_BH1750_ChageMode(uint8_t _ucMode);
 void BSP_BH1750_AdjustSensitivity(uint8_t _ucMTReg);
 uint8_t BSP_BH1750_UpdateData(void);

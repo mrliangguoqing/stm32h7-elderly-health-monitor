@@ -42,7 +42,7 @@ typedef struct
 } pal_i2c_interface_t;
 
 /* 函数声明 */
-uint8_t PAL_I2C_Write(uint8_t dev_address, uint8_t *p_data, uint16_t size, void *intf_ptr);
-uint8_t PAL_I2C_Read(uint8_t dev_address, uint8_t *p_data, uint16_t size, void *intf_ptr);
+uint8_t PAL_STM32_I2C_Write(uint8_t dev_address, uint8_t *p_data, uint16_t size, void *intf_ptr);
+uint8_t PAL_STM32_I2C_Read(uint8_t dev_address, uint8_t *p_data, uint16_t size, void *intf_ptr);
 
 #endif

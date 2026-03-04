@@ -4,7 +4,7 @@
  */
 
 #include "bsp_aht30.h"
-
+#include "bsp_dwt.h"
 #include "i2c.h"
 
 #define AHT30_TIMEOUT 100 /* I2C 发送或接受的超时时间 */

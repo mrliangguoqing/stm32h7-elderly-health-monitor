@@ -13,6 +13,7 @@
 #include <stdbool.h>
 
 #include "stm32h7xx_hal.h"
+
 #include "bsp_lcd.h"
 
 /*********************

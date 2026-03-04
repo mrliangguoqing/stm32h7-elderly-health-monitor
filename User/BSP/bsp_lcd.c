@@ -4,7 +4,6 @@
  */
 
 #include "bsp_lcd.h"
-#include "main.h"
 
 static lcd_res_t lcd_res;
 

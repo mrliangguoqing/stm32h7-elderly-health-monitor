@@ -1,4 +1,5 @@
 #include "bsp_dwt.h"
+#include "stm32h7xx_hal.h"
 
 /**
  * @brief  DWT初始化，用DWT实现阻塞延时

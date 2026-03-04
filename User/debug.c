@@ -1,4 +1,5 @@
 #include "debug.h"
+#include "usart.h"
 
 /*
 * 重定向 fputc 到 UART（以 USART1 为例），可以直接使用 printf() 打印到串口

@@ -4,6 +4,7 @@
  */
 
 #include "app_lvgl.h"
+
 #include "FreeRTOS.h"
 #include "task.h"
 

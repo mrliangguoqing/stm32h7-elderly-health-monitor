@@ -6,11 +6,12 @@
  */
 
 #include "app_main.h"
-#include "FreeRTOS.h"
-#include "task.h"
 #include "app_config.h"
 #include "app_lvgl.h"
 #include "app_system_monitor.h"
+
+#include "FreeRTOS.h"
+#include "task.h"
 
 /**
  * @brief  系统应用层总初始化

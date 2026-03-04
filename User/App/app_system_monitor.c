@@ -5,10 +5,13 @@
  */
 
 #include "app_system_monitor.h"
+
 #include "FreeRTOS.h"
 #include "task.h"
+
 #include <string.h>
 #include <stdint.h>
+
 #include "debug.h"
 
 #if (APP_SYSTEM_MONITOR_ENABLE == 1)

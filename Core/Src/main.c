@@ -26,7 +26,18 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
+#include "debug.h"
 
+#include "pal_i2c_interface.h"
+
+#include "bsp_dwt.h"
+#include "bsp_aht30.h"
+#include "bsp_lcd.h"
+#include "bsp_gt911.h"
+#include "bsp_bh1750.h"
+
+#include "app_main.h"
+#include "app_config.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -115,16 +126,11 @@ int main(void)
 
   /* BSP 层模块初始化 */
   BSP_DWT_Init();
-  // BSP_AHT30_Init();
+  BSP_AHT30_Init();
   BSP_GT911_Init();
   BSP_LCD_Init();
   BSP_GT911_BindLCD();
-  BSP_BH1750_Init(&(pal_i2c_interface_t){
-        .write    = PAL_I2C_Write,
-        .read     = PAL_I2C_Read,
-        .delay    = BSP_DWT_DelayMs,
-        .intf_ptr = &hi2c1
-    });
+  BSP_BH1750_Init();
 
   /* APP 层模块初始化 */
   APP_Init();

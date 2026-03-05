@@ -26,8 +26,7 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-#include "debug.h"
-
+#include "pal_log.h"
 #include "pal_i2c_interface.h"
 
 #include "bsp_dwt.h"

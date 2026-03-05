@@ -1,7 +1,9 @@
 #include "bsp_gt911.h"
 #include "bsp_dwt.h"
 #include "bsp_lcd.h"
-#include "debug.h"
+
+#include "pal_log.h"
+
 #include "i2c.h"
 
 /* LCD 和 GT911 共用复位引脚 */

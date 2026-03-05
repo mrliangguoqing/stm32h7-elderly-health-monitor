@@ -12,7 +12,7 @@
 #include <string.h>
 #include <stdint.h>
 
-#include "debug.h"
+#include "pal_log.h"
 
 #if (APP_SYSTEM_MONITOR_ENABLE == 1)
 

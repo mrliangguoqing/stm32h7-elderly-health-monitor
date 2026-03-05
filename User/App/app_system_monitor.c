@@ -12,7 +12,7 @@
 #include <string.h>
 #include <stdint.h>
 
-#include "debug.h"
+#include "pal_log.h"
 
 #if (APP_SYSTEM_MONITOR_ENABLE == 1)
 
@@ -35,13 +35,13 @@ static void System_Monitor_Task(void *pvParameters)
     for (;;)
     {
         memset(pcWriteBuffer, 0, strlen((char *)pcWriteBuffer));
-        printf("=================================================\r\n");
-        printf("任务名      任务状态 优先级   剩余栈 任务序号\r\n");
+        PAL_LOG(PAL_LOG_LEVEL_INFO,"=================================================");
+        PAL_LOG(PAL_LOG_LEVEL_INFO,"任务名      任务状态 优先级   剩余栈 任务序号\r\n");
         vTaskList((char *)&pcWriteBuffer);
         printf("%s\r\n", pcWriteBuffer);
-
+        
         memset(pcWriteBuffer, 0, strlen((char *)pcWriteBuffer));
-        printf("\r\n任务名       运行计数         使用率\r\n");
+        PAL_LOG(PAL_LOG_LEVEL_INFO,"任务名       运行计数         使用率");
         vTaskGetRunTimeStats((char *)&pcWriteBuffer);
         printf("%s\r\n", pcWriteBuffer);
 

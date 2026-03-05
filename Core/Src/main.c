@@ -26,8 +26,7 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-#include "debug.h"
-
+#include "pal_log.h"
 #include "pal_i2c_interface.h"
 
 #include "bsp_dwt.h"
@@ -131,6 +130,7 @@ int main(void)
   BSP_LCD_Init();
   BSP_GT911_BindLCD();
   BSP_BH1750_Init();
+  BSP_GT911_Test();
 
   /* APP 层模块初始化 */
   APP_Init();

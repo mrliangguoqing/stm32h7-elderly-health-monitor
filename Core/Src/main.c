@@ -130,6 +130,7 @@ int main(void)
   BSP_LCD_Init();
   BSP_GT911_BindLCD();
   BSP_BH1750_Init();
+  BSP_GT911_Test();
 
   /* APP 层模块初始化 */
   APP_Init();

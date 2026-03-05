@@ -201,8 +201,8 @@ uint8_t BSP_GT911_Scan(void)
 void BSP_GT911_Test(void)
 {
 	uint8_t last_sta = 0; /* 用于记录上一次的触摸状态 */
-
-	printf("\r\n--- GT911 Monitor ---\r\n");
+    
+    PAL_LOG(PAL_LOG_LEVEL_INFO,"GT911 触摸测试");
 
 	for (;;)
 	{
@@ -212,19 +212,19 @@ void BSP_GT911_Test(void)
 		if (gt911_handle.is_pressed == true)
 		{
 
-			printf("TOUCH DOWN | Points: %d | ", gt911_handle.touch_number);
+            PAL_LOG(PAL_LOG_LEVEL_INFO,"TOUCH DOWN | Points: %d | ", gt911_handle.touch_number);
 
 			for (uint8_t i = 0; i < gt911_handle.touch_number; i++)
 			{
-				printf("P%d:[%3d,%3d] ", i, gt911_handle.points[i].x, gt911_handle.points[i].y);
+                printf("P%d:[%3d,%3d] ", i, gt911_handle.points[i].x, gt911_handle.points[i].y);
 			}
-			printf("\r\n");
+            printf("\r\n");
 			last_sta = 1; /* 标记当前处于按下状态 */
 		}
 		/* 刚抬起瞬间 (上次是按下，这次 sta 为 0) */
 		else if (last_sta == 1)
 		{
-			printf("TOUCH UP | All points released.\r\n");
+            PAL_LOG(PAL_LOG_LEVEL_INFO,"TOUCH UP | All points released.");
 			last_sta = 0; /* 标记当前已释放 */
 		}
 

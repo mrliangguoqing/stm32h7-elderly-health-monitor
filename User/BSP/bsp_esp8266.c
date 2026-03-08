@@ -11,6 +11,8 @@
 char weather_json_buf[WEATHER_JSON_BUFFER_SIZE]; /* 提取出的完整的天气 JSON 字符串 */
 WeatherInfo g_weather_info = {0};                /* 解析后的最终天气数据 */
 
+NetTime_t g_net_time = {0}; /* 解析后的时间数据 */
+
 /* ESP8266 接收状态机变量 */
 static uint16_t g_json_idx = 0;    /* 当前 JSON 数据在缓冲区中的存储偏移量 */
 static uint8_t g_json_started = 0; /* 标志位：是否已匹配到起始大括号 '{' */
@@ -21,6 +23,7 @@ static void BSP_ESP8266_UsartSendString(char *_str);
 static void BSP_ESP8266_WeatherReset(void);
 static uint8_t BSP_ESP8266_WeatherRead(RingBuffer_t *rb, char *pDest, uint16_t maxLen);
 static uint8_t BSP_ESP8266_WeatherParse(const char *json_str, WeatherInfo *info);
+static uint8_t BSP_ESP8266_Time_Parse(const char *input, NetTime_t *time);
 
 /**
  * @brief  ESP8266 初始化配置流程
@@ -36,17 +39,17 @@ uint8_t BSP_ESP8266_Init(void)
         return 1;
     }
 
-    /* 关闭命令回显 (ATE0) */
-    if (BSP_ESP8266_SendCmd(ESP8266_AT_ATE0, "OK", 3000) == 1)
-    {
-        PAL_LOG(PAL_LOG_LEVEL_ERROR, "ATE0 设置失败\r\n");
-        return 1;
-    }
-
     /* 软件复位模块 */
     if (BSP_ESP8266_SendCmd(ESP8266_AT_RST, "ready", 5000) == 1)
     {
         PAL_LOG(PAL_LOG_LEVEL_ERROR, "模块复位失败\r\n");
+        return 1;
+    }
+
+    /* 关闭命令回显 (ATE0) */
+    if (BSP_ESP8266_SendCmd(ESP8266_AT_ATE0, "OK", 3000) == 1)
+    {
+        PAL_LOG(PAL_LOG_LEVEL_ERROR, "ATE0 设置失败\r\n");
         return 1;
     }
 
@@ -58,9 +61,16 @@ uint8_t BSP_ESP8266_Init(void)
     }
 
     /* 连接 WiFi (超时时间较长) */
-    if (BSP_ESP8266_SendCmd(ESP8266_AT_CWJAP(WIFI_SSID,WIFI_PASS), "OK", 20000) == 1)
+    if (BSP_ESP8266_SendCmd(ESP8266_AT_CWJAP(WIFI_SSID, WIFI_PASS), "OK", 20000) == 1)
     {
         PAL_LOG(PAL_LOG_LEVEL_ERROR, "WiFi 连接失败\r\n");
+        return 1;
+    }
+
+    /* 配置 SNTP 服务器 */
+    if (BSP_ESP8266_SendCmd(ESP8266_AT_CIPSNTPCFG, "OK", 3000) == 1)
+    {
+        PAL_LOG(PAL_LOG_LEVEL_ERROR, "SNTP 服务器配置失败\r\n");
         return 1;
     }
 
@@ -101,6 +111,14 @@ uint8_t BSP_ESP8266_Init(void)
 
     BSP_ESP8266_Weather_Print(&g_weather_info);
 
+    if (BSP_ESP8266_SyncTime(&g_net_time) == 1)
+    {
+        PAL_LOG(PAL_LOG_LEVEL_ERROR, "请求网络时间失败\r\n");
+        return 1;
+    }
+
+    BSP_ESP8266_Time_Print(&g_net_time);
+
     return 0;
 }
 
@@ -131,8 +149,8 @@ static void BSP_ESP8266_UsartSendString(char *_str)
 uint8_t BSP_ESP8266_SendCmd(char *cmd, char *ack, uint32_t timeout_ms)
 {
     char line_buf[256];                  /* 用于暂存从环形缓冲区读出的一行数据 */
-    static uint16_t my_idx = 0;          /* 静态变量：记录 LineReader 的解析进度 */
-    uint32_t start_tick = HAL_GetTick(); /* 记录开始时间点 */
+    static uint16_t idx = 0;             /* 静态变量：记录 RingBuffer_ReadLine 的解析进度 */
+    uint32_t start_tick = HAL_GetTick(); /* 记录超时计数的起始时间 */
 
     /* 通过串口发送指令 */
     BSP_ESP8266_UsartSendString(cmd);
@@ -141,7 +159,7 @@ uint8_t BSP_ESP8266_SendCmd(char *cmd, char *ack, uint32_t timeout_ms)
     while (HAL_GetTick() - start_tick < timeout_ms)
     {
         /* 调用行读取函数，若返回 1 表示成功解析出一行以 \n 结尾的字符串 */
-        if (RingBuffer_ReadLine(&g_uart_rx_fifo, line_buf, sizeof(line_buf), &my_idx) == 0)
+        if (RingBuffer_ReadLine(&g_uart_rx_fifo, line_buf, sizeof(line_buf), &idx) == 0)
         {
             /* 打印调试信息：显示当前处理的一行内容 */
             PAL_LOG(PAL_LOG_LEVEL_INFO, "ESP8266 处理相应 : %s", line_buf);
@@ -438,7 +456,7 @@ void BSP_ESP8266_Weather_Print(const WeatherInfo *info)
         return;
     }
 
-    PAL_LOG(PAL_LOG_LEVEL_INFO, "========= 城市信息 =========\r\n");
+    PAL_LOG(PAL_LOG_LEVEL_INFO, "========= 城市信息 =========");
     PAL_LOG(PAL_LOG_LEVEL_INFO, "城市ID：%s", info->id);
     PAL_LOG(PAL_LOG_LEVEL_INFO, "城市名称：%s", info->name);
     PAL_LOG(PAL_LOG_LEVEL_INFO, "国家：%s", info->country);
@@ -447,7 +465,7 @@ void BSP_ESP8266_Weather_Print(const WeatherInfo *info)
     PAL_LOG(PAL_LOG_LEVEL_INFO, "时区偏移：%s", info->timezone_offset);
     PAL_LOG(PAL_LOG_LEVEL_INFO, "最后更新时间：%s", info->last_update);
 
-    PAL_LOG(PAL_LOG_LEVEL_INFO, "========= 每日天气 =========\r\n");
+    PAL_LOG(PAL_LOG_LEVEL_INFO, "========= 每日天气 =========");
     for (int i = 0; i < info->daily_count; i++)
     {
         const WeatherDay *d = &info->daily[i];
@@ -463,6 +481,149 @@ void BSP_ESP8266_Weather_Print(const WeatherInfo *info)
         PAL_LOG(PAL_LOG_LEVEL_INFO, "风速：%s m/s", d->wind_speed);
         PAL_LOG(PAL_LOG_LEVEL_INFO, "风力等级：%s", d->wind_scale);
         PAL_LOG(PAL_LOG_LEVEL_INFO, "湿度：%s %%", d->humidity);
-        PAL_LOG(PAL_LOG_LEVEL_INFO, "");
     }
+}
+
+/**
+ * @brief  解析 ESP8266 返回的 NTP 时间字符串
+ * @param  input: 原始字符串 (例如 "+CIPSNTPTIME:Sun Mar 08 11:02:27 2026")
+ * @param  time:  指向存储结果的结构体
+ * @retval 0: 成功; 1: 格式不匹配
+ */
+static uint8_t BSP_ESP8266_Time_Parse(const char *input, NetTime_t *time)
+{
+    char month_str[10];
+    char week_str[10];
+    int res;
+
+    /* 查找有效负载起始位置 */
+    const char *p = strstr(input, "+CIPSNTPTIME:");
+    if (p == NULL)
+    {
+        return 1;
+    }
+    p += 13; /* 跳过 "+CIPSNTPTIME:" 前缀 */
+
+    /* 使用 sscanf 提取原始字符串格式: Sun Mar 08 11:02:27 2026 */
+    /* %3s 匹配前三个字符作为字符串 */
+    res = sscanf(p, "%3s %3s %hhd %hhd:%hhd:%hhd %hd",
+                 week_str,
+                 month_str,
+                 &time->day,
+                 &time->hour,
+                 &time->minute,
+                 &time->second,
+                 &time->year);
+
+    if (res != 7)
+    {
+        return 1;
+    }
+
+    /* 转换月份字符串为数字 (1-12) */
+    const char *months[] = {"Jan", "Feb", "Mar", "Apr", "May", "Jun",
+                            "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"};
+    time->month = 0;
+    for (int i = 0; i < 12; i++)
+    {
+        if (strcmp(month_str, months[i]) == 0)
+        {
+            time->month = (uint8_t)(i + 1);
+            break;
+        }
+    }
+
+    /* 转换星期字符串为数字 (1-7) */
+    /* 1:Mon, 2:Tue, 3:Wed, 4:Thu, 5:Fri, 6:Sat, 7:Sun */
+    const char *weeks[] = {"Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"};
+    time->week = 0xFF; /* 默认无效值 */
+    for (int j = 0; j < 7; j++)
+    {
+        if (strcmp(week_str, weeks[j]) == 0)
+        {
+            time->week = (uint8_t)(j + 1);
+            break;
+        }
+    }
+
+    /* 最终合法性检查 */
+    if (time->month == 0 || time->week == 0xFF)
+    {
+        return 1;
+    }
+
+    return 0;
+}
+
+/**
+ * @brief  向 ESP8266 请求并同步当前网络时间
+ * @param  time: 指向 NetTime_t 结构体的指针，用于存储解析后的时间数据
+ * @retval 0: 成功获取并解析时间; 1: 发生超时或响应格式错误
+ */
+uint8_t BSP_ESP8266_SyncTime(NetTime_t *time)
+{
+    char line_buf[128];      /* 用于暂存从环形缓冲区读出的一行数据 */
+    static uint16_t idx = 0; /* 静态变量：记录 RingBuffer_ReadLine 的解析进度 */
+    uint32_t start_tick;     /* 记录超时计数的起始时间 */
+
+    /* 发送 SNTP 查询指令 */
+    BSP_ESP8266_UsartSendString(ESP8266_AT_CIPSNTPTIME);
+
+    start_tick = HAL_GetTick();
+    while (HAL_GetTick() - start_tick < 2000)
+    {
+        if (RingBuffer_ReadLine(&g_uart_rx_fifo, line_buf, sizeof(line_buf), &idx) == 0)
+        {
+            /* 只要读到时间前缀，立即解析 */
+            if (strstr(line_buf, "+CIPSNTPTIME:") != NULL)
+            {
+                return BSP_ESP8266_Time_Parse(line_buf, time);
+            }
+
+            /* 如果读到 ERROR，说明 NTP 还没同步成功，提前退出 */
+            if (strstr(line_buf, "ERROR") != NULL)
+            {
+                return 1;
+            }
+        }
+    }
+    return 1; /* 超时 */
+}
+
+/**
+ * @brief  格式化并打印解析后的网络时间
+ * @param  time: 指向已填充数据的 NetTime_t 结构体
+ * @retval 无
+ */
+void BSP_ESP8266_Time_Print(const NetTime_t *time)
+{
+    /* 星期数字对应字符串映射表 */
+    const char *week_str[] = {"Invalid", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"};
+    uint8_t w_idx = time->week;
+
+    if (time == NULL)
+    {
+        PAL_LOG(PAL_LOG_LEVEL_ERROR, "时间结构体指针为空");
+        return;
+    }
+
+    /* 基础合法性校验：防止打印出 00-00 这种错误数据 */
+    if (w_idx < 1 || w_idx > 7)
+    {
+        w_idx = 0; /* 指向 "Invalid" */
+    }
+
+    PAL_LOG(PAL_LOG_LEVEL_INFO, "========= 网络同步时间 =========");
+
+    /* 格式化输出示例：2026-03-08 11:02:27 (Sun) */
+    PAL_LOG(PAL_LOG_LEVEL_INFO, "当前时间：%04d-%02d-%02d %02d:%02d:%02d (%s)",
+            time->year,
+            time->month,
+            time->day,
+            time->hour,
+            time->minute,
+            time->second,
+            week_str[w_idx]);
+
+    PAL_LOG(PAL_LOG_LEVEL_INFO, "================================");
 }

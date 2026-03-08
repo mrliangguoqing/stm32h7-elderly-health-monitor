@@ -59,6 +59,19 @@
     "Host: api.seniverse.com\r\n"                                                                                                                 \
     "Connection: close\r\n\r\n"
 
+/* ---------------- NTP 网络时间相关指令 ---------------- */
+
+/* * 配置 SNTP 服务器
+ * 参数说明:
+ * 1: 开启 SNTP
+ * 8: 东八区 (北京时间)
+ * "ntp1.aliyun.com": 阿里云 NTP 服务器地址
+ */
+#define ESP8266_AT_CIPSNTPCFG "AT+CIPSNTPCFG=1,8,\"ntp1.aliyun.com\"\r\n"
+
+/* 查询当前经过 SNTP 同步后的网络时间 */
+#define ESP8266_AT_CIPSNTPTIME "AT+CIPSNTPTIME?\r\n"
+
 /**
  * @brief  天气数据结构体
  */
@@ -96,10 +109,27 @@ typedef struct
     char last_update[32];               /* 最后更新时间 */
 } WeatherInfo;
 
+/**
+ * @brief  网络时间信息结构体
+ * @note   用于存储从 ESP8266 NTP 服务器解析后的日期与时间数据
+ */
+typedef struct
+{
+    uint16_t year;  /* 年份：如 2026 */
+    uint8_t month;  /* 月份：1 - 12 */
+    uint8_t day;    /* 日期：1 - 31 */
+    uint8_t hour;   /* 小时：0 - 23 (24小时制) */
+    uint8_t minute; /* 分钟：0 - 59 */
+    uint8_t second; /* 秒钟：0 - 59 */
+    uint8_t week;   /* 星期：1 - 7 (1:Mon, 2:Tue, 3:Wed, 4:Thu, 5:Fri, 6:Sat, 7:Sun) */
+} NetTime_t;
+
 /* 函数声明 */
 uint8_t BSP_ESP8266_Init(void);
 uint8_t BSP_ESP8266_SendCmd(char *cmd, char *ack, uint32_t timeout_ms);
 uint8_t BSP_ESP8266_WeatherUpdate(WeatherInfo *info);
 void BSP_ESP8266_Weather_Print(const WeatherInfo *info);
+uint8_t BSP_ESP8266_SyncTime(NetTime_t *time);
+void BSP_ESP8266_Time_Print(const NetTime_t *time);
 
 #endif

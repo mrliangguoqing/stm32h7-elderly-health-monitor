@@ -132,11 +132,11 @@ int main(void)
   /* BSP 层模块初始化 */
   BSP_DWT_Init();
 //  BSP_AHT30_Init();
-//  BSP_GT911_Init();
-//  BSP_LCD_Init();
-//  BSP_GT911_BindLCD();
+  BSP_GT911_Init();
+  BSP_LCD_Init();
+  BSP_GT911_BindLCD();
 //  BSP_BH1750_Init();
-  BSP_ESP8266_Init();
+//  BSP_ESP8266_Init();
 
   /* APP 层模块初始化 */
   APP_Init();

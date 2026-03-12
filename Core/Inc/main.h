@@ -61,6 +61,9 @@ void Error_Handler(void);
 #define GT911_INT_GPIO_Port GPIOB
 #define LCD_RES_Pin GPIO_PIN_8
 #define LCD_RES_GPIO_Port GPIOC
+#define MAX30102_INT_Pin GPIO_PIN_9
+#define MAX30102_INT_GPIO_Port GPIOA
+#define MAX30102_INT_EXTI_IRQn EXTI9_5_IRQn
 
 /* USER CODE BEGIN Private defines */
 

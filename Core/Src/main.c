@@ -26,6 +26,11 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
+#include "FreeRTOS.h"
+#include "task.h"
+#include "semphr.h"
+#include "portmacro.h"
+
 #include "pal_log.h"
 #include "pal_i2c_interface.h"
 
@@ -35,11 +40,15 @@
 #include "bsp_gt911.h"
 #include "bsp_bh1750.h"
 #include "bsp_esp8266.h"
+#include "bsp_max30102.h"
+#include "bsp_max30102_algorithm.h"
 
 #include "app_main.h"
 #include "app_config.h"
+#include "app_max30102.h"
 
 #include "ring_buffer.h"
+
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -123,6 +132,7 @@ int main(void)
   MX_TIM7_Init();
   MX_I2C2_Init();
   MX_USART2_UART_Init();
+  MX_I2C3_Init();
   /* USER CODE BEGIN 2 */
 
   HAL_TIM_Base_Start_IT(&htim7);
@@ -132,11 +142,12 @@ int main(void)
   /* BSP 层模块初始化 */
   BSP_DWT_Init();
 //  BSP_AHT30_Init();
-  BSP_GT911_Init();
-  BSP_LCD_Init();
-  BSP_GT911_BindLCD();
+//  BSP_GT911_Init();
+//  BSP_LCD_Init();
+//  BSP_GT911_BindLCD();
 //  BSP_BH1750_Init();
 //  BSP_ESP8266_Init();
+    BSP_MAX30102_Init();
 
   /* APP 层模块初始化 */
   APP_Init();
@@ -223,6 +234,19 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
     // 重新开启中断接收，准备收下一个字节
     HAL_UART_Receive_IT(huart, &g_rx_byte, 1);
   }
+}
+
+/* 外部中断回调函数 */
+void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
+{
+    if (GPIO_Pin == MAX30102_INT_Pin)
+    {
+        BaseType_t xHigherPriorityTaskWoken = pdFALSE;
+        /* 释放信号量，通知采集任务 */
+        xSemaphoreGiveFromISR(xMax30102DataReadySem, &xHigherPriorityTaskWoken);
+        /* 强制上下文切换 */
+        portYIELD_FROM_ISR(xHigherPriorityTaskWoken);
+    }
 }
 
 /* USER CODE END 4 */

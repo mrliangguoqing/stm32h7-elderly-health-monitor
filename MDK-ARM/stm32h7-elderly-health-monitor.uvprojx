@@ -1093,6 +1093,16 @@
               <FileType>1</FileType>
               <FilePath>..\User\Bsp\bsp_esp8266.c</FilePath>
             </File>
+            <File>
+              <FileName>bsp_max30102.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\User\BSP\bsp_max30102.c</FilePath>
+            </File>
+            <File>
+              <FileName>bsp_max30102_algorithm.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\User\BSP\bsp_max30102_algorithm.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -1107,6 +1117,11 @@
               <FileName>app_lvgl.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\User\App\app_lvgl.c</FilePath>
+            </File>
+            <File>
+              <FileName>app_max30102.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\User\App\app_max30102.c</FilePath>
             </File>
             <File>
               <FileName>app_system_monitor.c</FileName>

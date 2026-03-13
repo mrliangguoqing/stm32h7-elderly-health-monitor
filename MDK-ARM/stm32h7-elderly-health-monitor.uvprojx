@@ -1103,6 +1103,11 @@
               <FileType>1</FileType>
               <FilePath>..\User\BSP\bsp_max30102_algorithm.c</FilePath>
             </File>
+            <File>
+              <FileName>bsp_at24cxx.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\User\BSP\bsp_at24cxx.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>

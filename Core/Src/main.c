@@ -42,6 +42,7 @@
 #include "bsp_esp8266.h"
 #include "bsp_max30102.h"
 #include "bsp_max30102_algorithm.h"
+#include "bsp_at24cxx.h"
 
 #include "app_main.h"
 #include "app_config.h"
@@ -133,6 +134,7 @@ int main(void)
   MX_I2C2_Init();
   MX_USART2_UART_Init();
   MX_I2C3_Init();
+  MX_I2C4_Init();
   /* USER CODE BEGIN 2 */
 
   HAL_TIM_Base_Start_IT(&htim7);
@@ -151,7 +153,7 @@ int main(void)
 
   /* APP 层模块初始化 */
   APP_Init();
-
+  
   /* USER CODE END 2 */
 
   /* Infinite loop */

@@ -135,21 +135,23 @@ int main(void)
   MX_USART2_UART_Init();
   MX_I2C3_Init();
   MX_I2C4_Init();
+  MX_TIM1_Init();
   /* USER CODE BEGIN 2 */
 
   HAL_TIM_Base_Start_IT(&htim7);
-  HAL_UART_Receive_IT(&huart2, &g_rx_byte, 1); // 启动第一次中断
+  HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_3); /* 启动 TIM3 通道 1 的 PWM */
+  HAL_UART_Receive_IT(&huart2, &g_rx_byte, 1); /* 启动 UART2 接收中断 */
 
   
   /* BSP 层模块初始化 */
   BSP_DWT_Init();
 //  BSP_AHT30_Init();
-//  BSP_GT911_Init();
-//  BSP_LCD_Init();
-//  BSP_GT911_BindLCD();
+  BSP_GT911_Init();
+  BSP_LCD_Init();
+  BSP_GT911_BindLCD();
 //  BSP_BH1750_Init();
 //  BSP_ESP8266_Init();
-    BSP_MAX30102_Init();
+//  BSP_MAX30102_Init();
 
   /* APP 层模块初始化 */
   APP_Init();

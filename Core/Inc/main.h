@@ -64,6 +64,8 @@ void Error_Handler(void);
 #define MAX30102_INT_Pin GPIO_PIN_9
 #define MAX30102_INT_GPIO_Port GPIOA
 #define MAX30102_INT_EXTI_IRQn EXTI9_5_IRQn
+#define LCD_BLK_Pin GPIO_PIN_10
+#define LCD_BLK_GPIO_Port GPIOA
 
 /* USER CODE BEGIN Private defines */
 

@@ -12,6 +12,8 @@
 #include "lv_port_disp.h"
 #include "lv_port_indev.h"
 
+#include "ui.h"
+
 /* 任务句柄：用于外部管理该任务（如删除、挂起、获取状态） */
 TaskHandle_t xLvglTaskHandle = NULL;
 
@@ -25,6 +27,8 @@ static void Lvgl_Task(void *pvParameters)
     lv_init();            /* 初始化 LVGL 核心库 */
     lv_port_disp_init();  /* 初始化显示接口 */
     lv_port_indev_init(); /* 初始化触摸接口 */
+    
+    ui_init();
 
     for (;;)
     {

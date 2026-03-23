@@ -844,7 +844,7 @@
 
   <Group>
     <GroupName>User/APP</GroupName>
-    <tvExp>0</tvExp>
+    <tvExp>1</tvExp>
     <tvExpOptDlg>0</tvExpOptDlg>
     <cbSel>0</cbSel>
     <RteFlg>0</RteFlg>
@@ -6211,8 +6211,8 @@
   </Group>
 
   <Group>
-    <GroupName>User/Middlewares/LVGL/demo</GroupName>
-    <tvExp>0</tvExp>
+    <GroupName>User/Middlewares/LVGL/ui</GroupName>
+    <tvExp>1</tvExp>
     <tvExpOptDlg>0</tvExpOptDlg>
     <cbSel>0</cbSel>
     <RteFlg>0</RteFlg>
@@ -6223,8 +6223,8 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\User\Middlewares\LVGL\GUI_APP\demos\widgets\assets\img_clothes.c</PathWithFileName>
-      <FilenameWithoutPath>img_clothes.c</FilenameWithoutPath>
+      <PathWithFileName>..\User\Middlewares\LVGL\GUI_APP\ui\ui.c</PathWithFileName>
+      <FilenameWithoutPath>ui.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
@@ -6235,8 +6235,8 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\User\Middlewares\LVGL\GUI_APP\demos\widgets\assets\img_demo_widgets_avatar.c</PathWithFileName>
-      <FilenameWithoutPath>img_demo_widgets_avatar.c</FilenameWithoutPath>
+      <PathWithFileName>..\User\Middlewares\LVGL\GUI_APP\ui\ui_helpers.c</PathWithFileName>
+      <FilenameWithoutPath>ui_helpers.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
@@ -6247,8 +6247,8 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\User\Middlewares\LVGL\GUI_APP\demos\widgets\assets\img_demo_widgets_needle.c</PathWithFileName>
-      <FilenameWithoutPath>img_demo_widgets_needle.c</FilenameWithoutPath>
+      <PathWithFileName>..\User\Middlewares\LVGL\GUI_APP\ui\components\ui_comp_hook.c</PathWithFileName>
+      <FilenameWithoutPath>ui_comp_hook.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
@@ -6259,8 +6259,8 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\User\Middlewares\LVGL\GUI_APP\demos\widgets\assets\img_lvgl_logo.c</PathWithFileName>
-      <FilenameWithoutPath>img_lvgl_logo.c</FilenameWithoutPath>
+      <PathWithFileName>..\User\Middlewares\LVGL\GUI_APP\ui\screens\ui_Screen1.c</PathWithFileName>
+      <FilenameWithoutPath>ui_Screen1.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
@@ -6271,8 +6271,8 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\User\Middlewares\LVGL\GUI_APP\demos\widgets\lv_demo_widgets.c</PathWithFileName>
-      <FilenameWithoutPath>lv_demo_widgets.c</FilenameWithoutPath>
+      <PathWithFileName>..\User\Middlewares\LVGL\GUI_APP\ui\fonts\ui_font_AlibabaPuHuiTiMedium.c</PathWithFileName>
+      <FilenameWithoutPath>ui_font_AlibabaPuHuiTiMedium.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
@@ -6283,8 +6283,8 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\User\Middlewares\LVGL\GUI_APP\demos\benchmark\assets\img_benchmark_avatar.c</PathWithFileName>
-      <FilenameWithoutPath>img_benchmark_avatar.c</FilenameWithoutPath>
+      <PathWithFileName>..\User\Middlewares\LVGL\GUI_APP\ui\images\ui_img_temp_png.c</PathWithFileName>
+      <FilenameWithoutPath>ui_img_temp_png.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
@@ -6295,8 +6295,8 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\User\Middlewares\LVGL\GUI_APP\demos\benchmark\assets\img_benchmark_lvgl_logo_argb.c</PathWithFileName>
-      <FilenameWithoutPath>img_benchmark_lvgl_logo_argb.c</FilenameWithoutPath>
+      <PathWithFileName>..\User\Middlewares\LVGL\GUI_APP\ui\fonts\ui_font_AlibabaPuHuiTi32.c</PathWithFileName>
+      <FilenameWithoutPath>ui_font_AlibabaPuHuiTi32.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
@@ -6307,8 +6307,8 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\User\Middlewares\LVGL\GUI_APP\demos\benchmark\assets\img_benchmark_lvgl_logo_rgb.c</PathWithFileName>
-      <FilenameWithoutPath>img_benchmark_lvgl_logo_rgb.c</FilenameWithoutPath>
+      <PathWithFileName>..\User\Middlewares\LVGL\GUI_APP\ui\components\ui_comp.c</PathWithFileName>
+      <FilenameWithoutPath>ui_comp.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
@@ -6319,92 +6319,8 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\User\Middlewares\LVGL\GUI_APP\demos\benchmark\assets\lv_font_benchmark_montserrat_12_aligned.c</PathWithFileName>
-      <FilenameWithoutPath>lv_font_benchmark_montserrat_12_aligned.c</FilenameWithoutPath>
-      <RteFlg>0</RteFlg>
-      <bShared>0</bShared>
-    </File>
-    <File>
-      <GroupNumber>27</GroupNumber>
-      <FileNumber>492</FileNumber>
-      <FileType>1</FileType>
-      <tvExp>0</tvExp>
-      <tvExpOptDlg>0</tvExpOptDlg>
-      <bDave2>0</bDave2>
-      <PathWithFileName>..\User\Middlewares\LVGL\GUI_APP\demos\benchmark\assets\lv_font_benchmark_montserrat_14_aligned.c</PathWithFileName>
-      <FilenameWithoutPath>lv_font_benchmark_montserrat_14_aligned.c</FilenameWithoutPath>
-      <RteFlg>0</RteFlg>
-      <bShared>0</bShared>
-    </File>
-    <File>
-      <GroupNumber>27</GroupNumber>
-      <FileNumber>493</FileNumber>
-      <FileType>1</FileType>
-      <tvExp>0</tvExp>
-      <tvExpOptDlg>0</tvExpOptDlg>
-      <bDave2>0</bDave2>
-      <PathWithFileName>..\User\Middlewares\LVGL\GUI_APP\demos\benchmark\assets\lv_font_benchmark_montserrat_16_aligned.c</PathWithFileName>
-      <FilenameWithoutPath>lv_font_benchmark_montserrat_16_aligned.c</FilenameWithoutPath>
-      <RteFlg>0</RteFlg>
-      <bShared>0</bShared>
-    </File>
-    <File>
-      <GroupNumber>27</GroupNumber>
-      <FileNumber>494</FileNumber>
-      <FileType>1</FileType>
-      <tvExp>0</tvExp>
-      <tvExpOptDlg>0</tvExpOptDlg>
-      <bDave2>0</bDave2>
-      <PathWithFileName>..\User\Middlewares\LVGL\GUI_APP\demos\benchmark\assets\lv_font_benchmark_montserrat_18_aligned.c</PathWithFileName>
-      <FilenameWithoutPath>lv_font_benchmark_montserrat_18_aligned.c</FilenameWithoutPath>
-      <RteFlg>0</RteFlg>
-      <bShared>0</bShared>
-    </File>
-    <File>
-      <GroupNumber>27</GroupNumber>
-      <FileNumber>495</FileNumber>
-      <FileType>1</FileType>
-      <tvExp>0</tvExp>
-      <tvExpOptDlg>0</tvExpOptDlg>
-      <bDave2>0</bDave2>
-      <PathWithFileName>..\User\Middlewares\LVGL\GUI_APP\demos\benchmark\assets\lv_font_benchmark_montserrat_20_aligned.c</PathWithFileName>
-      <FilenameWithoutPath>lv_font_benchmark_montserrat_20_aligned.c</FilenameWithoutPath>
-      <RteFlg>0</RteFlg>
-      <bShared>0</bShared>
-    </File>
-    <File>
-      <GroupNumber>27</GroupNumber>
-      <FileNumber>496</FileNumber>
-      <FileType>1</FileType>
-      <tvExp>0</tvExp>
-      <tvExpOptDlg>0</tvExpOptDlg>
-      <bDave2>0</bDave2>
-      <PathWithFileName>..\User\Middlewares\LVGL\GUI_APP\demos\benchmark\assets\lv_font_benchmark_montserrat_24_aligned.c</PathWithFileName>
-      <FilenameWithoutPath>lv_font_benchmark_montserrat_24_aligned.c</FilenameWithoutPath>
-      <RteFlg>0</RteFlg>
-      <bShared>0</bShared>
-    </File>
-    <File>
-      <GroupNumber>27</GroupNumber>
-      <FileNumber>497</FileNumber>
-      <FileType>1</FileType>
-      <tvExp>0</tvExp>
-      <tvExpOptDlg>0</tvExpOptDlg>
-      <bDave2>0</bDave2>
-      <PathWithFileName>..\User\Middlewares\LVGL\GUI_APP\demos\benchmark\assets\lv_font_benchmark_montserrat_26_aligned.c</PathWithFileName>
-      <FilenameWithoutPath>lv_font_benchmark_montserrat_26_aligned.c</FilenameWithoutPath>
-      <RteFlg>0</RteFlg>
-      <bShared>0</bShared>
-    </File>
-    <File>
-      <GroupNumber>27</GroupNumber>
-      <FileNumber>498</FileNumber>
-      <FileType>1</FileType>
-      <tvExp>0</tvExp>
-      <tvExpOptDlg>0</tvExpOptDlg>
-      <bDave2>0</bDave2>
-      <PathWithFileName>..\User\Middlewares\LVGL\GUI_APP\demos\benchmark\lv_demo_benchmark.c</PathWithFileName>
-      <FilenameWithoutPath>lv_demo_benchmark.c</FilenameWithoutPath>
+      <PathWithFileName>..\User\Middlewares\LVGL\GUI_APP\ui\components\ui_comp_uilabeltime.c</PathWithFileName>
+      <FilenameWithoutPath>ui_comp_uilabeltime.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
@@ -6418,7 +6334,7 @@
     <RteFlg>0</RteFlg>
     <File>
       <GroupNumber>28</GroupNumber>
-      <FileNumber>499</FileNumber>
+      <FileNumber>492</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>

@@ -81,7 +81,7 @@
           </BeforeMake>
           <AfterMake>
             <RunUserProg1>0</RunUserProg1>
-            <RunUserProg2>1</RunUserProg2>
+            <RunUserProg2>0</RunUserProg2>
             <UserProg1Name></UserProg1Name>
             <UserProg2Name></UserProg2Name>
             <UserProg1Dos16Mode>0</UserProg1Dos16Mode>
@@ -314,7 +314,7 @@
           </ArmAdsMisc>
           <Cads>
             <interw>1</interw>
-            <Optim>1</Optim>
+            <Optim>4</Optim>
             <oTime>0</oTime>
             <SplitLS>0</SplitLS>
             <OneElfS>1</OneElfS>
@@ -340,7 +340,7 @@
               <MiscControls>-fno-finite-math-only</MiscControls>
               <Define>USE_PWR_LDO_SUPPLY,USE_HAL_DRIVER,STM32H743xx</Define>
               <Undefine></Undefine>
-              <IncludePath>../Core/Inc;../Drivers/STM32H7xx_HAL_Driver/Inc;../Drivers/STM32H7xx_HAL_Driver/Inc/Legacy;../Drivers/CMSIS/Device/ST/STM32H7xx/Include;../Drivers/CMSIS/Include;../User/PAL;../User/Bsp;../User/App;../User/Middlewares/FreeRTOS;../User/Middlewares/FreeRTOS/include;../User/Middlewares/FreeRTOS/r0p1;../User/Middlewares/LVGL/GUI;../User/Middlewares/LVGL/GUI/lvgl;../User/Middlewares/LVGL/GUI/lvgl/src;../User/Middlewares/LVGL/GUI/lvgl/port;../User/Middlewares/LVGL/GUI_APP/demos/widgets/assets;../User/Middlewares/LVGL/GUI_APP/demos/widgets;../User/Middlewares/cJSON</IncludePath>
+              <IncludePath>../Core/Inc;../Drivers/STM32H7xx_HAL_Driver/Inc;../Drivers/STM32H7xx_HAL_Driver/Inc/Legacy;../Drivers/CMSIS/Device/ST/STM32H7xx/Include;../Drivers/CMSIS/Include;../User/PAL;../User/Bsp;../User/App;../User/Middlewares/FreeRTOS;../User/Middlewares/FreeRTOS/include;../User/Middlewares/FreeRTOS/r0p1;../User/Middlewares/LVGL/GUI;../User/Middlewares/LVGL/GUI/lvgl;../User/Middlewares/LVGL/GUI/lvgl/src;../User/Middlewares/LVGL/GUI/lvgl/port;../User/Middlewares/cJSON;..\User\Middlewares\LVGL\GUI_APP\ui;..\User\Middlewares\LVGL\GUI_APP\ui\components;..\User\Middlewares\LVGL\GUI_APP\ui\fonts;..\User\Middlewares\LVGL\GUI_APP\ui\images;..\User\Middlewares\LVGL\GUI_APP\ui\screens</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -3381,87 +3381,52 @@
           </Files>
         </Group>
         <Group>
-          <GroupName>User/Middlewares/LVGL/demo</GroupName>
+          <GroupName>User/Middlewares/LVGL/ui</GroupName>
           <Files>
             <File>
-              <FileName>img_clothes.c</FileName>
+              <FileName>ui.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\User\Middlewares\LVGL\GUI_APP\demos\widgets\assets\img_clothes.c</FilePath>
+              <FilePath>..\User\Middlewares\LVGL\GUI_APP\ui\ui.c</FilePath>
             </File>
             <File>
-              <FileName>img_demo_widgets_avatar.c</FileName>
+              <FileName>ui_helpers.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\User\Middlewares\LVGL\GUI_APP\demos\widgets\assets\img_demo_widgets_avatar.c</FilePath>
+              <FilePath>..\User\Middlewares\LVGL\GUI_APP\ui\ui_helpers.c</FilePath>
             </File>
             <File>
-              <FileName>img_demo_widgets_needle.c</FileName>
+              <FileName>ui_comp_hook.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\User\Middlewares\LVGL\GUI_APP\demos\widgets\assets\img_demo_widgets_needle.c</FilePath>
+              <FilePath>..\User\Middlewares\LVGL\GUI_APP\ui\components\ui_comp_hook.c</FilePath>
             </File>
             <File>
-              <FileName>img_lvgl_logo.c</FileName>
+              <FileName>ui_Screen1.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\User\Middlewares\LVGL\GUI_APP\demos\widgets\assets\img_lvgl_logo.c</FilePath>
+              <FilePath>..\User\Middlewares\LVGL\GUI_APP\ui\screens\ui_Screen1.c</FilePath>
             </File>
             <File>
-              <FileName>lv_demo_widgets.c</FileName>
+              <FileName>ui_font_AlibabaPuHuiTiMedium.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\User\Middlewares\LVGL\GUI_APP\demos\widgets\lv_demo_widgets.c</FilePath>
+              <FilePath>..\User\Middlewares\LVGL\GUI_APP\ui\fonts\ui_font_AlibabaPuHuiTiMedium.c</FilePath>
             </File>
             <File>
-              <FileName>img_benchmark_avatar.c</FileName>
+              <FileName>ui_img_temp_png.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\User\Middlewares\LVGL\GUI_APP\demos\benchmark\assets\img_benchmark_avatar.c</FilePath>
+              <FilePath>..\User\Middlewares\LVGL\GUI_APP\ui\images\ui_img_temp_png.c</FilePath>
             </File>
             <File>
-              <FileName>img_benchmark_lvgl_logo_argb.c</FileName>
+              <FileName>ui_font_AlibabaPuHuiTi32.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\User\Middlewares\LVGL\GUI_APP\demos\benchmark\assets\img_benchmark_lvgl_logo_argb.c</FilePath>
+              <FilePath>..\User\Middlewares\LVGL\GUI_APP\ui\fonts\ui_font_AlibabaPuHuiTi32.c</FilePath>
             </File>
             <File>
-              <FileName>img_benchmark_lvgl_logo_rgb.c</FileName>
+              <FileName>ui_comp.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\User\Middlewares\LVGL\GUI_APP\demos\benchmark\assets\img_benchmark_lvgl_logo_rgb.c</FilePath>
+              <FilePath>..\User\Middlewares\LVGL\GUI_APP\ui\components\ui_comp.c</FilePath>
             </File>
             <File>
-              <FileName>lv_font_benchmark_montserrat_12_aligned.c</FileName>
+              <FileName>ui_comp_uilabeltime.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\User\Middlewares\LVGL\GUI_APP\demos\benchmark\assets\lv_font_benchmark_montserrat_12_aligned.c</FilePath>
-            </File>
-            <File>
-              <FileName>lv_font_benchmark_montserrat_14_aligned.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\User\Middlewares\LVGL\GUI_APP\demos\benchmark\assets\lv_font_benchmark_montserrat_14_aligned.c</FilePath>
-            </File>
-            <File>
-              <FileName>lv_font_benchmark_montserrat_16_aligned.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\User\Middlewares\LVGL\GUI_APP\demos\benchmark\assets\lv_font_benchmark_montserrat_16_aligned.c</FilePath>
-            </File>
-            <File>
-              <FileName>lv_font_benchmark_montserrat_18_aligned.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\User\Middlewares\LVGL\GUI_APP\demos\benchmark\assets\lv_font_benchmark_montserrat_18_aligned.c</FilePath>
-            </File>
-            <File>
-              <FileName>lv_font_benchmark_montserrat_20_aligned.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\User\Middlewares\LVGL\GUI_APP\demos\benchmark\assets\lv_font_benchmark_montserrat_20_aligned.c</FilePath>
-            </File>
-            <File>
-              <FileName>lv_font_benchmark_montserrat_24_aligned.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\User\Middlewares\LVGL\GUI_APP\demos\benchmark\assets\lv_font_benchmark_montserrat_24_aligned.c</FilePath>
-            </File>
-            <File>
-              <FileName>lv_font_benchmark_montserrat_26_aligned.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\User\Middlewares\LVGL\GUI_APP\demos\benchmark\assets\lv_font_benchmark_montserrat_26_aligned.c</FilePath>
-            </File>
-            <File>
-              <FileName>lv_demo_benchmark.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\User\Middlewares\LVGL\GUI_APP\demos\benchmark\lv_demo_benchmark.c</FilePath>
+              <FilePath>..\User\Middlewares\LVGL\GUI_APP\ui\components\ui_comp_uilabeltime.c</FilePath>
             </File>
           </Files>
         </Group>

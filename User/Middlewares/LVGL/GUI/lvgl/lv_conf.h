@@ -1319,7 +1319,7 @@
 #define LV_BUILD_EXAMPLES 1
 
 /** Build the demos */
-#define LV_BUILD_DEMOS 1
+#define LV_BUILD_DEMOS 0
 
 /*===================
  * DEMO USAGE
@@ -1327,17 +1327,17 @@
 
 #if LV_BUILD_DEMOS
     /** Show some widgets. This might be required to increase `LV_MEM_SIZE`. */
-    #define LV_USE_DEMO_WIDGETS 1
+    #define LV_USE_DEMO_WIDGETS 0
     
     /** Demonstrate usage of encoder and keyboard. */
     #define LV_USE_DEMO_KEYPAD_AND_ENCODER 0
     
     /** Benchmark your system */
-    #define LV_USE_DEMO_BENCHMARK 1
+    #define LV_USE_DEMO_BENCHMARK 0
 
     #if LV_USE_DEMO_BENCHMARK
         /** Use fonts where bitmaps are aligned 16 byte and has Nx16 byte stride */
-        #define LV_DEMO_BENCHMARK_ALIGNED_FONTS 1
+        #define LV_DEMO_BENCHMARK_ALIGNED_FONTS 0
     #endif
 
     /** Render test for each primitive.

@@ -3418,6 +3418,16 @@
               <FileType>1</FileType>
               <FilePath>..\User\Middlewares\LVGL\GUI_APP\ui\fonts\ui_font_AlibabaPuHuiTi32.c</FilePath>
             </File>
+            <File>
+              <FileName>ui_comp.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\User\Middlewares\LVGL\GUI_APP\ui\components\ui_comp.c</FilePath>
+            </File>
+            <File>
+              <FileName>ui_comp_uilabeltime.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\User\Middlewares\LVGL\GUI_APP\ui\components\ui_comp_uilabeltime.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>

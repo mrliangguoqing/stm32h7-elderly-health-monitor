@@ -21,6 +21,7 @@ extern lv_obj_t * ui_Label1;
 extern lv_obj_t * ui_Slider1;
 extern lv_obj_t * ui_Image1;
 extern lv_obj_t * ui_Label2;
+extern lv_obj_t * ui_LabelTime;
 // CUSTOM VARIABLES
 
 #ifdef __cplusplus

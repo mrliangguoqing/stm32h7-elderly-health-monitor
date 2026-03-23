@@ -13,6 +13,8 @@ extern "C" {
 #include "lvgl/lvgl.h"
 
 #include "ui_helpers.h"
+#include "components/ui_comp.h"
+#include "components/ui_comp_hook.h"
 #include "ui_events.h"
 
 
@@ -31,8 +33,8 @@ extern lv_obj_t * ui____initial_actions0;
 LV_IMG_DECLARE(ui_img_temp_png);    // assets/temp.png
 
 // FONTS
-LV_FONT_DECLARE(ui_font_AlibabaPuHuiTiMedium);
 LV_FONT_DECLARE(ui_font_AlibabaPuHuiTi32);
+LV_FONT_DECLARE(ui_font_AlibabaPuHuiTiMedium);
 
 // UI INIT
 void ui_init(void);

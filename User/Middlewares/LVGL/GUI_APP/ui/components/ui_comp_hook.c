@@ -3,3 +3,8 @@
 // LVGL version: 9.3
 // Project name: SquareLine_Project
 
+#include "../ui.h"
+
+void ui_comp_uiLabelTime_create_hook(lv_obj_t * comp)
+{
+}

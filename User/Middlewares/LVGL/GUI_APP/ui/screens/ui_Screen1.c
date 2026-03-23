@@ -12,6 +12,7 @@ lv_obj_t * ui_Label1 = NULL;
 lv_obj_t * ui_Slider1 = NULL;
 lv_obj_t * ui_Image1 = NULL;
 lv_obj_t * ui_Label2 = NULL;
+lv_obj_t * ui_LabelTime = NULL;
 // event funtions
 void ui_event_Button1(lv_event_t * e)
 {
@@ -79,6 +80,15 @@ void ui_Screen1_screen_init(void)
     lv_label_set_text(ui_Label2, "你好");
     lv_obj_set_style_text_font(ui_Label2, &ui_font_AlibabaPuHuiTi32, LV_PART_MAIN | LV_STATE_DEFAULT);
 
+    ui_LabelTime = lv_label_create(ui_Panel1);
+    lv_obj_set_width(ui_LabelTime, LV_SIZE_CONTENT);   /// 1
+    lv_obj_set_height(ui_LabelTime, LV_SIZE_CONTENT);    /// 1
+    lv_obj_set_x(ui_LabelTime, -3);
+    lv_obj_set_y(ui_LabelTime, -100);
+    lv_obj_set_align(ui_LabelTime, LV_ALIGN_CENTER);
+    lv_label_set_text(ui_LabelTime, "Time: 00:00:00");
+    lv_obj_set_style_text_font(ui_LabelTime, &ui_font_AlibabaPuHuiTi32, LV_PART_MAIN | LV_STATE_DEFAULT);
+
     lv_obj_add_event_cb(ui_Button1, ui_event_Button1, LV_EVENT_ALL, NULL);
 
 }
@@ -95,5 +105,6 @@ void ui_Screen1_screen_destroy(void)
     ui_Slider1 = NULL;
     ui_Image1 = NULL;
     ui_Label2 = NULL;
+    ui_LabelTime = NULL;
 
 }

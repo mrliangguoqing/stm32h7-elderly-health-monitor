@@ -844,7 +844,7 @@
 
   <Group>
     <GroupName>User/APP</GroupName>
-    <tvExp>0</tvExp>
+    <tvExp>1</tvExp>
     <tvExpOptDlg>0</tvExpOptDlg>
     <cbSel>0</cbSel>
     <RteFlg>0</RteFlg>
@@ -6212,7 +6212,7 @@
 
   <Group>
     <GroupName>User/Middlewares/LVGL/ui</GroupName>
-    <tvExp>0</tvExp>
+    <tvExp>1</tvExp>
     <tvExpOptDlg>0</tvExpOptDlg>
     <cbSel>0</cbSel>
     <RteFlg>0</RteFlg>
@@ -6300,6 +6300,30 @@
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
+    <File>
+      <GroupNumber>27</GroupNumber>
+      <FileNumber>490</FileNumber>
+      <FileType>1</FileType>
+      <tvExp>0</tvExp>
+      <tvExpOptDlg>0</tvExpOptDlg>
+      <bDave2>0</bDave2>
+      <PathWithFileName>..\User\Middlewares\LVGL\GUI_APP\ui\components\ui_comp.c</PathWithFileName>
+      <FilenameWithoutPath>ui_comp.c</FilenameWithoutPath>
+      <RteFlg>0</RteFlg>
+      <bShared>0</bShared>
+    </File>
+    <File>
+      <GroupNumber>27</GroupNumber>
+      <FileNumber>491</FileNumber>
+      <FileType>1</FileType>
+      <tvExp>0</tvExp>
+      <tvExpOptDlg>0</tvExpOptDlg>
+      <bDave2>0</bDave2>
+      <PathWithFileName>..\User\Middlewares\LVGL\GUI_APP\ui\components\ui_comp_uilabeltime.c</PathWithFileName>
+      <FilenameWithoutPath>ui_comp_uilabeltime.c</FilenameWithoutPath>
+      <RteFlg>0</RteFlg>
+      <bShared>0</bShared>
+    </File>
   </Group>
 
   <Group>
@@ -6310,7 +6334,7 @@
     <RteFlg>0</RteFlg>
     <File>
       <GroupNumber>28</GroupNumber>
-      <FileNumber>490</FileNumber>
+      <FileNumber>492</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>

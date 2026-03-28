@@ -18,6 +18,7 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
+#include "adc.h"
 #include "i2c.h"
 #include "tim.h"
 #include "usart.h"
@@ -43,6 +44,7 @@
 #include "bsp_max30102.h"
 #include "bsp_max30102_algorithm.h"
 #include "bsp_at24cxx.h"
+#include "bsp_mq5.h"
 
 #include "app_main.h"
 #include "app_config.h"
@@ -136,22 +138,28 @@ int main(void)
   MX_I2C3_Init();
   MX_I2C4_Init();
   MX_TIM1_Init();
+  MX_ADC1_Init();
+  MX_TIM2_Init();
   /* USER CODE BEGIN 2 */
 
   HAL_TIM_Base_Start_IT(&htim7);
   HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_3); /* 启动 TIM3 通道 1 的 PWM */
   HAL_UART_Receive_IT(&huart2, &g_rx_byte, 1); /* 启动 UART2 接收中断 */
 
+/* MQ-5 使用的外设 */
+  HAL_TIM_Base_Start(&htim2); /* 启动定时器，用于触发 ADC 采集 */
+  HAL_ADC_Start_IT(&hadc1); /* 启动ADC中断模式，配置了外部触发 */
   
   /* BSP 层模块初始化 */
   BSP_DWT_Init();
 //  BSP_AHT30_Init();
-  BSP_GT911_Init();
-  BSP_LCD_Init();
-  BSP_GT911_BindLCD();
+//  BSP_GT911_Init();
+//  BSP_LCD_Init();
+//  BSP_GT911_BindLCD();
 //  BSP_BH1750_Init();
 //  BSP_ESP8266_Init();
 //  BSP_MAX30102_Init();
+    BSP_MQ5_Init();
 
   /* APP 层模块初始化 */
   APP_Init();
@@ -251,6 +259,16 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
         /* 强制上下文切换 */
         portYIELD_FROM_ISR(xHigherPriorityTaskWoken);
     }
+}
+
+/* ADC 中断回调函数 */
+void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef *hadc)
+{
+  if (hadc->Instance == ADC1)
+  {
+    uint16_t val = HAL_ADC_GetValue(hadc);
+    BSP_MQ5_UpdateRaw(val); // 快速存入结构体
+  }
 }
 
 /* USER CODE END 4 */

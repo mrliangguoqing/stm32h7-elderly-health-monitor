@@ -1281,6 +1281,11 @@
               <FileType>1</FileType>
               <FilePath>..\User\BSP\bsp_mq5.c</FilePath>
             </File>
+            <File>
+              <FileName>bsp_ds1302.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\User\BSP\bsp_ds1302.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -1300,6 +1305,11 @@
               <FileName>app_sensor.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\User\App\app_sensor.c</FilePath>
+            </File>
+            <File>
+              <FileName>app_rtc_alarm.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\User\App\app_rtc_alarm.c</FilePath>
             </File>
             <File>
               <FileName>app_max30102.c</FileName>

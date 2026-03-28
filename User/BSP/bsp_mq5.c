@@ -33,7 +33,6 @@ void BSP_MQ5_UpdateRaw(uint16_t raw)
     mq5_dev.raw_data = raw;
 }
 
-
 /**
  * @brief  更新 MQ-5 的数据
  * @param  None

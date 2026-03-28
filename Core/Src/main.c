@@ -45,6 +45,7 @@
 #include "bsp_max30102_algorithm.h"
 #include "bsp_at24cxx.h"
 #include "bsp_mq5.h"
+#include "bsp_ds1302.h"
 
 #include "app_main.h"
 #include "app_config.h"
@@ -152,14 +153,15 @@ int main(void)
   
   /* BSP 层模块初始化 */
   BSP_DWT_Init();
-//  BSP_AHT30_Init();
+ BSP_AHT30_Init();
 //  BSP_GT911_Init();
 //  BSP_LCD_Init();
 //  BSP_GT911_BindLCD();
-//  BSP_BH1750_Init();
+ BSP_BH1750_Init();
 //  BSP_ESP8266_Init();
 //  BSP_MAX30102_Init();
     BSP_MQ5_Init();
+    BSP_DS1302_Init();
 
   /* APP 层模块初始化 */
   APP_Init();

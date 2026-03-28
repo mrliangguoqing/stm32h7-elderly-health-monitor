@@ -55,8 +55,10 @@ static void Sensor_Task(void *pvParameters)
         /* 处理 MQ-5 可燃气体传感器 */
         if (p_mq5_data != NULL)
         {
-            BSP_MQ5_Process();
-            PAL_LOG(PAL_LOG_LEVEL_DEBUG, "MQ5-Voltage: %.2f V", p_mq5_data->smooth_v);
+            if(BSP_MQ5_UpdateData() == 0)
+            {
+                PAL_LOG(PAL_LOG_LEVEL_DEBUG, "MQ5-Voltage: %.2f V", p_mq5_data->smooth_v);
+            }
         }
 
         vTaskDelay(pdMS_TO_TICKS(100));

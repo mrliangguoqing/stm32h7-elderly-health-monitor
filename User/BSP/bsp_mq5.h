@@ -27,8 +27,8 @@ typedef struct
 
 /* 函数声明 */
 void BSP_MQ5_Init(void);
-void BSP_MQ5_UpdateRaw(uint16_t raw); // 中断调用
-void BSP_MQ5_Process(void);           // 任务调用
+void BSP_MQ5_UpdateRaw(uint16_t raw);
+uint8_t BSP_MQ5_UpdateData(void);
 const mq5_data_t *BSP_MQ5_GetData(void);
 
 #endif

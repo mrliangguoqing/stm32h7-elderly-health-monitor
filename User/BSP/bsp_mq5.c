@@ -33,13 +33,13 @@ void BSP_MQ5_UpdateRaw(uint16_t raw)
     mq5_dev.raw_data = raw;
 }
 
+
 /**
- * @brief  MQ-5 数据处理与滤波计算
- * @note   在 FreeRTOS 的低优先级任务中周期性调用（如每 50ms-100ms）
+ * @brief  更新 MQ-5 的数据
  * @param  None
- * @retval None
+ * @retval 0-成功, 其他-失败
  */
-void BSP_MQ5_Process(void)
+uint8_t BSP_MQ5_UpdateData(void)
 {
     /* 更新滤波缓冲区：将最新的原始值存入环形队列 */
     mq5_dev.filter_buf[mq5_dev.buf_index] = mq5_dev.raw_data;
@@ -63,6 +63,8 @@ void BSP_MQ5_Process(void)
        log(ppm) = k * log(Rs/R0) + b
        mq5_dev.ppm = ... 
     */
+
+    return 0;
 }
 
 /**

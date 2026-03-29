@@ -46,6 +46,7 @@
 #include "bsp_at24cxx.h"
 #include "bsp_mq5.h"
 #include "bsp_ds1302.h"
+#include "bsp_a7670c.h"
 
 #include "app_main.h"
 #include "app_config.h"
@@ -141,6 +142,7 @@ int main(void)
   MX_TIM1_Init();
   MX_ADC1_Init();
   MX_TIM2_Init();
+  MX_USART3_UART_Init();
   /* USER CODE BEGIN 2 */
 
   HAL_TIM_Base_Start_IT(&htim7);
@@ -152,16 +154,19 @@ int main(void)
   HAL_ADC_Start_IT(&hadc1);   /* 启动ADC中断模式，配置了外部触发 */
 
   /* BSP 层模块初始化 */
-  BSP_DWT_Init();     /* 用 DWT 实现的阻塞延时，需优先进行初始化 */
-  BSP_ESP8266_Init(); /* 联网后获取天气、时间数据，其中有阻塞延时等待 */
+  BSP_DWT_Init(); /* 用 DWT 实现的阻塞延时，需优先进行初始化 */
+  // BSP_ESP8266_Init(); /* 联网后获取天气、时间数据，其中有阻塞延时等待 */
 
-  BSP_AHT30_Init();
   //  BSP_GT911_Init();
   //  BSP_LCD_Init();
   //  BSP_GT911_BindLCD();
-  BSP_BH1750_Init();
-  BSP_MAX30102_Init();
-  BSP_MQ5_Init();
+
+  // BSP_MAX30102_Init();
+
+  // BSP_AHT30_Init();
+  // BSP_BH1750_Init();
+  // BSP_MQ5_Init();
+
   BSP_DS1302_Init();
 
   /* APP 层模块初始化 */

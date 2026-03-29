@@ -93,18 +93,26 @@ void MAX30102_Calculate_Task(void *pvParameters)
         {
             /* 手指按下，执行计算逻辑 */
 
-            /* 执行算法 */
+            /* 执行原始算法 */
             maxim_heart_rate_and_oxygen_saturation(
                 max30102_handle.buffer.ir_buffer, MAX30102_BUFFER_LEN,
                 max30102_handle.buffer.red_buffer,
                 &max30102_handle.data.spo2, &max30102_handle.data.spo2_valid,
                 &max30102_handle.data.heart_rate, &max30102_handle.data.heart_rate_valid);
 
+            /* 执行平滑滤波算法 */
+            max30102_handle.data.stable_heart_rate = Algo_SmoothHeartRate(max30102_handle.data.heart_rate,
+                                                                          max30102_handle.data.heart_rate_valid);
+
             /* 输出结果 */
             if (max30102_handle.data.heart_rate_valid || max30102_handle.data.spo2_valid)
             {
-                PAL_LOG(PAL_LOG_LEVEL_DEBUG, "HR: %d bpm | SpO2: %d%%",
-                        max30102_handle.data.heart_rate, max30102_handle.data.spo2);
+                PAL_LOG(PAL_LOG_LEVEL_DEBUG, "HR_S: %3d | HR_R: %3d | SpO2: %2d%% | [Stat] HR_V:%d SpO2_V:%d",
+                        max30102_handle.data.stable_heart_rate,
+                        max30102_handle.data.heart_rate,
+                        max30102_handle.data.spo2,
+                        max30102_handle.data.heart_rate_valid,
+                        max30102_handle.data.spo2_valid);
             }
             else
             {

@@ -61,6 +61,7 @@ typedef struct
 
 /* 函数声明 */
 void BSP_MAX30102_Reset(void);
+void BSP_MAX30102_ClearInterrupt(void);
 uint8_t BSP_MAX30102_Init(void);
 void BSP_MAX30102_ReadFifo(uint32_t *red_led, uint32_t *ir_led);
 

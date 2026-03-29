@@ -45,6 +45,21 @@ void BSP_MAX30102_Reset(void)
 }
 
 /**
+ * @brief  清除 MAX30102 的所有中断标志位
+ * @note   读取状态寄存器 1 和 2 会自动将对应的硬件中断位清零
+ *         并将 INT 引脚释放回高电平（空闲状态）
+ * @param  None
+ * @retval None
+ */
+void BSP_MAX30102_ClearInterrupt(void)
+{
+    uint8_t dummy_reg[2];
+
+    MAX30102_ReadData(MAX30102_INTR_STATUS_1_REG_ADDR, &dummy_reg[0], 1);
+    MAX30102_ReadData(MAX30102_INTR_STATUS_2_REG_ADDR, &dummy_reg[1], 1);
+}
+
+/**
  * @brief  MAX30102 传感器初始化
  * @param  None
  * @retval 0-成功, 其他-失败
@@ -76,6 +91,8 @@ uint8_t BSP_MAX30102_Init(void)
     MAX30102_WriteData(MAX30102_LED2_PA_REG_ADDR, 0x24);  /* IR LED */
     MAX30102_WriteData(MAX30102_PILOT_PA_REG_ADDR, 0x7F); /* 邻近检测电流 */
 
+    BSP_MAX30102_ClearInterrupt(); /* 清除所有中断标志位 */
+
     return 0;
 }
 
@@ -89,11 +106,8 @@ uint8_t BSP_MAX30102_Init(void)
 void BSP_MAX30102_ReadFifo(uint32_t *red_led, uint32_t *ir_led)
 {
     uint8_t data[6];
-    uint8_t temp;
 
-    /* 读取并清除中断状态 */
-    MAX30102_ReadData(MAX30102_INTR_STATUS_1_REG_ADDR, &temp, 1);
-    MAX30102_ReadData(MAX30102_INTR_STATUS_2_REG_ADDR, &temp, 1);
+    BSP_MAX30102_ClearInterrupt(); /* 清除所有中断标志位 */
 
     /* 连续读取 6 个字节 */
     if (MAX30102_ReadData(MAX30102_FIFO_DATA_REG_ADDR, data, 6) == 0)

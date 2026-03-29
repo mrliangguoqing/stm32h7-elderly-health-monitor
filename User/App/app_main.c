@@ -24,10 +24,10 @@
 void APP_Init(void)
 {
     /* 调用各 APP 模块的初始化接口 */
-//    App_Lvgl_Init();
-//    App_Max30102_Init();
-    App_Sensor_Init();
-    App_RTC_Alarm_Init();
+    //    App_Lvgl_Init();
+    App_Max30102_Init();
+    // App_Sensor_Init();
+    // App_RTC_Alarm_Init();
 
 #if (APP_SYSTEM_MONITOR_ENABLE == 1)
     App_System_Monitor_Init();

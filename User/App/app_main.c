@@ -11,6 +11,7 @@
 #include "app_sensor.h"
 #include "app_rtc_alarm.h"
 #include "app_max30102.h"
+#include "app_sync_netdata.h"
 #include "app_system_monitor.h"
 
 #include "FreeRTOS.h"
@@ -27,6 +28,7 @@ void APP_Init(void)
     //    App_Lvgl_Init();
     App_Max30102_Init();
     App_Sensor_Init();
+    App_Sync_Netdata_Init();
     App_RTC_Alarm_Init();
 
 #if (APP_SYSTEM_MONITOR_ENABLE == 1)

@@ -132,4 +132,7 @@ void BSP_ESP8266_Weather_Print(const WeatherInfo *info);
 uint8_t BSP_ESP8266_SyncTime(NetTime_t *time);
 void BSP_ESP8266_Time_Print(const NetTime_t *time);
 
+extern WeatherInfo g_weather_info; /* 解析后的最终天气数据 */
+extern NetTime_t g_net_time;       /* 解析后的时间数据 */
+
 #endif

@@ -37,7 +37,6 @@ void BSP_DS1302_Init(void)
 	HAL_GPIO_WritePin(DS1302_RST_GPIO_Port, DS1302_RST_Pin, GPIO_PIN_RESET);
 	HAL_GPIO_WritePin(DS1302_SCLK_GPIO_Port, DS1302_SCLK_Pin, GPIO_PIN_RESET);
 
-	BSP_DS1302_WriteReg(DS1302_WP_ADDR, 0x00); /* 关闭写保护 */
 	BSP_DS1302_SetTime(&ds1302_dev);		   /* 设置日期和时间 */
 }
 

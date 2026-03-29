@@ -1317,6 +1317,11 @@
               <FilePath>..\User\App\app_max30102.c</FilePath>
             </File>
             <File>
+              <FileName>app_sync_netdata.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\User\App\app_sync_netdata.c</FilePath>
+            </File>
+            <File>
               <FileName>app_system_monitor.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\User\App\app_system_monitor.c</FilePath>

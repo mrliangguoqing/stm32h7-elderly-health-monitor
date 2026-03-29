@@ -44,10 +44,11 @@ typedef struct
  */
 typedef struct
 {
-    int32_t heart_rate;      /* 计算出的心率值 (BPM) */
-    int8_t heart_rate_valid; /* 心率有效性标志 (1:有效, 0:无效) */
-    int32_t spo2;            /* 计算出的血氧饱和度值 (%) */
-    int8_t spo2_valid;       /* 血氧有效性标志 (1:有效, 0:无效) */
+    int32_t heart_rate;        /* 原始算法输出的心率值 (BPM)（用于调试） */
+    int32_t stable_heart_rate; /* 平滑算法输出的心率值 (BPM)（用于显示） */
+    int8_t heart_rate_valid;   /* 心率有效性标志 (1:有效, 0:无效) */
+    int32_t spo2;              /* 计算出的血氧饱和度值 (%) */
+    int8_t spo2_valid;         /* 血氧有效性标志 (1:有效, 0:无效) */
 } max30102_data_t;
 
 /**
@@ -61,6 +62,7 @@ typedef struct
 
 /* 函数声明 */
 void BSP_MAX30102_Reset(void);
+void BSP_MAX30102_ClearInterrupt(void);
 uint8_t BSP_MAX30102_Init(void);
 void BSP_MAX30102_ReadFifo(uint32_t *red_led, uint32_t *ir_led);
 

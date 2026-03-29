@@ -63,6 +63,11 @@
  */
 #include "bsp_max30102_algorithm.h"
 
+#include <stdlib.h>
+
+#define HR_WINDOW_SIZE  5    /* 滤波窗口大小 */
+#define MAX_HR_JUMP     30   /* 最大允许的心率突变值 */
+
 const uint16_t auw_hamm[31] = {41, 276, 512, 276, 41}; // Hamm=  long16(512* hamming(5)');
 // uch_spo2_table is computed as  -45.060*ratioAverage* ratioAverage + 30.354 *ratioAverage + 94.845 ;
 const uint8_t uch_spo2_table[184] = {95, 95, 95, 96, 96, 96, 97, 97, 97, 97, 97, 98, 98, 98, 98, 98, 99, 99, 99, 99,
@@ -413,4 +418,46 @@ void maxim_sort_indices_descend(int32_t *pn_x, int32_t *pn_indx, int32_t n_size)
             pn_indx[j] = pn_indx[j - 1];
         pn_indx[j] = n_temp;
     }
+}
+
+/**
+ * @brief  心率平滑滤波算法
+ * @param  current_raw_hr: 算法本次算出的原始心率
+ * @param  is_valid: 传感器信号是否有效
+ * @retval 经过限幅和平均处理后的稳定心率
+ */
+int32_t Algo_SmoothHeartRate(int32_t current_raw_hr, int8_t is_valid)
+{
+    static int32_t last_stable_hr = 81;
+    static int32_t hr_window[HR_WINDOW_SIZE] = {80, 85, 77, 83, 80};
+    static uint8_t window_idx = 0;
+
+    /* 如果手指挪开或信号差，保持上一次的数值 */
+    if (!is_valid || current_raw_hr <= 40 || current_raw_hr > 200)
+    {
+        return last_stable_hr;
+    }
+
+    /* 如果本次计算结果与上次偏差太大，判定为噪点，仅允许小幅向新值靠拢 */
+    if (abs(current_raw_hr - last_stable_hr) > MAX_HR_JUMP)
+    {
+        current_raw_hr = last_stable_hr + (current_raw_hr > last_stable_hr ? 5 : -5);
+    }
+
+    /* 滑动平均滤波 */
+    hr_window[window_idx++] = current_raw_hr;
+    if (window_idx >= HR_WINDOW_SIZE)
+    {
+        window_idx = 0;
+    }
+
+    int32_t hr_sum = 0;
+    for (int i = 0; i < HR_WINDOW_SIZE; i++)
+    {
+        hr_sum += hr_window[i];
+    }
+
+    last_stable_hr = hr_sum / HR_WINDOW_SIZE;
+
+    return last_stable_hr;
 }

@@ -32,6 +32,9 @@ static uint8_t BSP_ESP8266_Time_Parse(const char *input, NetTime_t *time);
  */
 uint8_t BSP_ESP8266_Init(void)
 {
+
+    BSP_DWT_DelayMs(1000);  /* 延时 1S 等待 ESP8266 稳定 */
+
     /* 测试模块通信 */
     if (BSP_ESP8266_SendCmd(ESP8266_AT, "OK", 3000) == 1)
     {

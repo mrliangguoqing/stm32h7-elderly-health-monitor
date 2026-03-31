@@ -13,6 +13,7 @@
 #include "app_max30102.h"
 #include "app_alarm_notify.h"
 #include "app_sync_netdata.h"
+#include "app_voice_service.h"
 #include "app_system_monitor.h"
 
 #include "FreeRTOS.h"
@@ -25,18 +26,21 @@
  */
 void APP_Init(void)
 {
-    /* 调用各 APP 模块的初始化接口 */
-    //    App_Lvgl_Init();
-    // App_Max30102_Init();
-    // App_Sensor_Init();
-    // App_Sync_Netdata_Init();
-    App_RTC_Alarm_Init();
-
-    App_Alarm_Notify_Init(); /* 报警通知任务 */
 
 #if (APP_SYSTEM_MONITOR_ENABLE == 1)
     App_System_Monitor_Init();
 #endif
+
+    /* 调用各 APP 模块的初始化接口 */
+    // App_Sync_Netdata_Init(); /* 同步网络数据任务 */
+    App_RTC_Alarm_Init(); /* 实时时钟、闹钟任务 */
+    App_Sensor_Init();    /* 传感器采集任务 */
+    App_Alarm_Notify_Init(); /* 报警通知任务 */
+    App_Lvgl_Init();     /* LVGL 任务 */
+
+    App_Voice_Service_Init();
+
+    // App_Max30102_Init(); /* MAX30102 采集、算法任务 */
 
     /* 启动调度器 */
     vTaskStartScheduler();

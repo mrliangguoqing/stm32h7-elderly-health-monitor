@@ -84,6 +84,6 @@ void App_Alarm_Notify_Init(void)
                 "Alarm_Notify_Task",
                 256,
                 NULL,
-                6,
+                12,
                 &xAlarmNotifyTaskHandle);
 }

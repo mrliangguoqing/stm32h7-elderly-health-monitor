@@ -88,7 +88,7 @@
  *====================*/
 
 /** Default display refresh, input device read and animation step period. */
-#define LV_DEF_REFR_PERIOD  16      /**< [ms] */
+#define LV_DEF_REFR_PERIOD  33      /**< [ms] */    /* 60fps ≈ 16ms*/   /* 30fps ≈ 33ms*/
 
 /** Default Dots Per Inch. Used to initialize default sizes such as widgets sized, style paddings.
  * (Not so important, you can adjust it to modify default sizes and spaces.) */

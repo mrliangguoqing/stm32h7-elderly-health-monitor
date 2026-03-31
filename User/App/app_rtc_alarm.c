@@ -49,10 +49,13 @@ static void RTC_Alarm_Task(void *pvParameters)
  */
 void App_RTC_Alarm_Init(void)
 {
+    /* BSP 层模块初始化 */
+    BSP_DS1302_Init();
+
     xTaskCreate(RTC_Alarm_Task,
                 "RTC_Alarm_Task",
                 256,
                 NULL,
-                1,
+                4,
                 &xRtcAlarmTaskHandle);
 }

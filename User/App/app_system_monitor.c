@@ -45,7 +45,7 @@ static void System_Monitor_Task(void *pvParameters)
         vTaskGetRunTimeStats((char *)&pcWriteBuffer);
         printf("%s\r\n", pcWriteBuffer);
 
-        vTaskDelay(pdMS_TO_TICKS(1000));
+        vTaskDelay(pdMS_TO_TICKS(2000));
     }
 }
 
@@ -60,7 +60,7 @@ void App_System_Monitor_Init(void)
                 "System_Monitor_Task",
                 256,
                 NULL,
-                2,
+                1,
                 &xSystemMonitorTaskHandle);
 }
 

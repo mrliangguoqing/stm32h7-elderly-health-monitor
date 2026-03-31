@@ -1291,6 +1291,11 @@
               <FileType>1</FileType>
               <FilePath>..\User\BSP\bsp_a7670c.c</FilePath>
             </File>
+            <File>
+              <FileName>bsp_uart_comm.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\User\BSP\bsp_uart_comm.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -1330,6 +1335,11 @@
               <FileName>app_sync_netdata.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\User\App\app_sync_netdata.c</FilePath>
+            </File>
+            <File>
+              <FileName>app_voice_service.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\User\App\app_voice_service.c</FilePath>
             </File>
             <File>
               <FileName>app_system_monitor.c</FileName>

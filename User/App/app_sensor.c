@@ -55,13 +55,13 @@ static void Sensor_Task(void *pvParameters)
         /* 处理 MQ-5 可燃气体传感器 */
         if (p_mq5_data != NULL)
         {
-            if(BSP_MQ5_UpdateData() == 0)
+            if (BSP_MQ5_UpdateData() == 0)
             {
                 PAL_LOG(PAL_LOG_LEVEL_DEBUG, "MQ5-Voltage: %.2f V", p_mq5_data->smooth_v);
             }
         }
 
-        vTaskDelay(pdMS_TO_TICKS(100));
+        vTaskDelay(pdMS_TO_TICKS(500));
     }
 }
 
@@ -72,10 +72,16 @@ static void Sensor_Task(void *pvParameters)
  */
 void App_Sensor_Init(void)
 {
+
+    /* BSP 层模块初始化 */
+    BSP_AHT30_Init();
+    BSP_BH1750_Init();
+    BSP_MQ5_Init();
+
     xTaskCreate(Sensor_Task,
                 "Sensor_Task",
                 256,
                 NULL,
-                1,
+                5,
                 &xSensorTaskHandle);
 }

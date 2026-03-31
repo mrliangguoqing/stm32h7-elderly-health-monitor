@@ -7,6 +7,7 @@
 #include "cJSON.h"
 
 #include <string.h>
+#include <stdlib.h>
 
 char weather_json_buf[WEATHER_JSON_BUFFER_SIZE]; /* 提取出的完整的天气 JSON 字符串 */
 WeatherInfo g_weather_info = {0};                /* 解析后的最终天气数据 */
@@ -33,7 +34,7 @@ static uint8_t BSP_ESP8266_Time_Parse(const char *input, NetTime_t *time);
 uint8_t BSP_ESP8266_Init(void)
 {
 
-    BSP_DWT_DelayMs(1000);  /* 延时 1S 等待 ESP8266 稳定 */
+    BSP_DWT_DelayMs(1000); /* 延时 1S 等待 ESP8266 稳定 */
 
     /* 测试模块通信 */
     if (BSP_ESP8266_SendCmd(ESP8266_AT, "OK", 3000) == 1)
@@ -331,6 +332,42 @@ static uint8_t BSP_ESP8266_WeatherRead(RingBuffer_t *rb, char *pDest, uint16_t m
 }
 
 /**
+ * @brief  从 cJSON 对象中获取指定字段并转换为整型
+ * @param  obj: 指向待解析的 cJSON 对象节点
+ * @param  key: 字段键名 (Key)
+ * @retval 字段对应的整数值 (若字段不存在或非字符串类型则返回 0)
+ * @note   该函数专门处理 JSON 中以字符串形式存储的数字 (使用 atoi 转换)
+ */
+static int cJSON_GetFieldAsInt(cJSON *obj, const char *key)
+{
+    cJSON *item = cJSON_GetObjectItemCaseSensitive(obj, key);
+    if (cJSON_IsString(item) && item->valuestring)
+    {
+        return atoi(item->valuestring);
+    }
+
+    return 0;
+}
+
+/**
+ * @brief  从 cJSON 对象中获取指定字段并转换为浮点型
+ * @param  obj: 指向待解析的 cJSON 对象节点
+ * @param  key: 字段键名 (Key)
+ * @retval 转换后的 float 型数值 (若字段不存在或非字符串类型则返回 0.0f)
+ * @note   该函数封装了字符串转浮点数逻辑，主要用于处理 JSON 中以字符串格式存储的数值
+ */
+static float cJSON_GetFieldAsFloat(cJSON *obj, const char *key)
+{
+    cJSON *item = cJSON_GetObjectItemCaseSensitive(obj, key);
+    if (cJSON_IsString(item) && item->valuestring)
+    {
+        return (float)atof(item->valuestring);
+    }
+
+    return 0.0f;
+}
+
+/**
  * @brief  解析完整的天气 JSON 报文
  * @param  json_str: 原始 JSON 字符串
  * @param  info: 指向存储解析结果的 WeatherInfo 结构体
@@ -343,102 +380,83 @@ static uint8_t BSP_ESP8266_WeatherParse(const char *json_str, WeatherInfo *info)
         return 1;
     }
 
-    /* 解析 JSON 字符串 */
     cJSON *root = cJSON_Parse(json_str);
     if (!root)
     {
-        PAL_LOG(PAL_LOG_LEVEL_ERROR, "JSON 解析失败 : %s\n", cJSON_GetErrorPtr());
+        PAL_LOG(PAL_LOG_LEVEL_ERROR, "JSON 解析失败");
         return 1;
     }
 
-    /* 获取 results 数组 */
     cJSON *results = cJSON_GetObjectItemCaseSensitive(root, "results");
-    if (!cJSON_IsArray(results) || cJSON_GetArraySize(results) == 0)
-    {
-        cJSON_Delete(root);
-        return 2;
-    }
-
-    /* 获取第一个结果对象 (results[0]) */
     cJSON *first_result = cJSON_GetArrayItem(results, 0);
-    if (!cJSON_IsObject(first_result))
+    if (!first_result)
     {
         cJSON_Delete(root);
         return 2;
     }
 
-    /* --- 定义通用的字符串字段安全拷贝宏 --- */
-    /* 使用 sizeof(dst)-1 确保留出结束符空间，并手动补 \0 */
-#define SAFE_COPY_FIELD(obj, key, dst)                           \
+    /* 宏 用于拷贝字符串字段 */
+#define COPY_STR(obj, key, dst)                                  \
     do                                                           \
     {                                                            \
         cJSON *tmp = cJSON_GetObjectItemCaseSensitive(obj, key); \
-        if (cJSON_IsString(tmp) && (tmp->valuestring != NULL))   \
+        if (cJSON_IsString(tmp) && tmp->valuestring)             \
         {                                                        \
             strncpy(dst, tmp->valuestring, sizeof(dst) - 1);     \
             dst[sizeof(dst) - 1] = '\0';                         \
         }                                                        \
     } while (0)
 
-    /* ---------------- 解析城市信息 location ---------------- */
-    cJSON *location = cJSON_GetObjectItemCaseSensitive(first_result, "location");
-    if (cJSON_IsObject(location))
+    /* 解析城市信息 */
+    cJSON *loc = cJSON_GetObjectItemCaseSensitive(first_result, "location");
+    COPY_STR(loc, "id", info->id);
+    COPY_STR(loc, "name", info->name);
+    COPY_STR(loc, "country", info->country);
+    COPY_STR(loc, "path", info->path);
+    COPY_STR(loc, "timezone", info->timezone);
+    COPY_STR(loc, "timezone_offset", info->timezone_offset);
+
+    /* 解析每日天气 */
+    cJSON *daily_arr = cJSON_GetObjectItemCaseSensitive(first_result, "daily");
+    info->daily_count = 0;
+
+    int count = cJSON_GetArraySize(daily_arr);
+    if (count > WEATHER_MAX_DAYS)
     {
-        SAFE_COPY_FIELD(location, "id", info->id);
-        SAFE_COPY_FIELD(location, "name", info->name);
-        SAFE_COPY_FIELD(location, "country", info->country);
-        SAFE_COPY_FIELD(location, "path", info->path);
-        SAFE_COPY_FIELD(location, "timezone", info->timezone);
-        SAFE_COPY_FIELD(location, "timezone_offset", info->timezone_offset);
+        count = WEATHER_MAX_DAYS; /* 限制解析天数，防止 WeatherInfo 结构体中的 daily 数组溢出 */
     }
 
-    /* ---------------- 解析 daily 数组 ---------------- */
-    cJSON *daily_array = cJSON_GetObjectItemCaseSensitive(first_result, "daily");
-    info->daily_count = 0; /* 初始化计数器 */
-
-    if (cJSON_IsArray(daily_array))
+    for (int i = 0; i < count; i++)
     {
-        int count = cJSON_GetArraySize(daily_array);
-        /* 限制解析天数，防止 WeatherInfo 结构体中的 daily 数组溢出 */
-        if (count > WEATHER_MAX_DAYS)
-        {
-            count = WEATHER_MAX_DAYS;
-        }
+        cJSON *item = cJSON_GetArrayItem(daily_arr, i);
+        WeatherDay *d = &info->daily[i];
 
-        for (int i = 0; i < count; i++)
-        {
-            cJSON *day_item = cJSON_GetArrayItem(daily_array, i);
-            if (!cJSON_IsObject(day_item))
-            {
-                continue;
-            }
+        /* 字符串类 */
+        COPY_STR(item, "date", d->date);
+        COPY_STR(item, "text_day", d->text_day);
+        COPY_STR(item, "text_night", d->text_night);
+        COPY_STR(item, "wind_direction", d->wind_direction);
 
-            WeatherDay *d = &info->daily[i];
-            memset(d, 0, sizeof(WeatherDay)); /* 写入前清空当前天的数据 */
+        /* 数值类 调用转换函数 */
+        d->code_day = cJSON_GetFieldAsInt(item, "code_day");
+        d->code_night = cJSON_GetFieldAsInt(item, "code_night");
+        d->high = cJSON_GetFieldAsInt(item, "high");
+        d->low = cJSON_GetFieldAsInt(item, "low");
+        d->humidity = cJSON_GetFieldAsInt(item, "humidity");
+        d->wind_scale = cJSON_GetFieldAsInt(item, "wind_scale");
+        d->wind_direction_degree = cJSON_GetFieldAsInt(item, "wind_direction_degree");
 
-            SAFE_COPY_FIELD(day_item, "date", d->date);
-            SAFE_COPY_FIELD(day_item, "text_day", d->text_day);
-            SAFE_COPY_FIELD(day_item, "text_night", d->text_night);
-            SAFE_COPY_FIELD(day_item, "code_day", d->code_day);
-            SAFE_COPY_FIELD(day_item, "code_night", d->code_night);
-            SAFE_COPY_FIELD(day_item, "high", d->high);
-            SAFE_COPY_FIELD(day_item, "low", d->low);
-            SAFE_COPY_FIELD(day_item, "rainfall", d->rainfall);
-            SAFE_COPY_FIELD(day_item, "precip", d->precip);
-            SAFE_COPY_FIELD(day_item, "wind_direction", d->wind_direction);
-            SAFE_COPY_FIELD(day_item, "wind_direction_degree", d->wind_direction_degree);
-            SAFE_COPY_FIELD(day_item, "wind_speed", d->wind_speed);
-            SAFE_COPY_FIELD(day_item, "wind_scale", d->wind_scale);
-            SAFE_COPY_FIELD(day_item, "humidity", d->humidity);
+        d->rainfall = cJSON_GetFieldAsFloat(item, "rainfall");
+        d->precip = cJSON_GetFieldAsFloat(item, "precip");
+        d->wind_speed = cJSON_GetFieldAsFloat(item, "wind_speed");
 
-            info->daily_count++;
-        }
+        info->daily_count++;
     }
 
-    /* ---------------- 解析最后更新时间 last_update ---------------- */
-    SAFE_COPY_FIELD(first_result, "last_update", info->last_update);
+    /* 解析最后更新时间 */
+    COPY_STR(first_result, "last_update", info->last_update);
 
-#undef SAFE_COPY_FIELD /* 及时取消宏定义，防止污染其他函数 */
+#undef COPY_STR
 
     /* 释放 cJSON 占用的堆内存 */
     cJSON_Delete(root);
@@ -447,7 +465,7 @@ static uint8_t BSP_ESP8266_WeatherParse(const char *json_str, WeatherInfo *info)
 }
 
 /**
- * @brief  通过串口打印解析后的天气信息 JSON 对象
+ * @brief  通过串口打印解析后的数值化天气信息
  * @param  info 存储解析结果的 WeatherInfo 结构体
  * @retval None
  */
@@ -474,16 +492,16 @@ void BSP_ESP8266_Weather_Print(const WeatherInfo *info)
         const WeatherDay *d = &info->daily[i];
         PAL_LOG(PAL_LOG_LEVEL_INFO, "---- 第 %d 天 ----", i + 1);
         PAL_LOG(PAL_LOG_LEVEL_INFO, "日期：%s", d->date);
-        PAL_LOG(PAL_LOG_LEVEL_INFO, "白天天气：%s (代码：%s)", d->text_day, d->code_day);
-        PAL_LOG(PAL_LOG_LEVEL_INFO, "夜间天气：%s (代码：%s)", d->text_night, d->code_night);
-        PAL_LOG(PAL_LOG_LEVEL_INFO, "最高温度：%s ℃", d->high);
-        PAL_LOG(PAL_LOG_LEVEL_INFO, "最低温度：%s ℃", d->low);
-        PAL_LOG(PAL_LOG_LEVEL_INFO, "降雨量：%s mm", d->rainfall);
-        PAL_LOG(PAL_LOG_LEVEL_INFO, "降水概率：%s %%", d->precip);
-        PAL_LOG(PAL_LOG_LEVEL_INFO, "风向：%s (角度：%s)", d->wind_direction, d->wind_direction_degree);
-        PAL_LOG(PAL_LOG_LEVEL_INFO, "风速：%s m/s", d->wind_speed);
-        PAL_LOG(PAL_LOG_LEVEL_INFO, "风力等级：%s", d->wind_scale);
-        PAL_LOG(PAL_LOG_LEVEL_INFO, "湿度：%s %%", d->humidity);
+        PAL_LOG(PAL_LOG_LEVEL_INFO, "白天天气：%s (代码：%d)", d->text_day, d->code_day);
+        PAL_LOG(PAL_LOG_LEVEL_INFO, "夜间天气：%s (代码：%d)", d->text_night, d->code_night);
+        PAL_LOG(PAL_LOG_LEVEL_INFO, "最高温度：%d ℃", d->high);
+        PAL_LOG(PAL_LOG_LEVEL_INFO, "最低温度：%d ℃", d->low);
+        PAL_LOG(PAL_LOG_LEVEL_INFO, "降雨量：%.2f mm", d->rainfall);
+        PAL_LOG(PAL_LOG_LEVEL_INFO, "降水概率：%.2f %%", d->precip);
+        PAL_LOG(PAL_LOG_LEVEL_INFO, "风向：%s (角度：%d)", d->wind_direction, d->wind_direction_degree);
+        PAL_LOG(PAL_LOG_LEVEL_INFO, "风速：%.2f m/s", d->wind_speed);
+        PAL_LOG(PAL_LOG_LEVEL_INFO, "风力等级：%d", d->wind_scale);
+        PAL_LOG(PAL_LOG_LEVEL_INFO, "湿度：%d %%", d->humidity);
     }
 }
 

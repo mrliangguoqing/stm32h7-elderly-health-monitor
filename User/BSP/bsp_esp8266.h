@@ -18,7 +18,7 @@
 
 /* ---------------- 心知天气 API 配置 ---------------- */
 #define SENIVERSE_API_PRIVATE_KEY "SCPHbIqbzgs8Nlqdr" /* 心知天气的用户私钥 */
-#define SENIVERSE_LOCATION "Nanjing"                  /* 查询天气的城市地点 */
+#define SENIVERSE_LOCATION "Qingdao"                  /* 查询天气的城市地点 Nanjing */
 
 /* ---------------- 常用基础 AT 指令 ---------------- */
 #define ESP8266_AT "AT\r\n"         /* 握手指令：检查模块是否正常响应 */
@@ -77,20 +77,20 @@
  */
 typedef struct
 {
-    char date[16];                 /* 日期 */
-    char text_day[32];             /* 白天天气描述 */
-    char text_night[32];           /* 夜间天气描述 */
-    char code_day[8];              /* 白天天气代码 */
-    char code_night[8];            /* 夜间天气代码 */
-    char high[8];                  /* 最高温度 */
-    char low[8];                   /* 最低温度 */
-    char rainfall[16];             /* 降雨量 */
-    char precip[16];               /* 降水概率 */
-    char wind_direction[8];        /* 风向 */
-    char wind_direction_degree[8]; /* 风向角度 */
-    char wind_speed[16];           /* 风速 */
-    char wind_scale[8];            /* 风力等级 */
-    char humidity[8];              /* 湿度 */
+    char date[16];             /* 日期 */
+    char text_day[32];         /* 白天天气描述 */
+    char text_night[32];       /* 夜间天气描述 */
+    int code_day;              /* 白天天气代码 */
+    int code_night;            /* 夜间天气代码 */
+    int high;                  /* 最高温度 */
+    int low;                   /* 最低温度 */
+    float rainfall;            /* 降雨量 */
+    float precip;              /* 降水概率 */
+    char wind_direction[8];    /* 风向 */
+    int wind_direction_degree; /* 风向角度 */
+    float wind_speed;          /* 风速 */
+    int wind_scale;            /* 风力等级 */
+    int humidity;              /* 湿度 */
 } WeatherDay;
 
 /**

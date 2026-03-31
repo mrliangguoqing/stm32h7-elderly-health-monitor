@@ -158,6 +158,8 @@ int main(void)
   /* BSP 层模块初始化 */
   BSP_DWT_Init(); /* 用 DWT 实现的阻塞延时，需优先进行初始化 */
 
+  BSP_ESP8266_Init();
+
   BSP_UART_Init();
 
   /* APP 层模块初始化 */

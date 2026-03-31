@@ -34,8 +34,8 @@ void APP_Init(void)
     /* 调用各 APP 模块的初始化接口 */
     // App_Sync_Netdata_Init(); /* 同步网络数据任务 */
     App_RTC_Alarm_Init(); /* 实时时钟、闹钟任务 */
-    // App_Sensor_Init();    /* 传感器采集任务 */
-    // // App_Alarm_Notify_Init(); /* 报警通知任务 */
+    App_Sensor_Init();    /* 传感器采集任务 */
+    App_Alarm_Notify_Init(); /* 报警通知任务 */
     App_Lvgl_Init();     /* LVGL 任务 */
 
     App_Voice_Service_Init();

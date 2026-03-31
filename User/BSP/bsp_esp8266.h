@@ -18,7 +18,7 @@
 
 /* ---------------- 心知天气 API 配置 ---------------- */
 #define SENIVERSE_API_PRIVATE_KEY "SCPHbIqbzgs8Nlqdr" /* 心知天气的用户私钥 */
-#define SENIVERSE_LOCATION "Nanjing"                  /* 查询天气的城市地点 */
+#define SENIVERSE_LOCATION "Qingdao"                  /* 查询天气的城市地点 Nanjing */
 
 /* ---------------- 常用基础 AT 指令 ---------------- */
 #define ESP8266_AT "AT\r\n"         /* 握手指令：检查模块是否正常响应 */

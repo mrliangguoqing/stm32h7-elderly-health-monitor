@@ -40,6 +40,7 @@ static void Voice_Service_Task(void *pvParameters)
 {
     const aht30_data_t *p_aht30_data = BSP_AHT30_GetData();
     ds1302_data_t *p_ds1302_data = BSP_DS1302_GetData();
+    const WeatherDay *daily_0 = &g_weather_info.daily[0];
 
     uint8_t tx_buffer[16] = {0};
     uint8_t integer_val = 0, decimal_val = 0;
@@ -63,16 +64,16 @@ static void Voice_Service_Task(void *pvParameters)
                     }
                     break;
                 case 0x02: /* 天气预报 */
-                    // tx_buffer[0] = 0xAA;
-                    // tx_buffer[1] = 0x02;
-                    // tx_buffer[2] = 0x01;
-                    // tx_buffer[3] = ;
-                    // tx_buffer[4] = ;
-                    // tx_buffer[5] = ;
-                    // tx_buffer[6] = ;
-                    // tx_buffer[7] = 0x55;
-                    // HAL_UART_Transmit(&huart1, tx_buffer, 8, 100);
-                    // HAL_UART_Transmit(voice_conn.huart, tx_buffer, 8, 100);
+                    tx_buffer[0] = 0xAA;
+                    tx_buffer[1] = 0x02;
+                    tx_buffer[2] = 0x01;
+                    tx_buffer[3] = daily_0->code_day;
+                    tx_buffer[4] = daily_0->high;
+                    tx_buffer[5] = daily_0->low;
+                    tx_buffer[6] = daily_0->precip;
+                    tx_buffer[7] = 0x55;
+                    HAL_UART_Transmit(&huart1, tx_buffer, 8, 100);
+                    HAL_UART_Transmit(voice_conn.huart, tx_buffer, 8, 100);
 
                     break;
 

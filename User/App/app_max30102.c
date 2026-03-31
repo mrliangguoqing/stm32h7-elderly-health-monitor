@@ -138,6 +138,8 @@ void MAX30102_Calculate_Task(void *pvParameters)
  */
 void App_Max30102_Init(void)
 {
+    /* BSP 层模块初始化 */
+    BSP_MAX30102_Init();
 
     /* 创建信号量，用于外部中断回调函数中通知采集任务 */
     if (xMax30102DataReadySem == NULL)
@@ -145,19 +147,19 @@ void App_Max30102_Init(void)
         xMax30102DataReadySem = xSemaphoreCreateBinary();
     }
 
-    /* 采集任务：优先级设为高 (3) */
+    /* 采集任务 */
     xTaskCreate(MAX30102_Collect_Task,
                 "M30102_Coll",
                 256,
                 NULL,
-                3,
+                15,
                 &xMax30102CollectTaskHandle);
 
-    /* 计算任务：优先级设为中 (2) */
+    /* 算法任务 */
     xTaskCreate(MAX30102_Calculate_Task,
                 "M30102_Calc",
                 256,
                 NULL,
-                2,
+                7,
                 &xMax30102CalculateTaskHandle);
 }

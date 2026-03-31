@@ -14,6 +14,10 @@
 
 #include "ui.h"
 
+#include "bsp_lcd.h"
+#include "bsp_gt911.h"
+#include "bsp_ds1302.h"
+
 #include <stdio.h>
 
 void update_rtc_time_cb(lv_timer_t *timer);
@@ -58,11 +62,16 @@ static void Lvgl_Task(void *pvParameters)
  */
 void App_Lvgl_Init(void)
 {
+    /* BSP 层模块初始化 */
+    BSP_GT911_Init();
+    BSP_LCD_Init();
+    BSP_GT911_BindLCD();
+
     xTaskCreate(Lvgl_Task,
                 "Lvgl_Task",
                 2048,
                 NULL,
-                1,
+                8,
                 &xLvglTaskHandle);
 }
 
@@ -80,28 +89,11 @@ void vApplicationTickHook(void)
 /* 模拟时钟回调函数 */
 void update_rtc_time_cb(lv_timer_t *timer)
 {
-    static uint8_t sim_hour = 10;
-    static uint8_t sim_min = 30;
-    static uint8_t sim_sec = 0;
-
     char buf[32];
 
-    /* 模拟时间累加逻辑 */
-    sim_sec++;
-    if (sim_sec >= 60)
-    {
-        sim_sec = 0;
-        sim_min++;
-        if (sim_min >= 60)
-        {
-            sim_min = 0;
-            sim_hour++;
-            if (sim_hour >= 24)
-                sim_hour = 0;
-        }
-    }
+    ds1302_data_t *p_ds1302_data = BSP_DS1302_GetData();
 
-    snprintf(buf, sizeof(buf), "Time: %02d:%02d:%02d", sim_hour, sim_min, sim_sec);
+    snprintf(buf, sizeof(buf), "Time: %02d:%02d:%02d", p_ds1302_data->hour, p_ds1302_data->minute, p_ds1302_data->second);
 
     /* 更新 UI 组件 */
     if (ui_LabelTime != NULL)

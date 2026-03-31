@@ -93,10 +93,13 @@ static void Sync_Netdata_Task(void *pvParameters)
  */
 void App_Sync_Netdata_Init(void)
 {
+    /* BSP 层模块初始化 */
+    BSP_ESP8266_Init();
+
     xTaskCreate(Sync_Netdata_Task,
                 "Sync_Netdata_Task",
                 256,
                 NULL,
-                1,
+                2,
                 &xSyncNetdataTaskHandle);
 }

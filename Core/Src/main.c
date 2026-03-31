@@ -155,19 +155,6 @@ int main(void)
 
   /* BSP 层模块初始化 */
   BSP_DWT_Init(); /* 用 DWT 实现的阻塞延时，需优先进行初始化 */
-  // BSP_ESP8266_Init(); /* 联网后获取天气、时间数据，其中有阻塞延时等待 */
-
-  //  BSP_GT911_Init();
-  //  BSP_LCD_Init();
-  //  BSP_GT911_BindLCD();
-
-  // BSP_MAX30102_Init();
-
-  // BSP_AHT30_Init();
-  // BSP_BH1750_Init();
-  // BSP_MQ5_Init();
-
-  BSP_DS1302_Init();
 
   /* APP 层模块初始化 */
   APP_Init();

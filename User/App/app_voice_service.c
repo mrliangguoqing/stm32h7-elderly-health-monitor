@@ -23,8 +23,8 @@
 #include <stdint.h>
 #include <string.h>
 
-/* 定义二值信号量，用于同步中断与任务 */
-SemaphoreHandle_t xVoiceDataReadySem = NULL;
+/* 定义队列句柄 */
+QueueHandle_t xVoiceQueue = NULL;
 
 /* 任务句柄：用于外部管理该任务（如删除、挂起、获取状态） */
 TaskHandle_t xVoiceServiceTaskHandle = NULL;
@@ -38,75 +38,91 @@ static void split_float(float f_val, uint8_t *int_part, uint8_t *dec_part);
  */
 static void Voice_Service_Task(void *pvParameters)
 {
+    Voice_Msg_Type_t received_msg;
+
     const aht30_data_t *p_aht30_data = BSP_AHT30_GetData();
     ds1302_data_t *p_ds1302_data = BSP_DS1302_GetData();
     const WeatherDay *daily_0 = &g_weather_info.daily[0];
 
+    const uint8_t fall_alarm_cmd[] = {0xAA, 0x01, 0x01, 0x55};
     uint8_t tx_buffer[16] = {0};
     uint8_t integer_val = 0, decimal_val = 0;
 
     for (;;)
     {
-        /* 阻塞等待信号量 */
-        if (xSemaphoreTake(xVoiceDataReadySem, portMAX_DELAY) == pdPASS)
+        /* 阻塞等待队列消息 */
+        if (xQueueReceive(xVoiceQueue, &received_msg, portMAX_DELAY) == pdPASS)
         {
-            if (voice_conn.rx_buf[0] == 0xAA)
+            switch (received_msg)
             {
-                HAL_UART_Transmit(&huart1, voice_conn.rx_buf, voice_conn.rx_cnt, 100);
-
-                switch (voice_conn.rx_buf[1])
+            case MSG_VOICE_UART_RX:
+                if (voice_conn.rx_buf[0] == 0xAA)
                 {
-                case 0x01: /* 求救指令 */
-                    /* 释放信号量，唤醒报警任务 */
-                    if (xAlarmSemaphore != NULL)
+                    HAL_UART_Transmit(&huart1, voice_conn.rx_buf, voice_conn.rx_cnt, 100);
+
+                    switch (voice_conn.rx_buf[1])
                     {
-                        xSemaphoreGive(xAlarmSemaphore);
+                    case 0x01: /* 求救指令 */
+                        /* 释放信号量，唤醒报警任务 */
+                        if (xAlarmSemaphore != NULL)
+                        {
+                            xSemaphoreGive(xAlarmSemaphore);
+                        }
+                        break;
+                    case 0x02: /* 天气预报 */
+                        tx_buffer[0] = 0xAA;
+                        tx_buffer[1] = 0x02;
+                        tx_buffer[2] = 0x01;
+                        tx_buffer[3] = daily_0->code_day;
+                        tx_buffer[4] = daily_0->high;
+                        tx_buffer[5] = daily_0->low;
+                        tx_buffer[6] = daily_0->precip;
+                        tx_buffer[7] = 0x55;
+                        HAL_UART_Transmit(&huart1, tx_buffer, 8, 100);
+                        HAL_UART_Transmit(voice_conn.huart, tx_buffer, 8, 100);
+
+                        break;
+
+                    case 0x03: /* 时间 */
+                        tx_buffer[0] = 0xAA;
+                        tx_buffer[1] = 0x03;
+                        tx_buffer[2] = 0x01;
+                        tx_buffer[3] = p_ds1302_data->hour;
+                        tx_buffer[4] = p_ds1302_data->minute;
+                        tx_buffer[5] = 0x55;
+                        HAL_UART_Transmit(&huart1, tx_buffer, 6, 100);
+                        HAL_UART_Transmit(voice_conn.huart, tx_buffer, 6, 100);
+
+                        break;
+                    case 0x04: /* 室内温湿度 */
+                        tx_buffer[0] = 0xAA;
+                        tx_buffer[1] = 0x04;
+                        tx_buffer[2] = 0x01;
+                        split_float(p_aht30_data->temperature, &integer_val, &decimal_val);
+                        tx_buffer[3] = integer_val;
+                        tx_buffer[4] = decimal_val;
+                        split_float(p_aht30_data->humidity, &integer_val, &decimal_val);
+                        tx_buffer[5] = integer_val;
+                        tx_buffer[6] = decimal_val;
+                        tx_buffer[7] = 0x55;
+                        // tx_buffer[8] = '\0';
+                        HAL_UART_Transmit(&huart1, tx_buffer, 9, 100);
+                        HAL_UART_Transmit(voice_conn.huart, tx_buffer, 9, 100);
+                        break;
                     }
-                    break;
-                case 0x02: /* 天气预报 */
-                    tx_buffer[0] = 0xAA;
-                    tx_buffer[1] = 0x02;
-                    tx_buffer[2] = 0x01;
-                    tx_buffer[3] = daily_0->code_day;
-                    tx_buffer[4] = daily_0->high;
-                    tx_buffer[5] = daily_0->low;
-                    tx_buffer[6] = daily_0->precip;
-                    tx_buffer[7] = 0x55;
-                    HAL_UART_Transmit(&huart1, tx_buffer, 8, 100);
-                    HAL_UART_Transmit(voice_conn.huart, tx_buffer, 8, 100);
-
-                    break;
-
-                case 0x03: /* 时间 */
-                    tx_buffer[0] = 0xAA;
-                    tx_buffer[1] = 0x03;
-                    tx_buffer[2] = 0x01;
-                    tx_buffer[3] = p_ds1302_data->hour;
-                    tx_buffer[4] = p_ds1302_data->minute;
-                    tx_buffer[5] = 0x55;
-                    HAL_UART_Transmit(&huart1, tx_buffer, 6, 100);
-                    HAL_UART_Transmit(voice_conn.huart, tx_buffer, 6, 100);
-
-                    break;
-                case 0x04: /* 室内温湿度 */
-                    tx_buffer[0] = 0xAA;
-                    tx_buffer[1] = 0x04;
-                    tx_buffer[2] = 0x01;
-                    split_float(p_aht30_data->temperature, &integer_val, &decimal_val);
-                    tx_buffer[3] = integer_val;
-                    tx_buffer[4] = decimal_val;
-                    split_float(p_aht30_data->humidity, &integer_val, &decimal_val);
-                    tx_buffer[5] = integer_val;
-                    tx_buffer[6] = decimal_val;
-                    tx_buffer[7] = 0x55;
-                    // tx_buffer[8] = '\0';
-                    HAL_UART_Transmit(&huart1, tx_buffer, 9, 100);
-                    HAL_UART_Transmit(voice_conn.huart, tx_buffer, 9, 100);
-                    break;
                 }
-            }
 
-            BSP_UART_ClearBuffer(&voice_conn);
+                BSP_UART_ClearBuffer(&voice_conn);
+                break;
+
+            case MSG_VOICE_FALL_ALARM:
+                /* 执行跌倒语音播报 */
+                HAL_UART_Transmit(voice_conn.huart, (uint8_t *)fall_alarm_cmd, 4, 100);
+                break;
+
+            default:
+                break;
+            }
         }
     }
 }
@@ -118,10 +134,10 @@ static void Voice_Service_Task(void *pvParameters)
  */
 void App_Voice_Service_Init(void)
 {
-    /* 创建信号量，用于外部中断回调函数中通知采集任务 */
-    if (xVoiceDataReadySem == NULL)
+    /* 创建消息队列：深度10，单元大小为枚举类型 */
+    if (xVoiceQueue == NULL)
     {
-        xVoiceDataReadySem = xSemaphoreCreateBinary();
+        xVoiceQueue = xQueueCreate(10, sizeof(Voice_Msg_Type_t));
     }
 
     xTaskCreate(Voice_Service_Task,

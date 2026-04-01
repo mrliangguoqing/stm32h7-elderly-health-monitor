@@ -72,12 +72,13 @@ void BSP_UART_Process_IRQHandler(uart_control_t *conn)
             conn->rx_complete = 1; /* 标记收到完整一帧 */
 
             /* 语音交互 */
-            if ((conn->huart == VOICE_UART_HANDLE) && (xVoiceDataReadySem != NULL))
+            if ((conn->huart == VOICE_UART_HANDLE) && (xVoiceQueue != NULL))
             {
+                /* 定义要发送的消息内容 */
+                Voice_Msg_Type_t msg = MSG_VOICE_UART_RX;
                 BaseType_t xHigherPriorityTaskWoken = pdFALSE;
-                /* 发送信号量唤醒 Task */
-                xSemaphoreGiveFromISR(xVoiceDataReadySem, &xHigherPriorityTaskWoken);
-                /* 强制上下文切换 */
+
+                xQueueSendFromISR(xVoiceQueue, &msg, &xHigherPriorityTaskWoken);
                 portYIELD_FROM_ISR(xHigherPriorityTaskWoken);
             }
 

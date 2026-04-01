@@ -12,6 +12,7 @@
 #include "usart.h"
 
 #include "app_alarm_notify.h"
+#include "app_voice_service.h"
 
 #include "bsp_uart_comm.h"
 
@@ -160,9 +161,18 @@ static void Process_Radar_Protocol(uint8_t *pFrame)
         if (command == 0x01 && pData[0] == 0x01)
         {
             PAL_LOG(PAL_LOG_LEVEL_INFO, "!!! 警报：检测到跌倒 !!!");
+
+            /* 释放信号量，唤醒报警任务 */
             if (xAlarmSemaphore != NULL)
             {
                 xSemaphoreGive(xAlarmSemaphore);
+            }
+
+            /* 用队列向语音任务发送跌倒报警的通知 */
+            if (xVoiceQueue != NULL)
+            {
+                Voice_Msg_Type_t msg = MSG_VOICE_FALL_ALARM;
+                xQueueSend(xVoiceQueue, &msg, 0); /* 跨任务投递消息 */
             }
         }
         break;

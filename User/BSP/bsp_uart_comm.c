@@ -12,8 +12,11 @@
 
 #include "app_voice_service.h"
 
+#define VOICE_UART_HANDLE (&huart4)
+#define VOICE_UART_INSTANCE USART4
+
 /* 实例化结构体 */
-uart_control_t voice_conn = {&huart4, {0}, 0, 0};
+uart_control_t voice_conn = {VOICE_UART_HANDLE, {0}, 0, 0};
 // uart_control_t radar_conn = {&huart1, {0}, 0, 0};
 
 /**
@@ -64,16 +67,14 @@ void BSP_UART_Process_IRQHandler(uart_control_t *conn)
         {
             conn->rx_complete = 1; /* 标记收到完整一帧 */
 
-            BaseType_t xHigherPriorityTaskWoken = pdFALSE;
-
-            /* 发送信号量唤醒 Task */
-            if (xVoiceDataReadySem != NULL)
+            if ((conn->huart == VOICE_UART_HANDLE) && (xVoiceDataReadySem != NULL))
             {
+                BaseType_t xHigherPriorityTaskWoken = pdFALSE;
+                /* 发送信号量唤醒 Task */
                 xSemaphoreGiveFromISR(xVoiceDataReadySem, &xHigherPriorityTaskWoken);
+                /* 强制上下文切换 */
+                portYIELD_FROM_ISR(xHigherPriorityTaskWoken);
             }
-
-            /* 强制上下文切换 */
-            portYIELD_FROM_ISR(xHigherPriorityTaskWoken);
         }
     }
 

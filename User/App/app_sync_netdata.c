@@ -25,11 +25,14 @@ static void Sync_Netdata_Task(void *pvParameters)
 {
     TickType_t xLastWakeTime;
     const TickType_t xFrequency = pdMS_TO_TICKS(3600 * 1000); /* 恒定 1 小时触发一次 */
-    static uint8_t hour_counter = 0;                          /* 小时计数器 */
+    static uint8_t hour_counter = 0;                        /* 小时计数器 */
 
     ds1302_data_t *p_ds1302_data = BSP_DS1302_GetData();
 
-    /* 更新时间 */
+    /* BSP 层模块初始化 */
+    BSP_ESP8266_Init();
+
+    /* 更新时间到 DS1302 */
     if (BSP_ESP8266_SyncTime(&g_net_time) == 0)
     {
         p_ds1302_data->year = g_net_time.year;
@@ -44,14 +47,13 @@ static void Sync_Netdata_Task(void *pvParameters)
     }
     else
     {
-        PAL_LOG(PAL_LOG_LEVEL_ERROR, "RTC_Alarm_Task 请求网络时间失败\r\n");
+        PAL_LOG(PAL_LOG_LEVEL_ERROR, "RTC_Alarm_Task 请求网络时间失败");
     }
 
     /* 初始化时间点 */
     xLastWakeTime = xTaskGetTickCount();
     for (;;)
     {
-        /* TODO: 目前 ESP8266 的驱动代码中使用的是阻塞延时，在此处调用会影响程序的运行，后续需优化 */
         /* 绝对延时，确保每 1 小时准时唤醒 */
         vTaskDelayUntil(&xLastWakeTime, xFrequency);
 
@@ -93,12 +95,9 @@ static void Sync_Netdata_Task(void *pvParameters)
  */
 void App_Sync_Netdata_Init(void)
 {
-    /* BSP 层模块初始化 */
-    BSP_ESP8266_Init();
-
     xTaskCreate(Sync_Netdata_Task,
                 "Sync_Netdata_Task",
-                256,
+                512,
                 NULL,
                 2,
                 &xSyncNetdataTaskHandle);

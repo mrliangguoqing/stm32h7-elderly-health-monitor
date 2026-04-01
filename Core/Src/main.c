@@ -36,6 +36,7 @@
 #include "pal_i2c_interface.h"
 
 #include "bsp_dwt.h"
+#include "bsp_delay.h"
 #include "bsp_aht30.h"
 #include "bsp_lcd.h"
 #include "bsp_gt911.h"
@@ -157,9 +158,7 @@ int main(void)
   HAL_ADC_Start_IT(&hadc1);   /* 启动ADC中断模式，配置了外部触发 */
 
   /* BSP 层模块初始化 */
-  BSP_DWT_Init(); /* 用 DWT 实现的阻塞延时，需优先进行初始化 */
-
-  // BSP_ESP8266_Init();
+  BSP_Delay_Init();
 
   BSP_UART_Init();
 

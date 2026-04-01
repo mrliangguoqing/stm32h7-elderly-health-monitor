@@ -4,7 +4,7 @@
  */
 
 #include "bsp_ds1302.h"
-#include "bsp_dwt.h"
+#include "bsp_delay.h"
 
 #include "gpio.h"
 
@@ -142,9 +142,9 @@ static void BSP_DS1302_WriteByte(uint8_t data)
 		HAL_GPIO_WritePin(DS1302_SCLK_GPIO_Port, DS1302_SCLK_Pin, GPIO_PIN_RESET);
 		HAL_GPIO_WritePin(DS1302_IO_GPIO_Port, DS1302_IO_Pin, (data & 0x01) ? GPIO_PIN_SET : GPIO_PIN_RESET);
 		data >>= 1;
-		BSP_DWT_DelayUs(2);
+		BSP_DelayUs(2);
 		HAL_GPIO_WritePin(DS1302_SCLK_GPIO_Port, DS1302_SCLK_Pin, GPIO_PIN_SET);
-		BSP_DWT_DelayUs(2);
+		BSP_DelayUs(2);
 	}
 }
 
@@ -160,13 +160,13 @@ static uint8_t BSP_DS1302_ReadByte(void)
 	for (uint8_t i = 0; i < 8; i++)
 	{
 		HAL_GPIO_WritePin(DS1302_SCLK_GPIO_Port, DS1302_SCLK_Pin, GPIO_PIN_RESET);
-		BSP_DWT_DelayUs(2);
+		BSP_DelayUs(2);
 		if (HAL_GPIO_ReadPin(DS1302_IO_GPIO_Port, DS1302_IO_Pin) == GPIO_PIN_SET)
 		{
 			data |= (0x01 << i);
 		}
 		HAL_GPIO_WritePin(DS1302_SCLK_GPIO_Port, DS1302_SCLK_Pin, GPIO_PIN_SET);
-		BSP_DWT_DelayUs(2);
+		BSP_DelayUs(2);
 	}
 	return data;
 }
@@ -182,7 +182,7 @@ static void BSP_DS1302_WriteReg(uint8_t addr, uint8_t data)
 	HAL_GPIO_WritePin(DS1302_SCLK_GPIO_Port, DS1302_SCLK_Pin, GPIO_PIN_RESET);
 
 	HAL_GPIO_WritePin(DS1302_RST_GPIO_Port, DS1302_RST_Pin, GPIO_PIN_SET); // 启动通信
-	BSP_DWT_DelayUs(2);
+	BSP_DelayUs(2);
 
 	BSP_DS1302_WriteByte(addr); // 发送命令/地址
 	BSP_DS1302_WriteByte(data); // 发送数据
@@ -202,7 +202,7 @@ static uint8_t BSP_DS1302_ReadReg(uint8_t addr)
 	HAL_GPIO_WritePin(DS1302_SCLK_GPIO_Port, DS1302_SCLK_Pin, GPIO_PIN_RESET);
 
 	HAL_GPIO_WritePin(DS1302_RST_GPIO_Port, DS1302_RST_Pin, GPIO_PIN_SET);
-	BSP_DWT_DelayUs(2);
+	BSP_DelayUs(2);
 
 	BSP_DS1302_WriteByte(addr | 0x01); // 确保是读地址
 	data = BSP_DS1302_ReadByte();

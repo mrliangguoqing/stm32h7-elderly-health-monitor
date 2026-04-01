@@ -1,5 +1,5 @@
 #include "bsp_esp8266.h"
-#include "bsp_dwt.h"
+#include "bsp_delay.h"
 
 #include "ring_buffer.h"
 #include "pal_log.h"
@@ -33,8 +33,7 @@ static uint8_t BSP_ESP8266_Time_Parse(const char *input, NetTime_t *time);
  */
 uint8_t BSP_ESP8266_Init(void)
 {
-
-    BSP_DWT_DelayMs(1000); /* 延时 1S 等待 ESP8266 稳定 */
+    BSP_DelayMs(1000); /* 延时 1S 等待 ESP8266 稳定 */
 
     /* 测试模块通信 */
     if (BSP_ESP8266_SendCmd(ESP8266_AT, "OK", 3000) == 1)
@@ -222,14 +221,14 @@ uint8_t BSP_ESP8266_WeatherUpdate(WeatherInfo *info)
                 break;
             }
         }
-        BSP_DWT_DelayMs(5);
+        BSP_DelayMs(5);
     }
 
     /* 退出逻辑：发送退出透传序列 "+++" */
     /* 注意：退出透传通常需要前后各 1 秒的静默期 */
-    BSP_DWT_DelayMs(1000);
+    BSP_DelayMs(1000);
     BSP_ESP8266_UsartSendString("+++");
-    BSP_DWT_DelayMs(1000);
+    BSP_DelayMs(1000);
 
     /* 握手确认：确保模块回到了 AT 模式 */
     if (BSP_ESP8266_SendCmd(ESP8266_AT, "OK", 2000) != 0)

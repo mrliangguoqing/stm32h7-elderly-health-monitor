@@ -19,14 +19,12 @@ typedef struct
     volatile uint8_t rx_complete;    /* 帧接收完成标志 */
 } uart_control_t;
 
-
-
 /* 函数声明 */
 void BSP_UART_Init(void);
 void BSP_UART_Process_IRQHandler(uart_control_t *conn);
 void BSP_UART_ClearBuffer(uart_control_t *conn);
 
 extern uart_control_t voice_conn;
-// extern uart_control_t radar_conn;
+extern uart_control_t radar_conn;
 
 #endif

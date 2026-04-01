@@ -145,6 +145,7 @@ int main(void)
   MX_TIM2_Init();
   MX_USART3_UART_Init();
   MX_UART4_Init();
+  MX_UART5_Init();
   /* USER CODE BEGIN 2 */
 
   HAL_TIM_Base_Start_IT(&htim7);
@@ -158,7 +159,7 @@ int main(void)
   /* BSP 层模块初始化 */
   BSP_DWT_Init(); /* 用 DWT 实现的阻塞延时，需优先进行初始化 */
 
-  BSP_ESP8266_Init();
+  // BSP_ESP8266_Init();
 
   BSP_UART_Init();
 

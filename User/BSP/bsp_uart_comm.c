@@ -11,10 +11,17 @@
 #include "semphr.h"
 
 #include "app_voice_service.h"
+#include "app_radar_service.h"
+
+#define VOICE_UART_HANDLE (&huart4)
+#define VOICE_UART_INSTANCE USART4
+
+#define RADAR_UART_HANDLE (&huart1)
+#define RADAR_UART_INSTANCE USART1
 
 /* 实例化结构体 */
-uart_control_t voice_conn = {&huart4, {0}, 0, 0};
-// uart_control_t radar_conn = {&huart1, {0}, 0, 0};
+uart_control_t voice_conn = {VOICE_UART_HANDLE, {0}, 0, 0};
+uart_control_t radar_conn = {RADAR_UART_HANDLE, {0}, 0, 0};
 
 /**
  * @brief  初始化串口中断配置 (针对 H7/通用系列)
@@ -27,8 +34,8 @@ void BSP_UART_Init(void)
     __HAL_UART_ENABLE_IT(voice_conn.huart, UART_IT_RXNE);
     __HAL_UART_ENABLE_IT(voice_conn.huart, UART_IT_IDLE);
 
-    // __HAL_UART_ENABLE_IT(radar_conn.huart, UART_IT_RXNE);
-    // __HAL_UART_ENABLE_IT(radar_conn.huart, UART_IT_IDLE);
+    __HAL_UART_ENABLE_IT(radar_conn.huart, UART_IT_RXNE);
+    __HAL_UART_ENABLE_IT(radar_conn.huart, UART_IT_IDLE);
 }
 
 /**
@@ -64,16 +71,26 @@ void BSP_UART_Process_IRQHandler(uart_control_t *conn)
         {
             conn->rx_complete = 1; /* 标记收到完整一帧 */
 
-            BaseType_t xHigherPriorityTaskWoken = pdFALSE;
-
-            /* 发送信号量唤醒 Task */
-            if (xVoiceDataReadySem != NULL)
+            /* 语音交互 */
+            if ((conn->huart == VOICE_UART_HANDLE) && (xVoiceQueue != NULL))
             {
-                xSemaphoreGiveFromISR(xVoiceDataReadySem, &xHigherPriorityTaskWoken);
+                /* 定义要发送的消息内容 */
+                Voice_Msg_Type_t msg = MSG_VOICE_UART_RX;
+                BaseType_t xHigherPriorityTaskWoken = pdFALSE;
+
+                xQueueSendFromISR(xVoiceQueue, &msg, &xHigherPriorityTaskWoken);
+                portYIELD_FROM_ISR(xHigherPriorityTaskWoken);
             }
 
-            /* 强制上下文切换 */
-            portYIELD_FROM_ISR(xHigherPriorityTaskWoken);
+            /* 雷达监测 */
+            if ((conn->huart == RADAR_UART_HANDLE) && (xRadarDataReadySem != NULL))
+            {
+                BaseType_t xHigherPriorityTaskWoken = pdFALSE;
+                /* 发送信号量唤醒 Task */
+                xSemaphoreGiveFromISR(xRadarDataReadySem, &xHigherPriorityTaskWoken);
+                /* 强制上下文切换 */
+                portYIELD_FROM_ISR(xHigherPriorityTaskWoken);
+            }
         }
     }
 

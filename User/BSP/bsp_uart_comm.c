@@ -16,8 +16,8 @@
 #define VOICE_UART_HANDLE (&huart4)
 #define VOICE_UART_INSTANCE USART4
 
-#define RADAR_UART_HANDLE (&huart1)
-#define RADAR_UART_INSTANCE USART1
+#define RADAR_UART_HANDLE (&huart5)
+#define RADAR_UART_INSTANCE USART5
 
 /* 实例化结构体 */
 uart_control_t voice_conn = {VOICE_UART_HANDLE, {0}, 0, 0};

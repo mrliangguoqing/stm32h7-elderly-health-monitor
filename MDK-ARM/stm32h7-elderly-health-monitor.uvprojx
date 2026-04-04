@@ -1404,6 +1404,56 @@
           </Files>
         </Group>
         <Group>
+          <GroupName>User/Middlewares/LVGL/ui</GroupName>
+          <Files>
+            <File>
+              <FileName>ui.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\User\Middlewares\LVGL\GUI_APP\ui\ui.c</FilePath>
+            </File>
+            <File>
+              <FileName>ui_events.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\User\Middlewares\LVGL\GUI_APP\ui\ui_events.c</FilePath>
+            </File>
+            <File>
+              <FileName>ui_helpers.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\User\Middlewares\LVGL\GUI_APP\ui\ui_helpers.c</FilePath>
+            </File>
+            <File>
+              <FileName>ui_comp.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\User\Middlewares\LVGL\GUI_APP\ui\components\ui_comp.c</FilePath>
+            </File>
+            <File>
+              <FileName>ui_comp_hook.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\User\Middlewares\LVGL\GUI_APP\ui\components\ui_comp_hook.c</FilePath>
+            </File>
+            <File>
+              <FileName>ui_comp_uilabeltime.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\User\Middlewares\LVGL\GUI_APP\ui\components\ui_comp_uilabeltime.c</FilePath>
+            </File>
+            <File>
+              <FileName>ui_font_RobotoMonoBold26Ascii.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\User\Middlewares\LVGL\GUI_APP\ui\fonts\ui_font_RobotoMonoBold26Ascii.c</FilePath>
+            </File>
+            <File>
+              <FileName>ui_font_SourceHanSansBold26C3500.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\User\Middlewares\LVGL\GUI_APP\ui\fonts\ui_font_SourceHanSansBold26C3500.c</FilePath>
+            </File>
+            <File>
+              <FileName>ui_Screen1.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\User\Middlewares\LVGL\GUI_APP\ui\screens\ui_Screen1.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
           <GroupName>User/Middlewares/LVGL/conf</GroupName>
           <Files>
             <File>
@@ -3600,56 +3650,6 @@
               <FileName>lv_win.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\User\Middlewares\LVGL\GUI\lvgl\src\widgets\win\lv_win.c</FilePath>
-            </File>
-          </Files>
-        </Group>
-        <Group>
-          <GroupName>User/Middlewares/LVGL/ui</GroupName>
-          <Files>
-            <File>
-              <FileName>ui.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\User\Middlewares\LVGL\GUI_APP\ui\ui.c</FilePath>
-            </File>
-            <File>
-              <FileName>ui_helpers.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\User\Middlewares\LVGL\GUI_APP\ui\ui_helpers.c</FilePath>
-            </File>
-            <File>
-              <FileName>ui_comp_hook.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\User\Middlewares\LVGL\GUI_APP\ui\components\ui_comp_hook.c</FilePath>
-            </File>
-            <File>
-              <FileName>ui_Screen1.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\User\Middlewares\LVGL\GUI_APP\ui\screens\ui_Screen1.c</FilePath>
-            </File>
-            <File>
-              <FileName>ui_font_AlibabaPuHuiTiMedium.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\User\Middlewares\LVGL\GUI_APP\ui\fonts\ui_font_AlibabaPuHuiTiMedium.c</FilePath>
-            </File>
-            <File>
-              <FileName>ui_img_temp_png.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\User\Middlewares\LVGL\GUI_APP\ui\images\ui_img_temp_png.c</FilePath>
-            </File>
-            <File>
-              <FileName>ui_font_AlibabaPuHuiTi32.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\User\Middlewares\LVGL\GUI_APP\ui\fonts\ui_font_AlibabaPuHuiTi32.c</FilePath>
-            </File>
-            <File>
-              <FileName>ui_comp.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\User\Middlewares\LVGL\GUI_APP\ui\components\ui_comp.c</FilePath>
-            </File>
-            <File>
-              <FileName>ui_comp_uilabeltime.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\User\Middlewares\LVGL\GUI_APP\ui\components\ui_comp_uilabeltime.c</FilePath>
             </File>
           </Files>
         </Group>

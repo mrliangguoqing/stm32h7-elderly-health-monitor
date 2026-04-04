@@ -4,8 +4,8 @@ SET(SOURCES components/ui_comp_uilabeltime.c
     ui.c
     components/ui_comp_hook.c
     ui_helpers.c
-    images/ui_img_temp_png.c
-    fonts/ui_font_AlibabaPuHuiTi32.c
-    fonts/ui_font_AlibabaPuHuiTiMedium.c)
+    ui_events.c
+    fonts/ui_font_RobotoMonoBold26Ascii.c
+    fonts/ui_font_SourceHanSansBold26C3500.c)
 
 add_library(ui ${SOURCES})

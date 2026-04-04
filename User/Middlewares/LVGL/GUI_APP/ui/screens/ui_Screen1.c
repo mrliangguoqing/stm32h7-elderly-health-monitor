@@ -7,19 +7,20 @@
 
 lv_obj_t * ui_Screen1 = NULL;
 lv_obj_t * ui_Panel1 = NULL;
-lv_obj_t * ui_Button1 = NULL;
-lv_obj_t * ui_Label1 = NULL;
-lv_obj_t * ui_Slider1 = NULL;
-lv_obj_t * ui_Image1 = NULL;
 lv_obj_t * ui_Label2 = NULL;
-lv_obj_t * ui_LabelTime = NULL;
+lv_obj_t * ui_LabelTimeDate = NULL;
+lv_obj_t * ui_LabelTemperatureAndHumidity = NULL;
+lv_obj_t * ui_LabelIllumination = NULL;
+lv_obj_t * ui_Illumination2 = NULL;
+lv_obj_t * ui_ButtonHelp = NULL;
+lv_obj_t * ui_Label1 = NULL;
 // event funtions
-void ui_event_Button1(lv_event_t * e)
+void ui_event_ButtonHelp(lv_event_t * e)
 {
     lv_event_code_t event_code = lv_event_get_code(e);
 
     if(event_code == LV_EVENT_CLICKED) {
-        _ui_slider_increment(ui_Slider1, 10, LV_ANIM_ON);
+        btn_help_cb(e);
     }
 }
 
@@ -33,63 +34,78 @@ void ui_Screen1_screen_init(void)
     ui_Panel1 = lv_obj_create(ui_Screen1);
     lv_obj_set_width(ui_Panel1, 480);
     lv_obj_set_height(ui_Panel1, 320);
+    lv_obj_set_x(ui_Panel1, -2);
+    lv_obj_set_y(ui_Panel1, -1);
     lv_obj_set_align(ui_Panel1, LV_ALIGN_CENTER);
-
-    ui_Button1 = lv_button_create(ui_Panel1);
-    lv_obj_set_width(ui_Button1, 100);
-    lv_obj_set_height(ui_Button1, 50);
-    lv_obj_set_align(ui_Button1, LV_ALIGN_CENTER);
-    lv_obj_add_flag(ui_Button1, LV_OBJ_FLAG_SCROLL_ON_FOCUS);     /// Flags
-    lv_obj_remove_flag(ui_Button1, LV_OBJ_FLAG_SCROLLABLE);      /// Flags
-
-    ui_Label1 = lv_label_create(ui_Button1);
-    lv_obj_set_width(ui_Label1, LV_SIZE_CONTENT);   /// 1
-    lv_obj_set_height(ui_Label1, LV_SIZE_CONTENT);    /// 1
-    lv_obj_set_align(ui_Label1, LV_ALIGN_CENTER);
-    lv_label_set_text(ui_Label1, "温度:25℃");
-    lv_obj_set_style_text_font(ui_Label1, &ui_font_AlibabaPuHuiTiMedium, LV_PART_MAIN | LV_STATE_DEFAULT);
-
-    ui_Slider1 = lv_slider_create(ui_Panel1);
-    lv_slider_set_value(ui_Slider1, 0, LV_ANIM_OFF);
-    if(lv_slider_get_mode(ui_Slider1) == LV_SLIDER_MODE_RANGE) lv_slider_set_start_value(ui_Slider1, 0, LV_ANIM_OFF);
-    lv_obj_set_width(ui_Slider1, 150);
-    lv_obj_set_height(ui_Slider1, 10);
-    lv_obj_set_x(ui_Slider1, 4);
-    lv_obj_set_y(ui_Slider1, 76);
-    lv_obj_set_align(ui_Slider1, LV_ALIGN_CENTER);
-
-    //Compensating for LVGL9.1 draw crash with bar/slider max value when top-padding is nonzero and right-padding is 0
-    if(lv_obj_get_style_pad_top(ui_Slider1, LV_PART_MAIN) > 0) lv_obj_set_style_pad_right(ui_Slider1,
-                                                                                              lv_obj_get_style_pad_right(ui_Slider1, LV_PART_MAIN) + 1, LV_PART_MAIN);
-    ui_Image1 = lv_image_create(ui_Panel1);
-    lv_image_set_src(ui_Image1, &ui_img_temp_png);
-    lv_obj_set_width(ui_Image1, LV_SIZE_CONTENT);   /// 64
-    lv_obj_set_height(ui_Image1, LV_SIZE_CONTENT);    /// 64
-    lv_obj_set_x(ui_Image1, 0);
-    lv_obj_set_y(ui_Image1, 200);
-    lv_obj_set_align(ui_Image1, LV_ALIGN_CENTER);
-    lv_obj_add_flag(ui_Image1, LV_OBJ_FLAG_CLICKABLE);     /// Flags
-    lv_obj_remove_flag(ui_Image1, LV_OBJ_FLAG_SCROLLABLE);      /// Flags
 
     ui_Label2 = lv_label_create(ui_Panel1);
     lv_obj_set_width(ui_Label2, LV_SIZE_CONTENT);   /// 1
     lv_obj_set_height(ui_Label2, LV_SIZE_CONTENT);    /// 1
-    lv_obj_set_x(ui_Label2, -200);
-    lv_obj_set_y(ui_Label2, 200);
+    lv_obj_set_x(ui_Label2, 0);
+    lv_obj_set_y(ui_Label2, -140);
     lv_obj_set_align(ui_Label2, LV_ALIGN_CENTER);
-    lv_label_set_text(ui_Label2, "你好");
-    lv_obj_set_style_text_font(ui_Label2, &ui_font_AlibabaPuHuiTi32, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_label_set_text(ui_Label2, "智能监护系统");
+    lv_obj_set_style_text_font(ui_Label2, &ui_font_SourceHanSansBold26C3500, LV_PART_MAIN | LV_STATE_DEFAULT);
 
-    ui_LabelTime = lv_label_create(ui_Panel1);
-    lv_obj_set_width(ui_LabelTime, LV_SIZE_CONTENT);   /// 1
-    lv_obj_set_height(ui_LabelTime, LV_SIZE_CONTENT);    /// 1
-    lv_obj_set_x(ui_LabelTime, -3);
-    lv_obj_set_y(ui_LabelTime, -100);
-    lv_obj_set_align(ui_LabelTime, LV_ALIGN_CENTER);
-    lv_label_set_text(ui_LabelTime, "Time: 00:00:00");
-    lv_obj_set_style_text_font(ui_LabelTime, &ui_font_AlibabaPuHuiTi32, LV_PART_MAIN | LV_STATE_DEFAULT);
+    ui_LabelTimeDate = lv_label_create(ui_Panel1);
+    lv_obj_set_width(ui_LabelTimeDate, LV_SIZE_CONTENT);   /// 1
+    lv_obj_set_height(ui_LabelTimeDate, LV_SIZE_CONTENT);    /// 1
+    lv_obj_set_x(ui_LabelTimeDate, -24);
+    lv_obj_set_y(ui_LabelTimeDate, -98);
+    lv_obj_set_align(ui_LabelTimeDate, LV_ALIGN_CENTER);
+    lv_label_set_text(ui_LabelTimeDate, "00:00:00 0000年00月00日 星期 X");
+    lv_obj_set_style_text_align(ui_LabelTimeDate, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_text_font(ui_LabelTimeDate, &ui_font_SourceHanSansBold26C3500, LV_PART_MAIN | LV_STATE_DEFAULT);
 
-    lv_obj_add_event_cb(ui_Button1, ui_event_Button1, LV_EVENT_ALL, NULL);
+    ui_LabelTemperatureAndHumidity = lv_label_create(ui_Panel1);
+    lv_obj_set_width(ui_LabelTemperatureAndHumidity, LV_SIZE_CONTENT);   /// 1
+    lv_obj_set_height(ui_LabelTemperatureAndHumidity, LV_SIZE_CONTENT);    /// 1
+    lv_obj_set_x(ui_LabelTemperatureAndHumidity, -26);
+    lv_obj_set_y(ui_LabelTemperatureAndHumidity, -46);
+    lv_obj_set_align(ui_LabelTemperatureAndHumidity, LV_ALIGN_CENTER);
+    lv_label_set_text(ui_LabelTemperatureAndHumidity, "温度: 00.00 摄氏度 湿度: 00.00 %");
+    lv_obj_set_style_text_font(ui_LabelTemperatureAndHumidity, &ui_font_SourceHanSansBold26C3500,
+                               LV_PART_MAIN | LV_STATE_DEFAULT);
+
+    ui_LabelIllumination = lv_label_create(ui_Panel1);
+    lv_obj_set_width(ui_LabelIllumination, LV_SIZE_CONTENT);   /// 1
+    lv_obj_set_height(ui_LabelIllumination, LV_SIZE_CONTENT);    /// 1
+    lv_obj_set_x(ui_LabelIllumination, 5);
+    lv_obj_set_y(ui_LabelIllumination, 130);
+    lv_label_set_text(ui_LabelIllumination, "光照强度: 00.00 Lux");
+    lv_obj_set_style_text_align(ui_LabelIllumination, LV_TEXT_ALIGN_LEFT, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_text_font(ui_LabelIllumination, &ui_font_SourceHanSansBold26C3500, LV_PART_MAIN | LV_STATE_DEFAULT);
+
+    ui_Illumination2 = lv_label_create(ui_Panel1);
+    lv_obj_set_width(ui_Illumination2, LV_SIZE_CONTENT);   /// 1
+    lv_obj_set_height(ui_Illumination2, LV_SIZE_CONTENT);    /// 1
+    lv_obj_set_x(ui_Illumination2, 0);
+    lv_obj_set_y(ui_Illumination2, 183);
+    lv_label_set_text(ui_Illumination2, "心率: 00 bpm 血氧: 00 %");
+    lv_obj_set_style_text_align(ui_Illumination2, LV_TEXT_ALIGN_LEFT, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_text_font(ui_Illumination2, &ui_font_SourceHanSansBold26C3500, LV_PART_MAIN | LV_STATE_DEFAULT);
+
+    ui_ButtonHelp = lv_button_create(ui_Panel1);
+    lv_obj_set_width(ui_ButtonHelp, 150);
+    lv_obj_set_height(ui_ButtonHelp, 50);
+    lv_obj_set_x(ui_ButtonHelp, -10);
+    lv_obj_set_y(ui_ButtonHelp, 197);
+    lv_obj_set_align(ui_ButtonHelp, LV_ALIGN_CENTER);
+    lv_obj_add_flag(ui_ButtonHelp, LV_OBJ_FLAG_SCROLL_ON_FOCUS);     /// Flags
+    lv_obj_remove_flag(ui_ButtonHelp, LV_OBJ_FLAG_SCROLLABLE);      /// Flags
+    lv_obj_set_style_bg_color(ui_ButtonHelp, lv_color_hex(0xFF0000), LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_opa(ui_ButtonHelp, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
+
+    ui_Label1 = lv_label_create(ui_ButtonHelp);
+    lv_obj_set_width(ui_Label1, LV_SIZE_CONTENT);   /// 1
+    lv_obj_set_height(ui_Label1, LV_SIZE_CONTENT);    /// 1
+    lv_obj_set_x(ui_Label1, -2);
+    lv_obj_set_y(ui_Label1, 2);
+    lv_obj_set_align(ui_Label1, LV_ALIGN_CENTER);
+    lv_label_set_text(ui_Label1, "求救");
+    lv_obj_set_style_text_font(ui_Label1, &ui_font_SourceHanSansBold26C3500, LV_PART_MAIN | LV_STATE_DEFAULT);
+
+    lv_obj_add_event_cb(ui_ButtonHelp, ui_event_ButtonHelp, LV_EVENT_ALL, NULL);
 
 }
 
@@ -100,11 +116,12 @@ void ui_Screen1_screen_destroy(void)
     // NULL screen variables
     ui_Screen1 = NULL;
     ui_Panel1 = NULL;
-    ui_Button1 = NULL;
-    ui_Label1 = NULL;
-    ui_Slider1 = NULL;
-    ui_Image1 = NULL;
     ui_Label2 = NULL;
-    ui_LabelTime = NULL;
+    ui_LabelTimeDate = NULL;
+    ui_LabelTemperatureAndHumidity = NULL;
+    ui_LabelIllumination = NULL;
+    ui_Illumination2 = NULL;
+    ui_ButtonHelp = NULL;
+    ui_Label1 = NULL;
 
 }

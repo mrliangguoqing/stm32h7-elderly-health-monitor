@@ -15,13 +15,14 @@ extern void ui_Screen1_screen_init(void);
 extern void ui_Screen1_screen_destroy(void);
 extern lv_obj_t * ui_Screen1;
 extern lv_obj_t * ui_Panel1;
-extern void ui_event_Button1(lv_event_t * e);
-extern lv_obj_t * ui_Button1;
-extern lv_obj_t * ui_Label1;
-extern lv_obj_t * ui_Slider1;
-extern lv_obj_t * ui_Image1;
 extern lv_obj_t * ui_Label2;
-extern lv_obj_t * ui_LabelTime;
+extern lv_obj_t * ui_LabelTimeDate;
+extern lv_obj_t * ui_LabelTemperatureAndHumidity;
+extern lv_obj_t * ui_LabelIllumination;
+extern lv_obj_t * ui_Illumination2;
+extern void ui_event_ButtonHelp(lv_event_t * e);
+extern lv_obj_t * ui_ButtonHelp;
+extern lv_obj_t * ui_Label1;
 // CUSTOM VARIABLES
 
 #ifdef __cplusplus

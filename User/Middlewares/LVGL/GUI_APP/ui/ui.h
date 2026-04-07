@@ -21,6 +21,10 @@ extern "C" {
 ///////////////////// SCREENS ////////////////////
 
 #include "screens/ui_Screen1.h"
+#include "screens/ui_Screen2.h"
+#include "screens/ui_Screen3.h"
+#include "screens/ui_Screen4.h"
+#include "screens/ui_Screen5.h"
 
 ///////////////////// VARIABLES ////////////////////
 
@@ -30,11 +34,18 @@ extern "C" {
 extern lv_obj_t * ui____initial_actions0;
 
 // IMAGES AND IMAGE SETS
-LV_IMG_DECLARE(ui_img_temp_png);    // assets/temp.png
+LV_IMG_DECLARE(ui_img_background_image_png);    // assets/background_image.png
+LV_IMG_DECLARE(ui_img_home_active_page_png);    // assets/home_active_page.png
+LV_IMG_DECLARE(ui_img_weather_active_page_png);    // assets/weather_active_page.png
+LV_IMG_DECLARE(ui_img_heart_rate_active_page_png);    // assets/heart_rate_active_page.png
+LV_IMG_DECLARE(ui_img_alerts_active_page_png);    // assets/alerts_active_page.png
+LV_IMG_DECLARE(ui_img_settings_active_page_png);    // assets/settings_active_page.png
 
 // FONTS
-LV_FONT_DECLARE(ui_font_AlibabaPuHuiTi32);
-LV_FONT_DECLARE(ui_font_AlibabaPuHuiTiMedium);
+LV_FONT_DECLARE(ui_font_RobotoMonoBold14);
+LV_FONT_DECLARE(ui_font_RobotoMonoBold26);
+LV_FONT_DECLARE(ui_font_RobotoMonoBold40);
+LV_FONT_DECLARE(ui_font_SourceHanSansBold26);
 
 // UI INIT
 void ui_init(void);

@@ -42,7 +42,7 @@ void APP_Init(void)
     App_Voice_Service_Init(); /* 语音交互任务 */
     App_Radar_Service_Init(); /* 雷达监测任务 */
 
-    // App_Max30102_Init(); /* MAX30102 采集、算法任务 */
+    App_Max30102_Init(); /* MAX30102 采集、算法任务 */
 
     /* 启动调度器 */
     vTaskStartScheduler();

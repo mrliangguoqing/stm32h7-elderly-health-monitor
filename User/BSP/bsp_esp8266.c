@@ -1,5 +1,6 @@
 #include "bsp_esp8266.h"
 #include "bsp_delay.h"
+#include "bsp_at24cxx.h"
 
 #include "ring_buffer.h"
 #include "pal_log.h"
@@ -8,6 +9,9 @@
 
 #include <string.h>
 #include <stdlib.h>
+#include <stdio.h>
+
+wifi_config_t wifi_config = {WIFI_SSID, WIFI_PASS}; /* 存储 WIFI 的配置信息 */
 
 char weather_json_buf[WEATHER_JSON_BUFFER_SIZE]; /* 提取出的完整的天气 JSON 字符串 */
 WeatherInfo g_weather_info = {0};                /* 解析后的最终天气数据 */
@@ -33,6 +37,8 @@ static uint8_t BSP_ESP8266_Time_Parse(const char *input, NetTime_t *time);
  */
 uint8_t BSP_ESP8266_Init(void)
 {
+    char buffer[128] = {0};
+
     BSP_DelayMs(1000); /* 延时 1S 等待 ESP8266 稳定 */
 
     /* 测试模块通信 */
@@ -63,8 +69,12 @@ uint8_t BSP_ESP8266_Init(void)
         return 1;
     }
 
+    /* 加载 WIFI 配置信息 */
+    BSP_ESP8266_LoadWiFiConfig(&wifi_config);
+    snprintf(buffer, sizeof(wifi_config), ESP8266_AT_CWJAP, wifi_config.wifi_ssid, wifi_config.wifi_pwd);
+
     /* 连接 WiFi (超时时间较长) */
-    if (BSP_ESP8266_SendCmd(ESP8266_AT_CWJAP(WIFI_SSID, WIFI_PASS), "OK", 20000) == 1)
+    if (BSP_ESP8266_SendCmd(buffer, "OK", 20000) == 1)
     {
         PAL_LOG(PAL_LOG_LEVEL_ERROR, "WiFi 连接失败\r\n");
         return 1;
@@ -121,6 +131,46 @@ uint8_t BSP_ESP8266_Init(void)
     }
 
     BSP_ESP8266_Time_Print(&g_net_time);
+
+    return 0;
+}
+
+/**
+ * @brief  从 EEPROM 加载 WiFi 配置信息
+ * @param  dest_config: 指向用于存放配置数据的结构体指针
+ * @retval 加载结果: 0-成功加载有效数据, 1-数据无效并已恢复默认值
+ */
+uint8_t BSP_ESP8266_LoadWiFiConfig(wifi_config_t *dest_config)
+{
+    AT24Cxx_ReadData(0x0000, (uint8_t *)dest_config, sizeof(wifi_config_t)); /* 从 EEPROM 读取原始数据 */
+
+    if ((uint8_t)dest_config->wifi_ssid[0] == 0xFF || dest_config->wifi_ssid[0] == '\0') /* 数据校验 */
+    {
+        /* 默认值 */
+        strcpy(dest_config->wifi_ssid, WIFI_SSID);
+        strcpy(dest_config->wifi_pwd, WIFI_PASS);
+        return 1;
+    }
+
+    /* 确保字符串强制结尾 */
+    dest_config->wifi_ssid[31] = '\0';
+    dest_config->wifi_pwd[31] = '\0';
+
+    return 0;
+}
+
+/**
+ * @brief  更新并持久化保存新的 WiFi 配置
+ * @param  new_config: 指向包含新 SSID 和密码的配置结构体指针
+ * @retval 0-成功, 1-失败
+ */
+uint8_t BSP_ESP8266_UpdateWiFiConfig(const wifi_config_t *new_config)
+{
+    memcpy(&wifi_config, new_config, sizeof(wifi_config_t));                            /* 更新内存中的全局变量 */
+    if (AT24Cxx_WriteData(0x0000, (uint8_t *)&wifi_config, sizeof(wifi_config_t)) == 1) /* 持久化存储到 EEPROM */
+    {
+        return 1;
+    }
 
     return 0;
 }

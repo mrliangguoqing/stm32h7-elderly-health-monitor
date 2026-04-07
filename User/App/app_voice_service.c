@@ -45,6 +45,7 @@ static void Voice_Service_Task(void *pvParameters)
     const WeatherDay *daily_0 = &g_weather_info.daily[0];
 
     const uint8_t fall_alarm_cmd[] = {0xAA, 0x01, 0x01, 0x55};
+    const uint8_t help_alarm_cmd[] = {0xAA, 0x01, 0x02, 0x55};
     uint8_t tx_buffer[16] = {0};
     uint8_t integer_val = 0, decimal_val = 0;
 
@@ -118,6 +119,11 @@ static void Voice_Service_Task(void *pvParameters)
             case MSG_VOICE_FALL_ALARM:
                 /* 执行跌倒语音播报 */
                 HAL_UART_Transmit(voice_conn.huart, (uint8_t *)fall_alarm_cmd, 4, 100);
+                break;
+
+                case MSG_VOICE_HELP_ALARM:
+                /* 执行跌倒语音播报 */
+                HAL_UART_Transmit(voice_conn.huart, (uint8_t *)help_alarm_cmd, 4, 100);
                 break;
 
             default:

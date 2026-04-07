@@ -14,14 +14,27 @@ extern "C" {
 extern void ui_Screen1_screen_init(void);
 extern void ui_Screen1_screen_destroy(void);
 extern lv_obj_t * ui_Screen1;
-extern lv_obj_t * ui_Panel1;
-extern void ui_event_Button1(lv_event_t * e);
-extern lv_obj_t * ui_Button1;
+extern lv_obj_t * ui_Background;
+extern lv_obj_t * ui_PanelMenu;
+extern lv_obj_t * ui_MenuHome;
+extern void ui_event_MenuWeather(lv_event_t * e);
+extern lv_obj_t * ui_MenuWeather;
+extern void ui_event_MenuHeartRate(lv_event_t * e);
+extern lv_obj_t * ui_MenuHeartRate;
+extern void ui_event_MenuAlerts(lv_event_t * e);
+extern lv_obj_t * ui_MenuAlerts;
+extern void ui_event_MenuSettings(lv_event_t * e);
+extern lv_obj_t * ui_MenuSettings;
+extern lv_obj_t * ui_Label5;
+extern lv_obj_t * ui_Panel3;
+extern lv_obj_t * ui_Label3;
+extern lv_obj_t * ui_Label9;
+extern lv_obj_t * ui_Label10;
+extern lv_obj_t * ui_Label11;
+extern lv_obj_t * ui_Label12;
+extern lv_obj_t * ui_Label13;
+extern lv_obj_t * ui_Label14;
 extern lv_obj_t * ui_Label1;
-extern lv_obj_t * ui_Slider1;
-extern lv_obj_t * ui_Image1;
-extern lv_obj_t * ui_Label2;
-extern lv_obj_t * ui_LabelTime;
 // CUSTOM VARIABLES
 
 #ifdef __cplusplus

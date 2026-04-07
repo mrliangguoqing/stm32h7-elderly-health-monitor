@@ -13,8 +13,8 @@
 #define WEATHER_MAX_DAYS 3 /* 可获取的天气天数 */
 
 /* ---------------- WiFi 账号信息配置 ---------------- */
-#define WIFI_SSID "WIFI_SSID" /* 目标 WiFi 的 SSID 名称 */
-#define WIFI_PASS "WIFI_PASS" /* 目标 WiFi 的连接密码 */
+#define WIFI_SSID "WIFI_SSID" /* WiFi 的 SSID 名称 */
+#define WIFI_PASS "WIFI_PASS" /* WiFi 的连接密码 */
 
 /* ---------------- 心知天气 API 配置 ---------------- */
 #define SENIVERSE_API_PRIVATE_KEY "SCPHbIqbzgs8Nlqdr" /* 心知天气的用户私钥 */
@@ -31,7 +31,7 @@
 #define ESP8266_AT_CWMODE(mode) "AT+CWMODE=" mode "\r\n"
 
 /* 连接指定 WiFi：需传入 SSID 和密码 */
-#define ESP8266_AT_CWJAP(ssid, password) "AT+CWJAP=\"" ssid "\",\"" password "\"\r\n"
+#define ESP8266_AT_CWJAP "AT+CWJAP=\"%s\",\"%s\"\r\n"
 
 /* 断开当前 WiFi 连接 */
 #define ESP8266_AT_CWQAP "AT+CWQAP\r\n"
@@ -71,6 +71,15 @@
 
 /* 查询当前经过 SNTP 同步后的网络时间 */
 #define ESP8266_AT_CIPSNTPTIME "AT+CIPSNTPTIME?\r\n"
+
+/**
+ * @brief  WIFI 配置
+ */
+typedef struct
+{
+    char wifi_ssid[32]; /* WiFi 的 SSID 名称 */
+    char wifi_pwd[32];  /* WiFi 的连接密码 */
+} wifi_config_t;
 
 /**
  * @brief  天气数据结构体
@@ -126,6 +135,8 @@ typedef struct
 
 /* 函数声明 */
 uint8_t BSP_ESP8266_Init(void);
+uint8_t BSP_ESP8266_LoadWiFiConfig(wifi_config_t *dest_config);
+uint8_t BSP_ESP8266_UpdateWiFiConfig(const wifi_config_t *new_config);
 uint8_t BSP_ESP8266_SendCmd(char *cmd, char *ack, uint32_t timeout_ms);
 uint8_t BSP_ESP8266_WeatherUpdate(WeatherInfo *info);
 void BSP_ESP8266_Weather_Print(const WeatherInfo *info);

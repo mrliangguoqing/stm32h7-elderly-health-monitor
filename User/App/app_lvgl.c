@@ -92,58 +92,58 @@ void vApplicationTickHook(void)
 
 void update_rtc_time_cb(lv_timer_t *timer)
 {
-   char buf[128];
+//   char buf[128];
 
-   ds1302_data_t *p_ds1302_data = BSP_DS1302_GetData();
+//   ds1302_data_t *p_ds1302_data = BSP_DS1302_GetData();
 
-   snprintf(buf, sizeof(buf), "%02d:%02d:%02d %04d年%02d月%02d日 星期 %d",
-            p_ds1302_data->hour, p_ds1302_data->minute, p_ds1302_data->second,
-            p_ds1302_data->year, p_ds1302_data->month, p_ds1302_data->day,
-            p_ds1302_data->week);
+//   snprintf(buf, sizeof(buf), "%02d:%02d:%02d %04d年%02d月%02d日 星期 %d",
+//            p_ds1302_data->hour, p_ds1302_data->minute, p_ds1302_data->second,
+//            p_ds1302_data->year, p_ds1302_data->month, p_ds1302_data->day,
+//            p_ds1302_data->week);
 
-   /* 更新 UI 组件 */
-   if (ui_LabelTimeDate != NULL)
-   {
-       lv_label_set_text(ui_LabelTimeDate, buf);
-   }
+//   /* 更新 UI 组件 */
+//   if (ui_LabelTimeDate != NULL)
+//   {
+//       lv_label_set_text(ui_LabelTimeDate, buf);
+//   }
 }
 
 void update_sensor_data_cb(lv_timer_t *timer)
 {
-   char buf[128];
+//   char buf[128];
 
-   const aht30_data_t *p_aht30_data = BSP_AHT30_GetData();
-   const bh1750_data_t *p_bh1750_data = BSP_BH1750_GetData();
+//   const aht30_data_t *p_aht30_data = BSP_AHT30_GetData();
+//   const bh1750_data_t *p_bh1750_data = BSP_BH1750_GetData();
 
-   snprintf(buf, sizeof(buf), "温度: %.2f 摄氏度 湿度: %.2f %%", p_aht30_data->temperature, p_aht30_data->humidity);
+//   snprintf(buf, sizeof(buf), "温度: %.2f ℃ 湿度: %.2f %%", p_aht30_data->temperature, p_aht30_data->humidity);
 
-   /* 更新 UI 组件 */
-   if (ui_LabelTemperatureAndHumidity != NULL)
-   {
-       lv_label_set_text(ui_LabelTemperatureAndHumidity, buf);
-   }
+//   /* 更新 UI 组件 */
+//   if (ui_LabelTemperatureAndHumidity != NULL)
+//   {
+//       lv_label_set_text(ui_LabelTemperatureAndHumidity, buf);
+//   }
 
-   snprintf(buf, sizeof(buf), "光照强度: %.2f Lux", p_bh1750_data->lux);
+//   snprintf(buf, sizeof(buf), "光照强度: %.2f Lux", p_bh1750_data->lux);
 
-   /* 更新 UI 组件 */
-   if (ui_LabelIllumination != NULL)
-   {
-       lv_label_set_text(ui_LabelIllumination, buf);
-   }
+//   /* 更新 UI 组件 */
+//   if (ui_LabelIllumination != NULL)
+//   {
+//       lv_label_set_text(ui_LabelIllumination, buf);
+//   }
 
-   if(max30102_handle.data.heart_rate_valid == 1 && max30102_handle.data.spo2_valid == 1)
-   {
-       snprintf(buf, sizeof(buf), "心率: %02d 血氧: %02d %%", max30102_handle.data.stable_heart_rate,max30102_handle.data.spo2);
-   }
-   else
-   {
-       snprintf(buf, sizeof(buf), "心率: %02d bpm 血氧: %02d %%", 0,0);
-   }
-   
+//   if(max30102_handle.data.heart_rate_valid == 1 && max30102_handle.data.spo2_valid == 1)
+//   {
+//       snprintf(buf, sizeof(buf), "心率: %02d 血氧: %02d %%", max30102_handle.data.stable_heart_rate,max30102_handle.data.spo2);
+//   }
+//   else
+//   {
+//       snprintf(buf, sizeof(buf), "心率: %02d bpm 血氧: %02d %%", 0,0);
+//   }
+//   
 
-   /* 更新 UI 组件 */
-   if (ui_Illumination2 != NULL)
-   {
-       lv_label_set_text(ui_Illumination2, buf);
-   }
+//   /* 更新 UI 组件 */
+//   if (ui_Illumination != NULL)
+//   {
+//       lv_label_set_text(ui_Illumination, buf);
+//   }
 }

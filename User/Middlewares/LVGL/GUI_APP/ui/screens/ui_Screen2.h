@@ -25,7 +25,8 @@ extern void ui_event_MenuAlerts2(lv_event_t * e);
 extern lv_obj_t * ui_MenuAlerts2;
 extern void ui_event_MenuSettings2(lv_event_t * e);
 extern lv_obj_t * ui_MenuSettings2;
-extern lv_obj_t * ui_Label4;
+extern lv_obj_t * ui_Panel12;
+extern lv_obj_t * ui_LabelTime1;
 // CUSTOM VARIABLES
 
 #ifdef __cplusplus

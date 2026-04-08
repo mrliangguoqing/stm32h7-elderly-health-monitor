@@ -100,6 +100,9 @@ void update_rtc_time_cb(lv_timer_t *timer)
     lv_label_set_text_fmt(ui_LabelMonth, "%02d", p_ds1302_data->month);
     lv_label_set_text_fmt(ui_LabelDay, "%02d", p_ds1302_data->day);
     lv_label_set_text_fmt(ui_LabelWeek, "周%s", week_map[p_ds1302_data->week]);
+
+    /* 屏幕 2 */
+    lv_label_set_text_fmt(ui_LabelTime1, "%02d:%02d:%02d", p_ds1302_data->hour, p_ds1302_data->minute, p_ds1302_data->second);
 }
 
 /**

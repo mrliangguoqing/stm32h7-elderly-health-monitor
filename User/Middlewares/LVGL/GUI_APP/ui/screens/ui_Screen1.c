@@ -13,6 +13,8 @@ lv_obj_t * ui_MenuWeather = NULL;
 lv_obj_t * ui_MenuHeartRate = NULL;
 lv_obj_t * ui_MenuAlerts = NULL;
 lv_obj_t * ui_MenuSettings = NULL;
+lv_obj_t * ui_Panel10 = NULL;
+lv_obj_t * ui_LabelGithub = NULL;
 lv_obj_t * ui_Panel2 = NULL;
 lv_obj_t * ui_LabelTime = NULL;
 lv_obj_t * ui_Panel3 = NULL;
@@ -23,7 +25,6 @@ lv_obj_t * ui_Label11 = NULL;
 lv_obj_t * ui_LabelDay = NULL;
 lv_obj_t * ui_Label13 = NULL;
 lv_obj_t * ui_LabelWeek = NULL;
-lv_obj_t * ui_LabelGithub = NULL;
 lv_obj_t * ui_Panel9 = NULL;
 lv_obj_t * ui_Panel7 = NULL;
 lv_obj_t * ui_ArcLight = NULL;
@@ -156,6 +157,34 @@ void ui_Screen1_screen_init(void)
     lv_obj_remove_flag(ui_MenuSettings, LV_OBJ_FLAG_SCROLLABLE);      /// Flags
     lv_obj_set_style_opa(ui_MenuSettings, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
 
+    ui_Panel10 = lv_obj_create(ui_Screen1);
+    lv_obj_set_width(ui_Panel10, 388);
+    lv_obj_set_height(ui_Panel10, 22);
+    lv_obj_set_x(ui_Panel10, 82);
+    lv_obj_set_y(ui_Panel10, 0);
+    lv_obj_set_flex_flow(ui_Panel10, LV_FLEX_FLOW_COLUMN);
+    lv_obj_set_flex_align(ui_Panel10, LV_FLEX_ALIGN_SPACE_EVENLY, LV_FLEX_ALIGN_CENTER, LV_FLEX_ALIGN_SPACE_EVENLY);
+    lv_obj_remove_flag(ui_Panel10, LV_OBJ_FLAG_SCROLLABLE);      /// Flags
+    lv_obj_set_style_bg_color(ui_Panel10, lv_color_hex(0xFFFFFF), LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_opa(ui_Panel10, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_main_stop(ui_Panel10, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_grad_stop(ui_Panel10, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_border_width(ui_Panel10, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_left(ui_Panel10, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_right(ui_Panel10, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_top(ui_Panel10, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_bottom(ui_Panel10, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_row(ui_Panel10, 10, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_column(ui_Panel10, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
+
+    ui_LabelGithub = lv_label_create(ui_Panel10);
+    lv_obj_set_width(ui_LabelGithub, LV_SIZE_CONTENT);   /// 1
+    lv_obj_set_height(ui_LabelGithub, LV_SIZE_CONTENT);    /// 1
+    lv_label_set_text(ui_LabelGithub, "https://github.com/mrliangguoqing");
+    lv_obj_set_style_text_color(ui_LabelGithub, lv_color_hex(0x757575), LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_text_opa(ui_LabelGithub, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_text_font(ui_LabelGithub, &ui_font_RobotoMonoBold14, LV_PART_MAIN | LV_STATE_DEFAULT);
+
     ui_Panel2 = lv_obj_create(ui_Screen1);
     lv_obj_set_width(ui_Panel2, 408);
     lv_obj_set_height(ui_Panel2, 80);
@@ -282,16 +311,6 @@ void ui_Screen1_screen_init(void)
     lv_obj_set_style_text_color(ui_LabelWeek, lv_color_hex(0xEEEEEE), LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_text_opa(ui_LabelWeek, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_text_font(ui_LabelWeek, &ui_font_SourceHanSansBold26, LV_PART_MAIN | LV_STATE_DEFAULT);
-
-    ui_LabelGithub = lv_label_create(ui_Screen1);
-    lv_obj_set_width(ui_LabelGithub, LV_SIZE_CONTENT);   /// 1
-    lv_obj_set_height(ui_LabelGithub, LV_SIZE_CONTENT);    /// 1
-    lv_obj_set_x(ui_LabelGithub, 140);
-    lv_obj_set_y(ui_LabelGithub, 3);
-    lv_label_set_text(ui_LabelGithub, "https://github.com/mrliangguoqing");
-    lv_obj_set_style_text_color(ui_LabelGithub, lv_color_hex(0x757575), LV_PART_MAIN | LV_STATE_DEFAULT);
-    lv_obj_set_style_text_opa(ui_LabelGithub, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
-    lv_obj_set_style_text_font(ui_LabelGithub, &ui_font_RobotoMonoBold14, LV_PART_MAIN | LV_STATE_DEFAULT);
 
     ui_Panel9 = lv_obj_create(ui_Screen1);
     lv_obj_set_width(ui_Panel9, 408);
@@ -583,6 +602,8 @@ void ui_Screen1_screen_destroy(void)
     ui_MenuHeartRate = NULL;
     ui_MenuAlerts = NULL;
     ui_MenuSettings = NULL;
+    ui_Panel10 = NULL;
+    ui_LabelGithub = NULL;
     ui_Panel2 = NULL;
     ui_LabelTime = NULL;
     ui_Panel3 = NULL;
@@ -593,7 +614,6 @@ void ui_Screen1_screen_destroy(void)
     ui_LabelDay = NULL;
     ui_Label13 = NULL;
     ui_LabelWeek = NULL;
-    ui_LabelGithub = NULL;
     ui_Panel9 = NULL;
     ui_Panel7 = NULL;
     ui_ArcLight = NULL;

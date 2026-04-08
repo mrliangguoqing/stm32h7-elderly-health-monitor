@@ -25,6 +25,7 @@ extern void ui_event_MenuAlerts(lv_event_t * e);
 extern lv_obj_t * ui_MenuAlerts;
 extern void ui_event_MenuSettings(lv_event_t * e);
 extern lv_obj_t * ui_MenuSettings;
+extern lv_obj_t * ui_Panel2;
 extern lv_obj_t * ui_Label5;
 extern lv_obj_t * ui_Panel3;
 extern lv_obj_t * ui_Label3;
@@ -34,7 +35,26 @@ extern lv_obj_t * ui_Label11;
 extern lv_obj_t * ui_Label12;
 extern lv_obj_t * ui_Label13;
 extern lv_obj_t * ui_Label14;
-extern lv_obj_t * ui_Label1;
+extern lv_obj_t * ui_LabelGithub;
+extern lv_obj_t * ui_Panel9;
+extern lv_obj_t * ui_Panel7;
+extern lv_obj_t * ui_ArcLight;
+extern lv_obj_t * ui_Panel8;
+extern lv_obj_t * ui_LabelLightNum;
+extern lv_obj_t * ui_LabelT1;
+extern lv_obj_t * ui_Image3;
+extern lv_obj_t * ui_Panel1;
+extern lv_obj_t * ui_Panel4;
+extern lv_obj_t * ui_LabelTempNum;
+extern lv_obj_t * ui_LabelT22;
+extern lv_obj_t * ui_SliderTemp;
+extern lv_obj_t * ui_Image2;
+extern lv_obj_t * ui_Panel5;
+extern lv_obj_t * ui_Panel6;
+extern lv_obj_t * ui_LabelHumiNum;
+extern lv_obj_t * ui_LabelT3;
+extern lv_obj_t * ui_SliderHumi;
+extern lv_obj_t * ui_Image1;
 // CUSTOM VARIABLES
 
 #ifdef __cplusplus

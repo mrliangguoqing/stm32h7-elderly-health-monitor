@@ -92,58 +92,79 @@ void vApplicationTickHook(void)
 
 void update_rtc_time_cb(lv_timer_t *timer)
 {
-//   char buf[128];
+    ds1302_data_t *p_ds1302_data = BSP_DS1302_GetData();
+    const char *week_map[] = {"日", "一", "二", "三", "四", "五", "六"};
 
-//   ds1302_data_t *p_ds1302_data = BSP_DS1302_GetData();
+    lv_label_set_text_fmt(ui_LabelTime, "%02d:%02d:%02d", p_ds1302_data->hour, p_ds1302_data->minute, p_ds1302_data->second);
+    lv_label_set_text_fmt(ui_LabelYear, "%04d", p_ds1302_data->year);
+    lv_label_set_text_fmt(ui_LabelMonth, "%02d", p_ds1302_data->month);
+    lv_label_set_text_fmt(ui_LabelDay, "%02d", p_ds1302_data->day);
+    lv_label_set_text_fmt(ui_LabelWeek, "周%s", week_map[p_ds1302_data->week]);
 
-//   snprintf(buf, sizeof(buf), "%02d:%02d:%02d %04d年%02d月%02d日 星期 %d",
-//            p_ds1302_data->hour, p_ds1302_data->minute, p_ds1302_data->second,
-//            p_ds1302_data->year, p_ds1302_data->month, p_ds1302_data->day,
-//            p_ds1302_data->week);
+    /* 屏幕 2 */
+    lv_label_set_text_fmt(ui_LabelTime1, "%02d:%02d:%02d", p_ds1302_data->hour, p_ds1302_data->minute, p_ds1302_data->second);
+}
 
-//   /* 更新 UI 组件 */
-//   if (ui_LabelTimeDate != NULL)
-//   {
-//       lv_label_set_text(ui_LabelTimeDate, buf);
-//   }
+/**
+ * @brief 辅助函数：更新带有 1 位小数标签的 Slider
+ */
+void ui_helper_set_slider_with_1dec(lv_obj_t *slider, lv_obj_t *label, float value)
+{
+    /* 四舍五入到 1 位小数 */
+    float rounded = value + 0.05f;
+    int v_int = (int)rounded;
+    int v_dec = (int)((rounded - v_int) * 10);
+
+    /* 确保小数部分始终为正数 */
+    if (v_dec < 0)
+    {
+        v_dec = -v_dec;
+    }
+
+    /* 更新 UI */
+    lv_slider_set_value(slider, v_int, LV_ANIM_ON);
+    lv_label_set_text_fmt(label, "%d.%d", v_int, v_dec);
 }
 
 void update_sensor_data_cb(lv_timer_t *timer)
 {
-//   char buf[128];
 
-//   const aht30_data_t *p_aht30_data = BSP_AHT30_GetData();
-//   const bh1750_data_t *p_bh1750_data = BSP_BH1750_GetData();
+    const aht30_data_t *p_aht30_data = BSP_AHT30_GetData();
+    const bh1750_data_t *p_bh1750_data = BSP_BH1750_GetData();
 
-//   snprintf(buf, sizeof(buf), "温度: %.2f ℃ 湿度: %.2f %%", p_aht30_data->temperature, p_aht30_data->humidity);
+    ui_helper_set_slider_with_1dec(ui_SliderTemp, ui_LabelTempNum, p_aht30_data->temperature); /* 更新温度 */
+    ui_helper_set_slider_with_1dec(ui_SliderHumi, ui_LabelHumiNum, p_aht30_data->humidity);    /* 更新湿度 */
 
-//   /* 更新 UI 组件 */
-//   if (ui_LabelTemperatureAndHumidity != NULL)
-//   {
-//       lv_label_set_text(ui_LabelTemperatureAndHumidity, buf);
-//   }
+    if (p_aht30_data->temperature > 30.0f)
+    {
+        /* 如果温度太高，把 Slider 的颜色变红 */
+        lv_obj_set_style_bg_color(ui_SliderTemp, lv_palette_main(LV_PALETTE_RED), LV_PART_INDICATOR);
+    }
+    else
+    {
+        /* 正常时为蓝色或绿色 */
+        lv_obj_set_style_bg_color(ui_SliderTemp, lv_palette_main(LV_PALETTE_BLUE), LV_PART_INDICATOR);
+    }
 
-//   snprintf(buf, sizeof(buf), "光照强度: %.2f Lux", p_bh1750_data->lux);
+    /* 更新光照 */
+    lv_arc_set_value(ui_ArcLight, (int)p_bh1750_data->lux);
+    lv_label_set_text_fmt(ui_LabelLightNum, "%d", (int)p_bh1750_data->lux);
 
-//   /* 更新 UI 组件 */
-//   if (ui_LabelIllumination != NULL)
-//   {
-//       lv_label_set_text(ui_LabelIllumination, buf);
-//   }
+    //   char buf[128];
 
-//   if(max30102_handle.data.heart_rate_valid == 1 && max30102_handle.data.spo2_valid == 1)
-//   {
-//       snprintf(buf, sizeof(buf), "心率: %02d 血氧: %02d %%", max30102_handle.data.stable_heart_rate,max30102_handle.data.spo2);
-//   }
-//   else
-//   {
-//       snprintf(buf, sizeof(buf), "心率: %02d bpm 血氧: %02d %%", 0,0);
-//   }
-//   
+    //   if(max30102_handle.data.heart_rate_valid == 1 && max30102_handle.data.spo2_valid == 1)
+    //   {
+    //       snprintf(buf, sizeof(buf), "心率: %02d 血氧: %02d %%", max30102_handle.data.stable_heart_rate,max30102_handle.data.spo2);
+    //   }
+    //   else
+    //   {
+    //       snprintf(buf, sizeof(buf), "心率: %02d bpm 血氧: %02d %%", 0,0);
+    //   }
+    //
 
-//   /* 更新 UI 组件 */
-//   if (ui_Illumination != NULL)
-//   {
-//       lv_label_set_text(ui_Illumination, buf);
-//   }
+    //   /* 更新 UI 组件 */
+    //   if (ui_Illumination != NULL)
+    //   {
+    //       lv_label_set_text(ui_Illumination, buf);
+    //   }
 }

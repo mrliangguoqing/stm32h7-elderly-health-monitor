@@ -40,11 +40,16 @@ LV_IMG_DECLARE(ui_img_weather_active_page_png);    // assets/weather_active_page
 LV_IMG_DECLARE(ui_img_heart_rate_active_page_png);    // assets/heart_rate_active_page.png
 LV_IMG_DECLARE(ui_img_alerts_active_page_png);    // assets/alerts_active_page.png
 LV_IMG_DECLARE(ui_img_settings_active_page_png);    // assets/settings_active_page.png
+LV_IMG_DECLARE(ui_img_light_intensity_png);    // assets/light_intensity.png
+LV_IMG_DECLARE(ui_img_temperature_png);    // assets/temperature.png
+LV_IMG_DECLARE(ui_img_humidity_png);    // assets/humidity.png
 
 // FONTS
 LV_FONT_DECLARE(ui_font_RobotoMonoBold14);
+LV_FONT_DECLARE(ui_font_RobotoMonoBold16);
 LV_FONT_DECLARE(ui_font_RobotoMonoBold26);
 LV_FONT_DECLARE(ui_font_RobotoMonoBold40);
+LV_FONT_DECLARE(ui_font_SourceHanSansBold12);
 LV_FONT_DECLARE(ui_font_SourceHanSansBold26);
 
 // UI INIT

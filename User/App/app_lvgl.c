@@ -92,20 +92,14 @@ void vApplicationTickHook(void)
 
 void update_rtc_time_cb(lv_timer_t *timer)
 {
-    //   char buf[128];
+    ds1302_data_t *p_ds1302_data = BSP_DS1302_GetData();
+    const char *week_map[] = {"日", "一", "二", "三", "四", "五", "六"};
 
-    //   ds1302_data_t *p_ds1302_data = BSP_DS1302_GetData();
-
-    //   snprintf(buf, sizeof(buf), "%02d:%02d:%02d %04d年%02d月%02d日 星期 %d",
-    //            p_ds1302_data->hour, p_ds1302_data->minute, p_ds1302_data->second,
-    //            p_ds1302_data->year, p_ds1302_data->month, p_ds1302_data->day,
-    //            p_ds1302_data->week);
-
-    //   /* 更新 UI 组件 */
-    //   if (ui_LabelTimeDate != NULL)
-    //   {
-    //       lv_label_set_text(ui_LabelTimeDate, buf);
-    //   }
+    lv_label_set_text_fmt(ui_LabelTime, "%02d:%02d:%02d", p_ds1302_data->hour, p_ds1302_data->minute, p_ds1302_data->second);
+    lv_label_set_text_fmt(ui_LabelYear, "%04d", p_ds1302_data->year);
+    lv_label_set_text_fmt(ui_LabelMonth, "%02d", p_ds1302_data->month);
+    lv_label_set_text_fmt(ui_LabelDay, "%02d", p_ds1302_data->day);
+    lv_label_set_text_fmt(ui_LabelWeek, "周%s", week_map[p_ds1302_data->week]);
 }
 
 /**

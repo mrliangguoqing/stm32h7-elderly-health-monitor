@@ -28,26 +28,26 @@ const lcd_res_t *BSP_LCD_GetRes(void)
  */
 static void BSP_LCD_SetBacklight(uint8_t brightness)
 {
-    uint32_t ccr_value = 0;
+	uint32_t ccr_value = 0;
 
-    if (brightness > 100)
-    {
-        brightness = 100;
-    }
+	if (brightness > 100)
+	{
+		brightness = 100;
+	}
 
-    /* 将百分比映射到定时器的计数空间
-       ARR 为 999，总计有 1000 个刻度（0-999）
-       因此将百分比乘以 10 即可得到对应的比较值。*/
-    ccr_value = brightness * 10;
+	/* 将百分比映射到定时器的计数空间
+	   ARR 为 999，总计有 1000 个刻度（0-999）
+	   因此将百分比乘以 10 即可得到对应的比较值。*/
+	ccr_value = brightness * 10;
 
-    if (ccr_value > 999)
-    {
-        ccr_value = 999;
-    }
+	if (ccr_value > 999)
+	{
+		ccr_value = 999;
+	}
 
-    /* 更新定时器 1 通道 3 的捕获/比较寄存器值，立即改变 PWM 占空比 */
-    __HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_3, ccr_value);
-} 
+	/* 更新定时器 1 通道 3 的捕获/比较寄存器值，立即改变 PWM 占空比 */
+	__HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_3, ccr_value);
+}
 
 /**
  * @brief  设置 LCD 数据写入的地址窗口区域
@@ -274,7 +274,7 @@ void BSP_LCD_Init(void)
 	BSP_DWT_DelayMs(120);
 	BSP_LCD_WR_REG(0X29);
 
-	BSP_LCD_SetDirection(3); /* 默认横屏 */
-	BSP_LCD_Clear(WHITE);
-    BSP_LCD_SetBacklight(100);	/* 背光亮度 100% */
+	BSP_LCD_SetDirection(3);   /* 默认横屏 */
+	BSP_LCD_Clear(BLACK);	   /* 填充黑色 */
+	BSP_LCD_SetBacklight(100); /* 背光亮度 100% */
 }

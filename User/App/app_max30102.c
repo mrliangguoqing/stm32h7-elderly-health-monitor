@@ -150,7 +150,7 @@ void App_Max30102_Init(void)
     /* 采集任务 */
     xTaskCreate(MAX30102_Collect_Task,
                 "M30102_Coll",
-                256,
+                512,
                 NULL,
                 15,
                 &xMax30102CollectTaskHandle);
@@ -158,7 +158,7 @@ void App_Max30102_Init(void)
     /* 算法任务 */
     xTaskCreate(MAX30102_Calculate_Task,
                 "M30102_Calc",
-                256,
+                512,
                 NULL,
                 7,
                 &xMax30102CalculateTaskHandle);

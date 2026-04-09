@@ -148,7 +148,7 @@ void App_Voice_Service_Init(void)
 
     xTaskCreate(Voice_Service_Task,
                 "Voice",
-                256,
+                512,
                 NULL,
                 10,
                 &xVoiceServiceTaskHandle);

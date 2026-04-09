@@ -29,21 +29,25 @@ volatile uint32_t ulHighFrequencyTimerTicks = 0UL;
  */
 static void System_Monitor_Task(void *pvParameters)
 {
-    /* 任务状态统计缓冲区 */
+    /* 建议加大缓冲区或确保任务数量在受控范围 */
     static char pcWriteBuffer[1024];
 
     for (;;)
     {
-        memset(pcWriteBuffer, 0, strlen((char *)pcWriteBuffer));
-        PAL_LOG(PAL_LOG_LEVEL_INFO,"=================================================");
-        PAL_LOG(PAL_LOG_LEVEL_INFO,"任务名      任务状态 优先级   剩余栈 任务序号\r\n");
-        vTaskList((char *)&pcWriteBuffer);
-        printf("%s\r\n", pcWriteBuffer);
-        
-        memset(pcWriteBuffer, 0, strlen((char *)pcWriteBuffer));
-        PAL_LOG(PAL_LOG_LEVEL_INFO,"任务名       运行计数         使用率");
-        vTaskGetRunTimeStats((char *)&pcWriteBuffer);
-        printf("%s\r\n", pcWriteBuffer);
+        memset(pcWriteBuffer, 0, sizeof(pcWriteBuffer));
+
+        printf("\r\n================ System Monitor ================\r\n");
+        printf("TaskName\tStatus\tPrio\tStack\tNum\r\n");
+
+        vTaskList(pcWriteBuffer);
+        printf("%s", pcWriteBuffer);
+
+        printf("------------------------------------------------\r\n");
+        printf("TaskName\tRunCount\tUsage\r\n");
+
+        memset(pcWriteBuffer, 0, sizeof(pcWriteBuffer));
+        vTaskGetRunTimeStats(pcWriteBuffer);
+        printf("%s", pcWriteBuffer);
 
         vTaskDelay(pdMS_TO_TICKS(2000));
     }
@@ -58,9 +62,9 @@ void App_System_Monitor_Init(void)
 {
     xTaskCreate(System_Monitor_Task,
                 "System_Monitor_Task",
-                256,
+                512,
                 NULL,
-                1,
+                14,
                 &xSystemMonitorTaskHandle);
 }
 

@@ -80,7 +80,7 @@ void App_Sensor_Init(void)
 
     xTaskCreate(Sensor_Task,
                 "Sensor_Task",
-                256,
+                512,
                 NULL,
                 5,
                 &xSensorTaskHandle);

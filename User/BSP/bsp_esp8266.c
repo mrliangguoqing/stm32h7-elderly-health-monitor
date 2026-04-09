@@ -117,21 +117,6 @@ uint8_t BSP_ESP8266_Init(void)
 
     PAL_LOG(PAL_LOG_LEVEL_INFO, "ESP8266 配置成功并已进入透传模式\r\n");
 
-    if (BSP_ESP8266_WeatherUpdate(&g_weather_info) == 1)
-    {
-        return 1;
-    }
-
-    BSP_ESP8266_Weather_Print(&g_weather_info);
-
-    if (BSP_ESP8266_SyncTime(&g_net_time) == 1)
-    {
-        PAL_LOG(PAL_LOG_LEVEL_ERROR, "请求网络时间失败\r\n");
-        return 1;
-    }
-
-    BSP_ESP8266_Time_Print(&g_net_time);
-
     return 0;
 }
 

@@ -25,30 +25,58 @@ static void Sync_Netdata_Task(void *pvParameters)
 {
     TickType_t xLastWakeTime;
     const TickType_t xFrequency = pdMS_TO_TICKS(3600 * 1000); /* 恒定 1 小时触发一次 */
-    static uint8_t hour_counter = 0;                        /* 小时计数器 */
+    static uint8_t hour_counter = 0;                          /* 小时计数器 */
 
     ds1302_data_t *p_ds1302_data = BSP_DS1302_GetData();
+
+    uint8_t status = 0x00;
+    static uint8_t num = 0;
 
     /* BSP 层模块初始化 */
     BSP_ESP8266_Init();
 
-    /* 更新时间到 DS1302 */
-    if (BSP_ESP8266_SyncTime(&g_net_time) == 0)
-    {
-        p_ds1302_data->year = g_net_time.year;
-        p_ds1302_data->month = g_net_time.month;
-        p_ds1302_data->day = g_net_time.day;
-        p_ds1302_data->hour = g_net_time.hour;
-        p_ds1302_data->minute = g_net_time.minute;
-        p_ds1302_data->second = g_net_time.second;
-        p_ds1302_data->week = g_net_time.week;
+    vTaskPrioritySet(NULL, 11);
 
-        BSP_DS1302_SetTime(p_ds1302_data);
-    }
-    else
+    do
     {
-        PAL_LOG(PAL_LOG_LEVEL_ERROR, "RTC_Alarm_Task 请求网络时间失败");
-    }
+        status = 0x00;
+
+        PAL_LOG(PAL_LOG_LEVEL_ERROR, "请求网络同步次数 ------ %d", num);
+        num++;
+
+        if (BSP_ESP8266_WeatherUpdate(&g_weather_info) == 0)
+        {
+            status |= 0xF0;
+            BSP_ESP8266_Weather_Print(&g_weather_info);
+        }
+        else
+        {
+            PAL_LOG(PAL_LOG_LEVEL_ERROR, "请求天气数据失败\r\n");
+        }
+
+        /* 更新时间到 DS1302 */
+        if (BSP_ESP8266_SyncTime(&g_net_time) == 0)
+        {
+            status |= 0x0F;
+            p_ds1302_data->year = g_net_time.year;
+            p_ds1302_data->month = g_net_time.month;
+            p_ds1302_data->day = g_net_time.day;
+            p_ds1302_data->hour = g_net_time.hour;
+            p_ds1302_data->minute = g_net_time.minute;
+            p_ds1302_data->second = g_net_time.second;
+            p_ds1302_data->week = g_net_time.week;
+
+            BSP_DS1302_SetTime(p_ds1302_data);
+
+            BSP_ESP8266_Time_Print(&g_net_time);
+        }
+        else
+        {
+            PAL_LOG(PAL_LOG_LEVEL_ERROR, "RTC_Alarm_Task 请求网络时间失败");
+        }
+    } while (status != 0xFF);
+
+    vTaskPrioritySet(NULL, 2);
 
     /* 初始化时间点 */
     xLastWakeTime = xTaskGetTickCount();

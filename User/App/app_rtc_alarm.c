@@ -54,7 +54,7 @@ void App_RTC_Alarm_Init(void)
 
     xTaskCreate(RTC_Alarm_Task,
                 "RTC_Alarm_Task",
-                256,
+                512,
                 NULL,
                 4,
                 &xRtcAlarmTaskHandle);

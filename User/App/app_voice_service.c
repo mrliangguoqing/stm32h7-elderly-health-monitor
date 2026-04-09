@@ -20,6 +20,8 @@
 
 #include "pal_log.h"
 
+#include "utils_math.h"
+
 #include <stdint.h>
 #include <string.h>
 
@@ -28,8 +30,6 @@ QueueHandle_t xVoiceQueue = NULL;
 
 /* 任务句柄：用于外部管理该任务（如删除、挂起、获取状态） */
 TaskHandle_t xVoiceServiceTaskHandle = NULL;
-
-static void split_float(float f_val, uint8_t *int_part, uint8_t *dec_part);
 
 /**
  * @brief  语音交互处理任务
@@ -47,7 +47,8 @@ static void Voice_Service_Task(void *pvParameters)
     const uint8_t fall_alarm_cmd[] = {0xAA, 0x01, 0x01, 0x55};
     const uint8_t help_alarm_cmd[] = {0xAA, 0x01, 0x02, 0x55};
     uint8_t tx_buffer[16] = {0};
-    uint8_t integer_val = 0, decimal_val = 0;
+    int32_t integer_val = 0;
+    uint32_t decimal_val = 0;
 
     for (;;)
     {
@@ -70,6 +71,7 @@ static void Voice_Service_Task(void *pvParameters)
                             xSemaphoreGive(xAlarmSemaphore);
                         }
                         break;
+
                     case 0x02: /* 天气预报 */
                         tx_buffer[0] = 0xAA;
                         tx_buffer[1] = 0x02;
@@ -81,7 +83,6 @@ static void Voice_Service_Task(void *pvParameters)
                         tx_buffer[7] = 0x55;
                         HAL_UART_Transmit(&huart1, tx_buffer, 8, 100);
                         HAL_UART_Transmit(voice_conn.huart, tx_buffer, 8, 100);
-
                         break;
 
                     case 0x03: /* 时间 */
@@ -93,20 +94,19 @@ static void Voice_Service_Task(void *pvParameters)
                         tx_buffer[5] = 0x55;
                         HAL_UART_Transmit(&huart1, tx_buffer, 6, 100);
                         HAL_UART_Transmit(voice_conn.huart, tx_buffer, 6, 100);
-
                         break;
+
                     case 0x04: /* 室内温湿度 */
                         tx_buffer[0] = 0xAA;
                         tx_buffer[1] = 0x04;
                         tx_buffer[2] = 0x01;
-                        split_float(p_aht30_data->temperature, &integer_val, &decimal_val);
-                        tx_buffer[3] = integer_val;
-                        tx_buffer[4] = decimal_val;
-                        split_float(p_aht30_data->humidity, &integer_val, &decimal_val);
-                        tx_buffer[5] = integer_val;
-                        tx_buffer[6] = decimal_val;
+                        UTILS_Math_SplitFloat(p_aht30_data->temperature, 1, &integer_val, &decimal_val, NULL);
+                        tx_buffer[3] = (uint8_t)integer_val;
+                        tx_buffer[4] = (uint8_t)decimal_val;
+                        UTILS_Math_SplitFloat(p_aht30_data->humidity, 1, &integer_val, &decimal_val, NULL);
+                        tx_buffer[5] = (uint8_t)integer_val;
+                        tx_buffer[6] = (uint8_t)decimal_val;
                         tx_buffer[7] = 0x55;
-                        // tx_buffer[8] = '\0';
                         HAL_UART_Transmit(&huart1, tx_buffer, 9, 100);
                         HAL_UART_Transmit(voice_conn.huart, tx_buffer, 9, 100);
                         break;
@@ -121,7 +121,7 @@ static void Voice_Service_Task(void *pvParameters)
                 HAL_UART_Transmit(voice_conn.huart, (uint8_t *)fall_alarm_cmd, 4, 100);
                 break;
 
-                case MSG_VOICE_HELP_ALARM:
+            case MSG_VOICE_HELP_ALARM:
                 /* 执行跌倒语音播报 */
                 HAL_UART_Transmit(voice_conn.huart, (uint8_t *)help_alarm_cmd, 4, 100);
                 break;
@@ -152,31 +152,4 @@ void App_Voice_Service_Init(void)
                 NULL,
                 10,
                 &xVoiceServiceTaskHandle);
-}
-
-/**
- * @brief  将浮点数拆分为整数部分和小数部分（保留2位小数）
- * @param  f_val    [in]  输入的浮点数 (建议范围 0.00 至 255.99)
- * @param  int_part [out] 存储整数部分的指针
- * @param  dec_part [out] 存储两位小数部分的指针 (取值范围 00-99)
- * @return None
- */
-static void split_float(float f_val, uint8_t *int_part, uint8_t *dec_part)
-{
-    /* 处理负数（如果是负数，先取绝对值） */
-    if (f_val < 0)
-    {
-        f_val = -f_val;
-    }
-
-    *int_part = (uint8_t)f_val; /* 提取整数部分 */
-
-    *dec_part = (uint8_t)((f_val - (float)(*int_part)) * 100.0f + 0.5f); /* 提取小数部分，保留 2 位并四舍五入 */
-
-    /* 特殊边界处理，如果小数进位到了 100（例如 0.996 变 100） */
-    if (*dec_part >= 100)
-    {
-        *dec_part = 0;
-        (*int_part)++;
-    }
 }

@@ -21,6 +21,8 @@
 #include "bsp_bh1750.h"
 #include "bsp_max30102.h"
 
+#include "utils_math.h"
+
 #include <stdio.h>
 
 /* 任务句柄：用于外部管理该任务（如删除、挂起、获取状态） */
@@ -110,16 +112,10 @@ void update_rtc_time_cb(lv_timer_t *timer)
  */
 void ui_helper_set_slider_with_1dec(lv_obj_t *slider, lv_obj_t *label, float value)
 {
-    /* 四舍五入到 1 位小数 */
-    float rounded = value + 0.05f;
-    int v_int = (int)rounded;
-    int v_dec = (int)((rounded - v_int) * 10);
+    int32_t v_int = 0;
+    uint32_t v_dec = 0;
 
-    /* 确保小数部分始终为正数 */
-    if (v_dec < 0)
-    {
-        v_dec = -v_dec;
-    }
+    UTILS_Math_SplitFloat(value, 1, &v_int, &v_dec, NULL);
 
     /* 更新 UI */
     lv_slider_set_value(slider, v_int, LV_ANIM_ON);

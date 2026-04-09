@@ -340,7 +340,7 @@
               <MiscControls>-fno-finite-math-only</MiscControls>
               <Define>USE_PWR_LDO_SUPPLY,USE_HAL_DRIVER,STM32H743xx</Define>
               <Undefine></Undefine>
-              <IncludePath>../Core/Inc;../Drivers/STM32H7xx_HAL_Driver/Inc;../Drivers/STM32H7xx_HAL_Driver/Inc/Legacy;../Drivers/CMSIS/Device/ST/STM32H7xx/Include;../Drivers/CMSIS/Include;../User/PAL;../User/Bsp;../User/App;../User/Middlewares/FreeRTOS;../User/Middlewares/FreeRTOS/include;../User/Middlewares/FreeRTOS/r0p1;../User/Middlewares/LVGL/GUI;../User/Middlewares/LVGL/GUI/lvgl;../User/Middlewares/LVGL/GUI/lvgl/src;../User/Middlewares/LVGL/GUI/lvgl/port;../User/Middlewares/cJSON;../User/Middlewares/LVGL/GUI_APP/ui;../User/Middlewares/LVGL/GUI_APP/ui/components;../User/Middlewares/LVGL/GUI_APP/ui/fonts;../User/Middlewares/LVGL/GUI_APP/ui/images;../User/Middlewares/LVGL/GUI_APP/ui/screens</IncludePath>
+              <IncludePath>../Core/Inc;../Drivers/STM32H7xx_HAL_Driver/Inc;../Drivers/STM32H7xx_HAL_Driver/Inc/Legacy;../Drivers/CMSIS/Device/ST/STM32H7xx/Include;../Drivers/CMSIS/Include;../User/PAL;../User/Bsp;../User/App;..\User\Middlewares\Utils;../User/Middlewares/FreeRTOS;../User/Middlewares/FreeRTOS/include;../User/Middlewares/FreeRTOS/r0p1;../User/Middlewares/LVGL/GUI;../User/Middlewares/LVGL/GUI/lvgl;../User/Middlewares/LVGL/GUI/lvgl/src;../User/Middlewares/LVGL/GUI/lvgl/port;../User/Middlewares/cJSON;../User/Middlewares/LVGL/GUI_APP/ui;../User/Middlewares/LVGL/GUI_APP/ui/components;../User/Middlewares/LVGL/GUI_APP/ui/fonts;../User/Middlewares/LVGL/GUI_APP/ui/images;../User/Middlewares/LVGL/GUI_APP/ui/screens</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -1355,6 +1355,16 @@
               <FileName>app_system_monitor.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\User\App\app_system_monitor.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>User/Middlewares/Utils</GroupName>
+          <Files>
+            <File>
+              <FileName>utils_math.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\User\Middlewares\Utils\utils_math.c</FilePath>
             </File>
           </Files>
         </Group>

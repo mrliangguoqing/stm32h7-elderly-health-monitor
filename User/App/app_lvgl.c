@@ -14,6 +14,9 @@
 
 #include "ui.h"
 
+#include "app_rtc_alarm.h"
+#include "pal_log.h"
+
 #include "bsp_lcd.h"
 #include "bsp_gt911.h"
 #include "bsp_ds1302.h"
@@ -28,6 +31,7 @@
 /* 任务句柄：用于外部管理该任务（如删除、挂起、获取状态） */
 TaskHandle_t xLvglTaskHandle = NULL;
 
+void alarm_ui_initial_state(void);
 void update_rtc_time_cb(lv_timer_t *timer);
 void update_sensor_data_cb(lv_timer_t *timer);
 
@@ -43,6 +47,8 @@ static void Lvgl_Task(void *pvParameters)
     lv_port_indev_init(); /* 初始化触摸接口 */
 
     ui_init();
+    alarm_ui_initial_state();                              /* 更新闹钟开关 UI */
+    lv_obj_set_parent(ui_PanelAlarmPopup, lv_layer_top()); /* 弹窗设置到最顶层 */
 
     lv_timer_create(update_rtc_time_cb, 1000, NULL);   /* 1秒更新一次时间 */
     lv_timer_create(update_sensor_data_cb, 500, NULL); // 0.5秒更新一次温湿度
@@ -92,10 +98,32 @@ void vApplicationTickHook(void)
     lv_tick_inc(1);
 }
 
+void alarm_ui_initial_state(void)
+{
+    if (g_user_alarm.is_enabled)
+    {
+        lv_obj_add_state(ui_SwitchAlarm, LV_STATE_CHECKED);
+    }
+    else
+    {
+        lv_obj_clear_state(ui_SwitchAlarm, LV_STATE_CHECKED);
+    }
+}
+
 void update_rtc_time_cb(lv_timer_t *timer)
 {
     ds1302_data_t *p_ds1302_data = BSP_DS1302_GetData();
     const char *week_map[] = {"日", "一", "二", "三", "四", "五", "六"};
+
+    if (g_user_alarm.is_active)
+    {
+        /* 检查当前是否已经是显示状态，避免重复清除 Hidden 标志 */
+        if (lv_obj_has_flag(ui_PanelAlarmPopup, LV_OBJ_FLAG_HIDDEN))
+        {
+            lv_obj_clear_flag(ui_PanelAlarmPopup, LV_OBJ_FLAG_HIDDEN);
+            PAL_LOG(PAL_LOG_LEVEL_INFO, "UI Alarm Popup Triggered!");
+        }
+    }
 
     lv_label_set_text_fmt(ui_LabelTime, "%02d:%02d:%02d", p_ds1302_data->hour, p_ds1302_data->minute, p_ds1302_data->second);
     lv_label_set_text_fmt(ui_LabelYear, "%04d", p_ds1302_data->year);

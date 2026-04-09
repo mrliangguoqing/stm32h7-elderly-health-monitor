@@ -25,6 +25,19 @@ extern lv_obj_t * ui_MenuHeartRate4;
 extern lv_obj_t * ui_MenuAlerts4;
 extern void ui_event_MenuSettings4(lv_event_t * e);
 extern lv_obj_t * ui_MenuSettings4;
+extern lv_obj_t * ui_Panel20;
+extern lv_obj_t * ui_RollerHour;
+extern lv_obj_t * ui_LabelTime3;
+extern lv_obj_t * ui_RollerMin;
+extern lv_obj_t * ui_PanelAlarmPopup1;
+extern void ui_event_SwitchAlarm(lv_event_t * e);
+extern lv_obj_t * ui_SwitchAlarm;
+extern lv_obj_t * ui_Label2;
+extern lv_obj_t * ui_PanelAlarmPopup;
+extern lv_obj_t * ui_Label3;
+extern void ui_event_Button1(lv_event_t * e);
+extern lv_obj_t * ui_Button1;
+extern lv_obj_t * ui_Label4;
 // CUSTOM VARIABLES
 
 #ifdef __cplusplus

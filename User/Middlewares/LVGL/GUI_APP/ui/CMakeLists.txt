@@ -8,6 +8,7 @@ SET(SOURCES components/ui_comp_uilabeltime.c
     ui.c
     components/ui_comp_hook.c
     ui_helpers.c
+    ui_events.c
     images/ui_img_background_image_png.c
     images/ui_img_home_active_page_png.c
     images/ui_img_weather_active_page_png.c

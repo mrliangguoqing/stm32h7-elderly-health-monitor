@@ -1422,6 +1422,11 @@
               <FilePath>..\User\Middlewares\LVGL\GUI_APP\ui\ui.c</FilePath>
             </File>
             <File>
+              <FileName>ui_events.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\User\Middlewares\LVGL\GUI_APP\ui\ui_events.c</FilePath>
+            </File>
+            <File>
               <FileName>ui_helpers.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\User\Middlewares\LVGL\GUI_APP\ui\ui_helpers.c</FilePath>

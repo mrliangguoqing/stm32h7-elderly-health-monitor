@@ -9,6 +9,8 @@
 
 #include "app_rtc_alarm.h"
 
+#include "bsp_lcd.h"
+
 void ui_event_alarm_confirm(lv_event_t *e)
 {
     /* 隐藏弹窗 */
@@ -40,4 +42,16 @@ void ui_event_alarm_switch_changed(lv_event_t *e)
         g_user_alarm.is_active = false;
         PAL_LOG(PAL_LOG_LEVEL_INFO, "Alarm Disabled");
     }
+}
+
+void ui_event_BrightnessSlider(lv_event_t *e)
+{
+    lv_obj_t *slider = lv_event_get_target(e);
+    int32_t value = lv_slider_get_value(slider);
+
+    /* 更新数值标签 */
+    lv_label_set_text_fmt(ui_LabelBrightnessNum, "%d%%", value);
+
+    /* 调节 TFT-LCD 的亮度 */
+    BSP_LCD_SetBacklight(value);
 }

@@ -1556,6 +1556,11 @@
               <FileType>1</FileType>
               <FilePath>..\User\Middlewares\LVGL\GUI_APP\ui\images\ui_img_heart_rate_png.c</FilePath>
             </File>
+            <File>
+              <FileName>ui_img_brightness_png.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\User\Middlewares\LVGL\GUI_APP\ui\images\ui_img_brightness_png.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>

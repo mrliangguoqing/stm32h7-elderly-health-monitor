@@ -26,7 +26,7 @@ const lcd_res_t *BSP_LCD_GetRes(void)
  * 		   定时器的自动重装载值（ARR）配置为 999
  * @retval None
  */
-static void BSP_LCD_SetBacklight(uint8_t brightness)
+void BSP_LCD_SetBacklight(uint8_t brightness)
 {
 	uint32_t ccr_value = 0;
 

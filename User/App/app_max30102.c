@@ -79,10 +79,10 @@ void MAX30102_Calculate_Task(void *pvParameters)
         /* 检查手指是否按下 (判断最新的采样点) */
         uint32_t current_ir_value = max30102_handle.buffer.ir_buffer[499];
 
-        if (current_ir_value < 57000)
+        if (current_ir_value < MAX30102_TOUCH_THRESHOLD)
         {
-            /* 手指松开，清空结果并跳过计算 */
-            max30102_handle.data.heart_rate = 0;
+            /* 状态：手指未按下，清空结果并跳过计算 */
+            max30102_handle.data.heart_rate = HEART_RATE_OFF;
             max30102_handle.data.spo2 = 0;
             max30102_handle.data.heart_rate_valid = 0;
             max30102_handle.data.spo2_valid = 0;
@@ -91,7 +91,7 @@ void MAX30102_Calculate_Task(void *pvParameters)
         }
         else
         {
-            /* 手指按下，执行计算逻辑 */
+            /* 状态：手指已按下，正在计算或已完成 */
 
             /* 执行原始算法 */
             maxim_heart_rate_and_oxygen_saturation(
@@ -99,6 +99,12 @@ void MAX30102_Calculate_Task(void *pvParameters)
                 max30102_handle.buffer.red_buffer,
                 &max30102_handle.data.spo2, &max30102_handle.data.spo2_valid,
                 &max30102_handle.data.heart_rate, &max30102_handle.data.heart_rate_valid);
+
+            /* 如果算法还没给出有效结果，手动设为“检测中”旗标 */
+            if (max30102_handle.data.heart_rate_valid == 0)
+            {
+                max30102_handle.data.heart_rate = HEART_RATE_DETECTING;
+            }
 
             /* 执行平滑滤波算法 */
             max30102_handle.data.stable_heart_rate = Algo_SmoothHeartRate(max30102_handle.data.heart_rate,

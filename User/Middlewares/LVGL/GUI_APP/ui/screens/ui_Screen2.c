@@ -14,7 +14,7 @@ lv_obj_t * ui_MenuHeartRate2 = NULL;
 lv_obj_t * ui_MenuAlerts2 = NULL;
 lv_obj_t * ui_MenuSettings2 = NULL;
 lv_obj_t * ui_Panel12 = NULL;
-lv_obj_t * ui_LabelTime1 = NULL;
+lv_obj_t * ui_LabelTime2 = NULL;
 // event funtions
 void ui_event_MenuHome2(lv_event_t * e)
 {
@@ -148,13 +148,13 @@ void ui_Screen2_screen_init(void)
     lv_obj_set_style_pad_row(ui_Panel12, 10, LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_pad_column(ui_Panel12, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
 
-    ui_LabelTime1 = lv_label_create(ui_Panel12);
-    lv_obj_set_width(ui_LabelTime1, LV_SIZE_CONTENT);   /// 1
-    lv_obj_set_height(ui_LabelTime1, LV_SIZE_CONTENT);    /// 1
-    lv_label_set_text(ui_LabelTime1, "00:00:00");
-    lv_obj_set_style_text_color(ui_LabelTime1, lv_color_hex(0x757575), LV_PART_MAIN | LV_STATE_DEFAULT);
-    lv_obj_set_style_text_opa(ui_LabelTime1, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
-    lv_obj_set_style_text_font(ui_LabelTime1, &ui_font_RobotoMonoBold14, LV_PART_MAIN | LV_STATE_DEFAULT);
+    ui_LabelTime2 = lv_label_create(ui_Panel12);
+    lv_obj_set_width(ui_LabelTime2, LV_SIZE_CONTENT);   /// 1
+    lv_obj_set_height(ui_LabelTime2, LV_SIZE_CONTENT);    /// 1
+    lv_label_set_text(ui_LabelTime2, "00:00:00");
+    lv_obj_set_style_text_color(ui_LabelTime2, lv_color_hex(0xEEEEEE), LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_text_opa(ui_LabelTime2, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_text_font(ui_LabelTime2, &ui_font_RobotoMonoBold14, LV_PART_MAIN | LV_STATE_DEFAULT);
 
     lv_obj_add_event_cb(ui_MenuHome2, ui_event_MenuHome2, LV_EVENT_ALL, NULL);
     lv_obj_add_event_cb(ui_MenuHeartRate2, ui_event_MenuHeartRate2, LV_EVENT_ALL, NULL);
@@ -177,6 +177,6 @@ void ui_Screen2_screen_destroy(void)
     ui_MenuAlerts2 = NULL;
     ui_MenuSettings2 = NULL;
     ui_Panel12 = NULL;
-    ui_LabelTime1 = NULL;
+    ui_LabelTime2 = NULL;
 
 }

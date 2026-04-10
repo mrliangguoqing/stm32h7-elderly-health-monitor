@@ -15,7 +15,7 @@ lv_obj_t * ui_MenuAlerts4 = NULL;
 lv_obj_t * ui_MenuSettings4 = NULL;
 lv_obj_t * ui_Panel20 = NULL;
 lv_obj_t * ui_RollerHour = NULL;
-lv_obj_t * ui_LabelTime3 = NULL;
+lv_obj_t * ui_Label12 = NULL;
 lv_obj_t * ui_RollerMin = NULL;
 lv_obj_t * ui_PanelAlarmPopup1 = NULL;
 lv_obj_t * ui_SwitchAlarm = NULL;
@@ -24,6 +24,8 @@ lv_obj_t * ui_PanelAlarmPopup = NULL;
 lv_obj_t * ui_Label3 = NULL;
 lv_obj_t * ui_Button1 = NULL;
 lv_obj_t * ui_Label4 = NULL;
+lv_obj_t * ui_Panel14 = NULL;
+lv_obj_t * ui_LabelTime4 = NULL;
 // event funtions
 void ui_event_MenuHome4(lv_event_t * e)
 {
@@ -185,17 +187,21 @@ void ui_Screen4_screen_init(void)
     lv_obj_set_style_text_color(ui_RollerHour, lv_color_hex(0xEEEEEE), LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_text_opa(ui_RollerHour, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_text_font(ui_RollerHour, &ui_font_RobotoMonoBold26, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_color(ui_RollerHour, lv_color_hex(0x1E1E1E), LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_opa(ui_RollerHour, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_border_color(ui_RollerHour, lv_color_hex(0x2095F6), LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_border_opa(ui_RollerHour, 5, LV_PART_MAIN | LV_STATE_DEFAULT);
 
-    ui_LabelTime3 = lv_label_create(ui_Panel20);
-    lv_obj_set_width(ui_LabelTime3, LV_SIZE_CONTENT);   /// 1
-    lv_obj_set_height(ui_LabelTime3, LV_SIZE_CONTENT);    /// 1
-    lv_obj_set_x(ui_LabelTime3, 24);
-    lv_obj_set_y(ui_LabelTime3, -97);
-    lv_obj_set_align(ui_LabelTime3, LV_ALIGN_CENTER);
-    lv_label_set_text(ui_LabelTime3, ":");
-    lv_obj_set_style_text_color(ui_LabelTime3, lv_color_hex(0xEEEEEE), LV_PART_MAIN | LV_STATE_DEFAULT);
-    lv_obj_set_style_text_opa(ui_LabelTime3, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
-    lv_obj_set_style_text_font(ui_LabelTime3, &ui_font_RobotoMonoBold40, LV_PART_MAIN | LV_STATE_DEFAULT);
+    ui_Label12 = lv_label_create(ui_Panel20);
+    lv_obj_set_width(ui_Label12, LV_SIZE_CONTENT);   /// 1
+    lv_obj_set_height(ui_Label12, LV_SIZE_CONTENT);    /// 1
+    lv_obj_set_x(ui_Label12, 24);
+    lv_obj_set_y(ui_Label12, -97);
+    lv_obj_set_align(ui_Label12, LV_ALIGN_CENTER);
+    lv_label_set_text(ui_Label12, ":");
+    lv_obj_set_style_text_color(ui_Label12, lv_color_hex(0xEEEEEE), LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_text_opa(ui_Label12, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_text_font(ui_Label12, &ui_font_RobotoMonoBold40, LV_PART_MAIN | LV_STATE_DEFAULT);
 
     ui_RollerMin = lv_roller_create(ui_Panel20);
     lv_roller_set_options(ui_RollerMin,
@@ -207,6 +213,10 @@ void ui_Screen4_screen_init(void)
     lv_obj_set_style_text_color(ui_RollerMin, lv_color_hex(0xEEEEEE), LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_text_opa(ui_RollerMin, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_text_font(ui_RollerMin, &ui_font_RobotoMonoBold26, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_color(ui_RollerMin, lv_color_hex(0x1E1E1E), LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_opa(ui_RollerMin, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_border_color(ui_RollerMin, lv_color_hex(0x2095F6), LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_border_opa(ui_RollerMin, 5, LV_PART_MAIN | LV_STATE_DEFAULT);
 
     ui_PanelAlarmPopup1 = lv_obj_create(ui_Screen4);
     lv_obj_set_width(ui_PanelAlarmPopup1, 388);
@@ -297,6 +307,34 @@ void ui_Screen4_screen_init(void)
     lv_obj_set_style_text_opa(ui_Label4, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_text_font(ui_Label4, &ui_font_SourceHanSansBold26, LV_PART_MAIN | LV_STATE_DEFAULT);
 
+    ui_Panel14 = lv_obj_create(ui_Screen4);
+    lv_obj_set_width(ui_Panel14, 388);
+    lv_obj_set_height(ui_Panel14, 22);
+    lv_obj_set_x(ui_Panel14, 82);
+    lv_obj_set_y(ui_Panel14, 0);
+    lv_obj_set_flex_flow(ui_Panel14, LV_FLEX_FLOW_COLUMN);
+    lv_obj_set_flex_align(ui_Panel14, LV_FLEX_ALIGN_SPACE_EVENLY, LV_FLEX_ALIGN_CENTER, LV_FLEX_ALIGN_SPACE_EVENLY);
+    lv_obj_remove_flag(ui_Panel14, LV_OBJ_FLAG_SCROLLABLE);      /// Flags
+    lv_obj_set_style_bg_color(ui_Panel14, lv_color_hex(0xFFFFFF), LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_opa(ui_Panel14, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_main_stop(ui_Panel14, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_grad_stop(ui_Panel14, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_border_width(ui_Panel14, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_left(ui_Panel14, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_right(ui_Panel14, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_top(ui_Panel14, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_bottom(ui_Panel14, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_row(ui_Panel14, 10, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_column(ui_Panel14, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
+
+    ui_LabelTime4 = lv_label_create(ui_Panel14);
+    lv_obj_set_width(ui_LabelTime4, LV_SIZE_CONTENT);   /// 1
+    lv_obj_set_height(ui_LabelTime4, LV_SIZE_CONTENT);    /// 1
+    lv_label_set_text(ui_LabelTime4, "00:00:00");
+    lv_obj_set_style_text_color(ui_LabelTime4, lv_color_hex(0xEEEEEE), LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_text_opa(ui_LabelTime4, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_text_font(ui_LabelTime4, &ui_font_RobotoMonoBold14, LV_PART_MAIN | LV_STATE_DEFAULT);
+
     lv_obj_add_event_cb(ui_MenuHome4, ui_event_MenuHome4, LV_EVENT_ALL, NULL);
     lv_obj_add_event_cb(ui_MenuWeather4, ui_event_MenuWeather4, LV_EVENT_ALL, NULL);
     lv_obj_add_event_cb(ui_MenuHeartRate4, ui_event_MenuHeartRate4, LV_EVENT_ALL, NULL);
@@ -321,7 +359,7 @@ void ui_Screen4_screen_destroy(void)
     ui_MenuSettings4 = NULL;
     ui_Panel20 = NULL;
     ui_RollerHour = NULL;
-    ui_LabelTime3 = NULL;
+    ui_Label12 = NULL;
     ui_RollerMin = NULL;
     ui_PanelAlarmPopup1 = NULL;
     ui_SwitchAlarm = NULL;
@@ -330,5 +368,7 @@ void ui_Screen4_screen_destroy(void)
     ui_Label3 = NULL;
     ui_Button1 = NULL;
     ui_Label4 = NULL;
+    ui_Panel14 = NULL;
+    ui_LabelTime4 = NULL;
 
 }

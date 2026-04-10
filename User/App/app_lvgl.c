@@ -81,7 +81,7 @@ void App_Lvgl_Init(void)
 
     xTaskCreate(Lvgl_Task,
                 "Lvgl_Task",
-                2048,
+                4096,
                 NULL,
                 8,
                 &xLvglTaskHandle);
@@ -132,7 +132,16 @@ void update_rtc_time_cb(lv_timer_t *timer)
     lv_label_set_text_fmt(ui_LabelWeek, "周%s", week_map[p_ds1302_data->week]);
 
     /* 屏幕 2 */
-    lv_label_set_text_fmt(ui_LabelTime1, "%02d:%02d:%02d", p_ds1302_data->hour, p_ds1302_data->minute, p_ds1302_data->second);
+    lv_label_set_text_fmt(ui_LabelTime2, "%02d:%02d:%02d", p_ds1302_data->hour, p_ds1302_data->minute, p_ds1302_data->second);
+
+    /* 屏幕 3 */
+    lv_label_set_text_fmt(ui_LabelTime3, "%02d:%02d:%02d", p_ds1302_data->hour, p_ds1302_data->minute, p_ds1302_data->second);
+
+    /* 屏幕 4 */
+    lv_label_set_text_fmt(ui_LabelTime4, "%02d:%02d:%02d", p_ds1302_data->hour, p_ds1302_data->minute, p_ds1302_data->second);
+
+    /* 屏幕 5 */
+    lv_label_set_text_fmt(ui_LabelTime5, "%02d:%02d:%02d", p_ds1302_data->hour, p_ds1302_data->minute, p_ds1302_data->second);
 }
 
 /**
@@ -150,9 +159,79 @@ void ui_helper_set_slider_with_1dec(lv_obj_t *slider, lv_obj_t *label, float val
     lv_label_set_text_fmt(label, "%d.%d", v_int, v_dec);
 }
 
+/**
+ * @brief  更新心率血氧界面 UI
+ * @param  p_max30102: 指向 MAX30102 设备句柄的指针
+ */
+void ui_update_health_screen(const max30102_handle_t *p_max30102)
+{
+    const max30102_data_t *p_data = &(p_max30102->data);
+    health_status_t current_status;
+
+    /* 根据结构体数值的判定健康检测的状态 */
+    if (p_data->heart_rate_valid && p_data->spo2_valid)
+    {
+        current_status = HEALTH_STATUS_READY;
+    }
+    else if (p_data->heart_rate == HEART_RATE_DETECTING)
+    {
+        current_status = HEALTH_STATUS_DETECTING;
+    }
+    else
+    {
+        current_status = HEALTH_STATUS_OFF_FINGER;
+    }
+
+    /* 根据状态更新提示词，刷新 UI */
+    switch (current_status)
+    {
+    case HEALTH_STATUS_OFF_FINGER:
+        lv_label_set_text(ui_LabelHealthStatus, "请将手指平放于传感器上");
+        lv_obj_set_style_text_color(ui_LabelHealthStatus, lv_color_hex(0xEEEEEE), 0);
+
+        /* 数据无效时，数值显示为 "--" */
+        lv_label_set_text(ui_LabelHeartNum, "--");
+        lv_label_set_text(ui_LabelSpO2Num, "--");
+        lv_arc_set_value(ui_ArcHeart, 40); /* 回到最小值 */
+        lv_arc_set_value(ui_ArcSpO2, 80);  /* 回到最小值 */
+        break;
+
+    case HEALTH_STATUS_DETECTING:
+        lv_label_set_text(ui_LabelHealthStatus, "正在检测中...");
+        lv_obj_set_style_text_color(ui_LabelHealthStatus, lv_palette_main(LV_PALETTE_BLUE), 0);
+
+        /* 数据不稳定时，数值显示为 "--" */
+        lv_label_set_text(ui_LabelHeartNum, "--");
+        lv_label_set_text(ui_LabelSpO2Num, "--");
+        break;
+
+    case HEALTH_STATUS_READY:
+        lv_label_set_text(ui_LabelHealthStatus, "实时监测中");
+        lv_obj_set_style_text_color(ui_LabelHealthStatus, lv_palette_main(LV_PALETTE_GREEN), 0);
+
+        /* 更新心率 Arc 和 Label */
+        lv_arc_set_value(ui_ArcHeart, (int)p_data->stable_heart_rate);
+        lv_label_set_text_fmt(ui_LabelHeartNum, "%d", (int)p_data->stable_heart_rate);
+
+        /* 更新血氧 Arc 和 Label */
+        lv_arc_set_value(ui_ArcSpO2, (int)p_data->spo2);
+        lv_label_set_text_fmt(ui_LabelSpO2Num, "%d", (int)p_data->spo2);
+
+        /* 动态颜色预警逻辑 (血氧低于 94% 变色) */
+        if (p_data->spo2 < 94)
+        {
+            lv_obj_set_style_arc_color(ui_ArcSpO2, lv_palette_main(LV_PALETTE_RED), LV_PART_INDICATOR);
+        }
+        else
+        {
+            lv_obj_set_style_arc_color(ui_ArcSpO2, lv_palette_main(LV_PALETTE_BLUE), LV_PART_INDICATOR);
+        }
+        break;
+    }
+}
+
 void update_sensor_data_cb(lv_timer_t *timer)
 {
-
     const aht30_data_t *p_aht30_data = BSP_AHT30_GetData();
     const bh1750_data_t *p_bh1750_data = BSP_BH1750_GetData();
 
@@ -174,21 +253,6 @@ void update_sensor_data_cb(lv_timer_t *timer)
     lv_arc_set_value(ui_ArcLight, (int)p_bh1750_data->lux);
     lv_label_set_text_fmt(ui_LabelLightNum, "%d", (int)p_bh1750_data->lux);
 
-    //   char buf[128];
-
-    //   if(max30102_handle.data.heart_rate_valid == 1 && max30102_handle.data.spo2_valid == 1)
-    //   {
-    //       snprintf(buf, sizeof(buf), "心率: %02d 血氧: %02d %%", max30102_handle.data.stable_heart_rate,max30102_handle.data.spo2);
-    //   }
-    //   else
-    //   {
-    //       snprintf(buf, sizeof(buf), "心率: %02d bpm 血氧: %02d %%", 0,0);
-    //   }
-    //
-
-    //   /* 更新 UI 组件 */
-    //   if (ui_Illumination != NULL)
-    //   {
-    //       lv_label_set_text(ui_Illumination, buf);
-    //   }
+    /* 更新心率血氧 */
+    ui_update_health_screen(&max30102_handle);
 }

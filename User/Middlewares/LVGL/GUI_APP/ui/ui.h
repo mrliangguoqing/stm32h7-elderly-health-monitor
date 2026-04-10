@@ -43,6 +43,8 @@ LV_IMG_DECLARE(ui_img_settings_active_page_png);    // assets/settings_active_pa
 LV_IMG_DECLARE(ui_img_light_intensity_png);    // assets/light_intensity.png
 LV_IMG_DECLARE(ui_img_temperature_png);    // assets/temperature.png
 LV_IMG_DECLARE(ui_img_humidity_png);    // assets/humidity.png
+LV_IMG_DECLARE(ui_img_heart_rate_png);    // assets/heart_rate.png
+LV_IMG_DECLARE(ui_img_spo2_png);    // assets/spo2.png
 
 // FONTS
 LV_FONT_DECLARE(ui_font_RobotoMonoBold14);

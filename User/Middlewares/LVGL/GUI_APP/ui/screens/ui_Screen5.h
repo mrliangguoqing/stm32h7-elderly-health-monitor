@@ -25,6 +25,8 @@ extern lv_obj_t * ui_MenuHeartRate5;
 extern void ui_event_MenuAlerts5(lv_event_t * e);
 extern lv_obj_t * ui_MenuAlerts5;
 extern lv_obj_t * ui_MenuSettings5;
+extern lv_obj_t * ui_Panel15;
+extern lv_obj_t * ui_LabelTime5;
 // CUSTOM VARIABLES
 
 #ifdef __cplusplus

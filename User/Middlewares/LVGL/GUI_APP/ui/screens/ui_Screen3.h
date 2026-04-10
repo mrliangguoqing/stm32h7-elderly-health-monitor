@@ -25,6 +25,25 @@ extern void ui_event_MenuAlerts3(lv_event_t * e);
 extern lv_obj_t * ui_MenuAlerts3;
 extern void ui_event_MenuSettings3(lv_event_t * e);
 extern lv_obj_t * ui_MenuSettings3;
+extern lv_obj_t * ui_Panel13;
+extern lv_obj_t * ui_LabelTime3;
+extern lv_obj_t * ui_Panel23;
+extern lv_obj_t * ui_Panel11;
+extern lv_obj_t * ui_Label5;
+extern lv_obj_t * ui_ArcHeart;
+extern lv_obj_t * ui_Panel16;
+extern lv_obj_t * ui_LabelHeartNum;
+extern lv_obj_t * ui_LabelT6;
+extern lv_obj_t * ui_Image7;
+extern lv_obj_t * ui_Panel17;
+extern lv_obj_t * ui_Label1;
+extern lv_obj_t * ui_ArcSpO2;
+extern lv_obj_t * ui_Panel18;
+extern lv_obj_t * ui_LabelSpO2Num;
+extern lv_obj_t * ui_LabelT2;
+extern lv_obj_t * ui_Image4;
+extern lv_obj_t * ui_Panel19;
+extern lv_obj_t * ui_LabelHealthStatus;
 // CUSTOM VARIABLES
 
 #ifdef __cplusplus

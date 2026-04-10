@@ -10,9 +10,6 @@
 
 #define MAX30102_I2C_SLAVE_ADDRESS 0xAE /* MAX30102 I2C 从机地址 */
 
-#define MAX30102_BUFFER_LEN 500 /* 5秒数据缓冲区 */
-#define UPDATE_SIZE 100         /* 每次滑动更新的数据量 */
-
 /* MAX30102 寄存器地址定义 */
 #define MAX30102_INTR_STATUS_1_REG_ADDR 0x00
 #define MAX30102_INTR_STATUS_2_REG_ADDR 0x01
@@ -29,6 +26,15 @@
 #define MAX30102_LED2_PA_REG_ADDR 0x0D
 #define MAX30102_PILOT_PA_REG_ADDR 0x10
 #define MAX30102_PART_ID_REG_ADDR 0xFF
+
+#define MAX30102_BUFFER_LEN 500 /* 5秒数据缓冲区 */
+#define UPDATE_SIZE 100         /* 每次滑动更新的数据量 */
+
+#define MAX30102_TOUCH_THRESHOLD 57000 /* 传感器接触阈值：IR值高于此值认为手指已按下 */
+
+/* 状态旗标值 */
+#define HEART_RATE_DETECTING (-1)
+#define HEART_RATE_OFF 0
 
 /**
  * @brief  MAX30102 传感器原始数据结构体
@@ -59,6 +65,16 @@ typedef struct
     max30102_buffer_t buffer; /* 传感器原始采样数据缓存句柄 */
     max30102_data_t data;     /* 经算法处理后的生理参数结果 */
 } max30102_handle_t;
+
+/**
+ * @brief 健康监测状态枚举
+ */
+typedef enum
+{
+    HEALTH_STATUS_OFF_FINGER, /* 未检测到手指 */
+    HEALTH_STATUS_DETECTING,  /* 检测中（正在累积数据） */
+    HEALTH_STATUS_READY       /* 数据已就绪 */
+} health_status_t;
 
 /* 函数声明 */
 void BSP_MAX30102_Reset(void);

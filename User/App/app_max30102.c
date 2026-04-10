@@ -86,7 +86,7 @@ void MAX30102_Calculate_Task(void *pvParameters)
             max30102_handle.data.spo2 = 0;
             max30102_handle.data.heart_rate_valid = 0;
             max30102_handle.data.spo2_valid = 0;
-            PAL_LOG(PAL_LOG_LEVEL_INFO, "Finger removed. Waiting...");
+            // PAL_LOG(PAL_LOG_LEVEL_INFO, "Finger removed. Waiting...");
             vTaskDelay(pdMS_TO_TICKS(200));
         }
         else
@@ -110,20 +110,20 @@ void MAX30102_Calculate_Task(void *pvParameters)
             max30102_handle.data.stable_heart_rate = Algo_SmoothHeartRate(max30102_handle.data.heart_rate,
                                                                           max30102_handle.data.heart_rate_valid);
 
-            /* 输出结果 */
-            if (max30102_handle.data.heart_rate_valid || max30102_handle.data.spo2_valid)
-            {
-                PAL_LOG(PAL_LOG_LEVEL_DEBUG, "HR_S: %3d | HR_R: %3d | SpO2: %2d%% | [Stat] HR_V:%d SpO2_V:%d",
-                        max30102_handle.data.stable_heart_rate,
-                        max30102_handle.data.heart_rate,
-                        max30102_handle.data.spo2,
-                        max30102_handle.data.heart_rate_valid,
-                        max30102_handle.data.spo2_valid);
-            }
-            else
-            {
-                PAL_LOG(PAL_LOG_LEVEL_INFO, "Searching for pulse...");
-            }
+            // /* 输出结果 */
+            // if (max30102_handle.data.heart_rate_valid || max30102_handle.data.spo2_valid)
+            // {
+            //     PAL_LOG(PAL_LOG_LEVEL_DEBUG, "HR_S: %3d | HR_R: %3d | SpO2: %2d%% | [Stat] HR_V:%d SpO2_V:%d",
+            //             max30102_handle.data.stable_heart_rate,
+            //             max30102_handle.data.heart_rate,
+            //             max30102_handle.data.spo2,
+            //             max30102_handle.data.heart_rate_valid,
+            //             max30102_handle.data.spo2_valid);
+            // }
+            // else
+            // {
+            //     PAL_LOG(PAL_LOG_LEVEL_INFO, "Searching for pulse...");
+            // }
 
             /* 为下一次计算准备缓冲区：滑动窗口 (丢弃旧的 100 个，保留后的 400 个) */
             /* 在计算完后再搬移，确保下次采集直接覆盖 400~499 */

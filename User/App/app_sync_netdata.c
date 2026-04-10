@@ -30,7 +30,6 @@ static void Sync_Netdata_Task(void *pvParameters)
     ds1302_data_t *p_ds1302_data = BSP_DS1302_GetData();
 
     uint8_t status = 0x00;
-    static uint8_t num = 0;
 
     /* BSP 层模块初始化 */
     BSP_ESP8266_Init();
@@ -40,9 +39,6 @@ static void Sync_Netdata_Task(void *pvParameters)
     do
     {
         status = 0x00;
-
-        PAL_LOG(PAL_LOG_LEVEL_ERROR, "请求网络同步次数 ------ %d", num);
-        num++;
 
         if (BSP_ESP8266_WeatherUpdate(&g_weather_info) == 0)
         {

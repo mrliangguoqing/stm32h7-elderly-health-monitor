@@ -52,10 +52,10 @@ static void RTC_Alarm_Task(void *pvParameters)
             }
         }
 
-        PAL_LOG(PAL_LOG_LEVEL_DEBUG, "Date: %04d-%02d-%02d  Time: %02d:%02d:%02d  Week: %d",
-                p_ds1302_data->year, p_ds1302_data->month, p_ds1302_data->day,
-                p_ds1302_data->hour, p_ds1302_data->minute, p_ds1302_data->second,
-                p_ds1302_data->week);
+        // PAL_LOG(PAL_LOG_LEVEL_DEBUG, "Date: %04d-%02d-%02d  Time: %02d:%02d:%02d  Week: %d",
+        //         p_ds1302_data->year, p_ds1302_data->month, p_ds1302_data->day,
+        //         p_ds1302_data->hour, p_ds1302_data->minute, p_ds1302_data->second,
+        //         p_ds1302_data->week);
     }
 }
 

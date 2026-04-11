@@ -79,19 +79,19 @@ void MAX30102_Calculate_Task(void *pvParameters)
         /* 检查手指是否按下 (判断最新的采样点) */
         uint32_t current_ir_value = max30102_handle.buffer.ir_buffer[499];
 
-        if (current_ir_value < 57000)
+        if (current_ir_value < MAX30102_TOUCH_THRESHOLD)
         {
-            /* 手指松开，清空结果并跳过计算 */
-            max30102_handle.data.heart_rate = 0;
+            /* 状态：手指未按下，清空结果并跳过计算 */
+            max30102_handle.data.heart_rate = HEART_RATE_OFF;
             max30102_handle.data.spo2 = 0;
             max30102_handle.data.heart_rate_valid = 0;
             max30102_handle.data.spo2_valid = 0;
-            PAL_LOG(PAL_LOG_LEVEL_INFO, "Finger removed. Waiting...");
+            // PAL_LOG(PAL_LOG_LEVEL_INFO, "Finger removed. Waiting...");
             vTaskDelay(pdMS_TO_TICKS(200));
         }
         else
         {
-            /* 手指按下，执行计算逻辑 */
+            /* 状态：手指已按下，正在计算或已完成 */
 
             /* 执行原始算法 */
             maxim_heart_rate_and_oxygen_saturation(
@@ -100,24 +100,30 @@ void MAX30102_Calculate_Task(void *pvParameters)
                 &max30102_handle.data.spo2, &max30102_handle.data.spo2_valid,
                 &max30102_handle.data.heart_rate, &max30102_handle.data.heart_rate_valid);
 
+            /* 如果算法还没给出有效结果，手动设为“检测中”旗标 */
+            if (max30102_handle.data.heart_rate_valid == 0)
+            {
+                max30102_handle.data.heart_rate = HEART_RATE_DETECTING;
+            }
+
             /* 执行平滑滤波算法 */
             max30102_handle.data.stable_heart_rate = Algo_SmoothHeartRate(max30102_handle.data.heart_rate,
                                                                           max30102_handle.data.heart_rate_valid);
 
-            /* 输出结果 */
-            if (max30102_handle.data.heart_rate_valid || max30102_handle.data.spo2_valid)
-            {
-                PAL_LOG(PAL_LOG_LEVEL_DEBUG, "HR_S: %3d | HR_R: %3d | SpO2: %2d%% | [Stat] HR_V:%d SpO2_V:%d",
-                        max30102_handle.data.stable_heart_rate,
-                        max30102_handle.data.heart_rate,
-                        max30102_handle.data.spo2,
-                        max30102_handle.data.heart_rate_valid,
-                        max30102_handle.data.spo2_valid);
-            }
-            else
-            {
-                PAL_LOG(PAL_LOG_LEVEL_INFO, "Searching for pulse...");
-            }
+            // /* 输出结果 */
+            // if (max30102_handle.data.heart_rate_valid || max30102_handle.data.spo2_valid)
+            // {
+            //     PAL_LOG(PAL_LOG_LEVEL_DEBUG, "HR_S: %3d | HR_R: %3d | SpO2: %2d%% | [Stat] HR_V:%d SpO2_V:%d",
+            //             max30102_handle.data.stable_heart_rate,
+            //             max30102_handle.data.heart_rate,
+            //             max30102_handle.data.spo2,
+            //             max30102_handle.data.heart_rate_valid,
+            //             max30102_handle.data.spo2_valid);
+            // }
+            // else
+            // {
+            //     PAL_LOG(PAL_LOG_LEVEL_INFO, "Searching for pulse...");
+            // }
 
             /* 为下一次计算准备缓冲区：滑动窗口 (丢弃旧的 100 个，保留后的 400 个) */
             /* 在计算完后再搬移，确保下次采集直接覆盖 400~499 */
@@ -150,7 +156,7 @@ void App_Max30102_Init(void)
     /* 采集任务 */
     xTaskCreate(MAX30102_Collect_Task,
                 "M30102_Coll",
-                256,
+                512,
                 NULL,
                 15,
                 &xMax30102CollectTaskHandle);
@@ -158,7 +164,7 @@ void App_Max30102_Init(void)
     /* 算法任务 */
     xTaskCreate(MAX30102_Calculate_Task,
                 "M30102_Calc",
-                256,
+                512,
                 NULL,
                 7,
                 &xMax30102CalculateTaskHandle);

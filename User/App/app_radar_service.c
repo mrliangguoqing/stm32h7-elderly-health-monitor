@@ -95,7 +95,7 @@ void App_Radar_Service_Init(void)
 
     xTaskCreate(Radar_Service_Task,
                 "Radar",
-                256,
+                512,
                 NULL,
                 10,
                 &xRadarServiceTaskHandle);

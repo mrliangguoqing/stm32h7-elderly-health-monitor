@@ -340,7 +340,7 @@
               <MiscControls>-fno-finite-math-only</MiscControls>
               <Define>USE_PWR_LDO_SUPPLY,USE_HAL_DRIVER,STM32H743xx</Define>
               <Undefine></Undefine>
-              <IncludePath>../Core/Inc;../Drivers/STM32H7xx_HAL_Driver/Inc;../Drivers/STM32H7xx_HAL_Driver/Inc/Legacy;../Drivers/CMSIS/Device/ST/STM32H7xx/Include;../Drivers/CMSIS/Include;../User/PAL;../User/Bsp;../User/App;../User/Middlewares/FreeRTOS;../User/Middlewares/FreeRTOS/include;../User/Middlewares/FreeRTOS/r0p1;../User/Middlewares/LVGL/GUI;../User/Middlewares/LVGL/GUI/lvgl;../User/Middlewares/LVGL/GUI/lvgl/src;../User/Middlewares/LVGL/GUI/lvgl/port;../User/Middlewares/cJSON;../User/Middlewares/LVGL/GUI_APP/ui;../User/Middlewares/LVGL/GUI_APP/ui/components;../User/Middlewares/LVGL/GUI_APP/ui/fonts;../User/Middlewares/LVGL/GUI_APP/ui/images;../User/Middlewares/LVGL/GUI_APP/ui/screens</IncludePath>
+              <IncludePath>../Core/Inc;../Drivers/STM32H7xx_HAL_Driver/Inc;../Drivers/STM32H7xx_HAL_Driver/Inc/Legacy;../Drivers/CMSIS/Device/ST/STM32H7xx/Include;../Drivers/CMSIS/Include;../User/PAL;../User/Bsp;../User/App;..\User\Middlewares\Utils;../User/Middlewares/FreeRTOS;../User/Middlewares/FreeRTOS/include;../User/Middlewares/FreeRTOS/r0p1;../User/Middlewares/LVGL/GUI;../User/Middlewares/LVGL/GUI/lvgl;../User/Middlewares/LVGL/GUI/lvgl/src;../User/Middlewares/LVGL/GUI/lvgl/port;../User/Middlewares/cJSON;../User/Middlewares/LVGL/GUI_APP/ui;../User/Middlewares/LVGL/GUI_APP/ui/components;../User/Middlewares/LVGL/GUI_APP/ui/fonts;../User/Middlewares/LVGL/GUI_APP/ui/images;../User/Middlewares/LVGL/GUI_APP/ui/screens</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -1359,6 +1359,16 @@
           </Files>
         </Group>
         <Group>
+          <GroupName>User/Middlewares/Utils</GroupName>
+          <Files>
+            <File>
+              <FileName>utils_math.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\User\Middlewares\Utils\utils_math.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
           <GroupName>User/Middlewares/FreeRTOS</GroupName>
           <Files>
             <File>
@@ -1410,6 +1420,11 @@
               <FileName>ui.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\User\Middlewares\LVGL\GUI_APP\ui\ui.c</FilePath>
+            </File>
+            <File>
+              <FileName>ui_events.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\User\Middlewares\LVGL\GUI_APP\ui\ui_events.c</FilePath>
             </File>
             <File>
               <FileName>ui_helpers.c</FileName>
@@ -1477,9 +1492,9 @@
               <FilePath>..\User\Middlewares\LVGL\GUI_APP\ui\fonts\ui_font_RobotoMonoBold40.c</FilePath>
             </File>
             <File>
-              <FileName>ui_font_SourceHanSansBold12.c</FileName>
+              <FileName>ui_font_SourceHanSansBold16.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\User\Middlewares\LVGL\GUI_APP\ui\fonts\ui_font_SourceHanSansBold12.c</FilePath>
+              <FilePath>..\User\Middlewares\LVGL\GUI_APP\ui\fonts\ui_font_SourceHanSansBold16.c</FilePath>
             </File>
             <File>
               <FileName>ui_font_SourceHanSansBold26.c</FileName>
@@ -1530,6 +1545,216 @@
               <FileName>ui_img_temperature_png.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\User\Middlewares\LVGL\GUI_APP\ui\images\ui_img_temperature_png.c</FilePath>
+            </File>
+            <File>
+              <FileName>ui_img_spo2_png.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\User\Middlewares\LVGL\GUI_APP\ui\images\ui_img_spo2_png.c</FilePath>
+            </File>
+            <File>
+              <FileName>ui_img_heart_rate_png.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\User\Middlewares\LVGL\GUI_APP\ui\images\ui_img_heart_rate_png.c</FilePath>
+            </File>
+            <File>
+              <FileName>ui_img_brightness_png.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\User\Middlewares\LVGL\GUI_APP\ui\images\ui_img_brightness_png.c</FilePath>
+            </File>
+            <File>
+              <FileName>ui_img_0_sunny_png.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\User\Middlewares\LVGL\GUI_APP\ui\images\ui_img_0_sunny_png.c</FilePath>
+            </File>
+            <File>
+              <FileName>ui_img_position_png.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\User\Middlewares\LVGL\GUI_APP\ui\images\ui_img_position_png.c</FilePath>
+            </File>
+            <File>
+              <FileName>ui_img_weather_code0_sunny_png.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\User\Middlewares\LVGL\GUI_APP\ui\images\ui_img_weather_code0_sunny_png.c</FilePath>
+            </File>
+            <File>
+              <FileName>ui_img_weather_code1_clear_png.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\User\Middlewares\LVGL\GUI_APP\ui\images\ui_img_weather_code1_clear_png.c</FilePath>
+            </File>
+            <File>
+              <FileName>ui_img_weather_code4_cloudy_png.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\User\Middlewares\LVGL\GUI_APP\ui\images\ui_img_weather_code4_cloudy_png.c</FilePath>
+            </File>
+            <File>
+              <FileName>ui_img_weather_code5_partly_cloudy_png.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\User\Middlewares\LVGL\GUI_APP\ui\images\ui_img_weather_code5_partly_cloudy_png.c</FilePath>
+            </File>
+            <File>
+              <FileName>ui_img_weather_code6_partly_cloudy_png.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\User\Middlewares\LVGL\GUI_APP\ui\images\ui_img_weather_code6_partly_cloudy_png.c</FilePath>
+            </File>
+            <File>
+              <FileName>ui_img_weather_code7_mostly_cloudy_png.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\User\Middlewares\LVGL\GUI_APP\ui\images\ui_img_weather_code7_mostly_cloudy_png.c</FilePath>
+            </File>
+            <File>
+              <FileName>ui_img_weather_code8_mostly_cloudy_png.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\User\Middlewares\LVGL\GUI_APP\ui\images\ui_img_weather_code8_mostly_cloudy_png.c</FilePath>
+            </File>
+            <File>
+              <FileName>ui_img_weather_code9_overcast_png.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\User\Middlewares\LVGL\GUI_APP\ui\images\ui_img_weather_code9_overcast_png.c</FilePath>
+            </File>
+            <File>
+              <FileName>ui_img_weather_code10_shower_png.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\User\Middlewares\LVGL\GUI_APP\ui\images\ui_img_weather_code10_shower_png.c</FilePath>
+            </File>
+            <File>
+              <FileName>ui_img_weather_code11_thundershower_png.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\User\Middlewares\LVGL\GUI_APP\ui\images\ui_img_weather_code11_thundershower_png.c</FilePath>
+            </File>
+            <File>
+              <FileName>ui_img_weather_code12_thundershower_with_hail_png.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\User\Middlewares\LVGL\GUI_APP\ui\images\ui_img_weather_code12_thundershower_with_hail_png.c</FilePath>
+            </File>
+            <File>
+              <FileName>ui_img_weather_code13_light_rain_png.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\User\Middlewares\LVGL\GUI_APP\ui\images\ui_img_weather_code13_light_rain_png.c</FilePath>
+            </File>
+            <File>
+              <FileName>ui_img_weather_code14_moderate_rain_png.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\User\Middlewares\LVGL\GUI_APP\ui\images\ui_img_weather_code14_moderate_rain_png.c</FilePath>
+            </File>
+            <File>
+              <FileName>ui_img_weather_code15_heavy_rain_png.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\User\Middlewares\LVGL\GUI_APP\ui\images\ui_img_weather_code15_heavy_rain_png.c</FilePath>
+            </File>
+            <File>
+              <FileName>ui_img_weather_code16_storm_png.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\User\Middlewares\LVGL\GUI_APP\ui\images\ui_img_weather_code16_storm_png.c</FilePath>
+            </File>
+            <File>
+              <FileName>ui_img_weather_code17_heavy_storm_png.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\User\Middlewares\LVGL\GUI_APP\ui\images\ui_img_weather_code17_heavy_storm_png.c</FilePath>
+            </File>
+            <File>
+              <FileName>ui_img_weather_code18_severe_storm_png.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\User\Middlewares\LVGL\GUI_APP\ui\images\ui_img_weather_code18_severe_storm_png.c</FilePath>
+            </File>
+            <File>
+              <FileName>ui_img_weather_code19_ice_rain_png.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\User\Middlewares\LVGL\GUI_APP\ui\images\ui_img_weather_code19_ice_rain_png.c</FilePath>
+            </File>
+            <File>
+              <FileName>ui_img_weather_code20_sleet_png.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\User\Middlewares\LVGL\GUI_APP\ui\images\ui_img_weather_code20_sleet_png.c</FilePath>
+            </File>
+            <File>
+              <FileName>ui_img_weather_code21_snow_flurry_png.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\User\Middlewares\LVGL\GUI_APP\ui\images\ui_img_weather_code21_snow_flurry_png.c</FilePath>
+            </File>
+            <File>
+              <FileName>ui_img_weather_code22_light_snow_png.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\User\Middlewares\LVGL\GUI_APP\ui\images\ui_img_weather_code22_light_snow_png.c</FilePath>
+            </File>
+            <File>
+              <FileName>ui_img_weather_code23_moderate_snow_png.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\User\Middlewares\LVGL\GUI_APP\ui\images\ui_img_weather_code23_moderate_snow_png.c</FilePath>
+            </File>
+            <File>
+              <FileName>ui_img_weather_code24_heavy_snow_png.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\User\Middlewares\LVGL\GUI_APP\ui\images\ui_img_weather_code24_heavy_snow_png.c</FilePath>
+            </File>
+            <File>
+              <FileName>ui_img_weather_code25_snowstorm_png.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\User\Middlewares\LVGL\GUI_APP\ui\images\ui_img_weather_code25_snowstorm_png.c</FilePath>
+            </File>
+            <File>
+              <FileName>ui_img_weather_code26_dust_png.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\User\Middlewares\LVGL\GUI_APP\ui\images\ui_img_weather_code26_dust_png.c</FilePath>
+            </File>
+            <File>
+              <FileName>ui_img_weather_code27_sand_png.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\User\Middlewares\LVGL\GUI_APP\ui\images\ui_img_weather_code27_sand_png.c</FilePath>
+            </File>
+            <File>
+              <FileName>ui_img_weather_code28_duststorm_png.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\User\Middlewares\LVGL\GUI_APP\ui\images\ui_img_weather_code28_duststorm_png.c</FilePath>
+            </File>
+            <File>
+              <FileName>ui_img_weather_code29_sandstorm_png.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\User\Middlewares\LVGL\GUI_APP\ui\images\ui_img_weather_code29_sandstorm_png.c</FilePath>
+            </File>
+            <File>
+              <FileName>ui_img_weather_code30_foggy_png.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\User\Middlewares\LVGL\GUI_APP\ui\images\ui_img_weather_code30_foggy_png.c</FilePath>
+            </File>
+            <File>
+              <FileName>ui_img_weather_code31_haze_png.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\User\Middlewares\LVGL\GUI_APP\ui\images\ui_img_weather_code31_haze_png.c</FilePath>
+            </File>
+            <File>
+              <FileName>ui_img_weather_code32_windy_png.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\User\Middlewares\LVGL\GUI_APP\ui\images\ui_img_weather_code32_windy_png.c</FilePath>
+            </File>
+            <File>
+              <FileName>ui_img_weather_code33_blustery_png.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\User\Middlewares\LVGL\GUI_APP\ui\images\ui_img_weather_code33_blustery_png.c</FilePath>
+            </File>
+            <File>
+              <FileName>ui_img_weather_code34_hurricane_png.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\User\Middlewares\LVGL\GUI_APP\ui\images\ui_img_weather_code34_hurricane_png.c</FilePath>
+            </File>
+            <File>
+              <FileName>ui_img_weather_code35_tropical_storm_png.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\User\Middlewares\LVGL\GUI_APP\ui\images\ui_img_weather_code35_tropical_storm_png.c</FilePath>
+            </File>
+            <File>
+              <FileName>ui_img_weather_code36_tornado_png.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\User\Middlewares\LVGL\GUI_APP\ui\images\ui_img_weather_code36_tornado_png.c</FilePath>
+            </File>
+            <File>
+              <FileName>ui_img_weather_code37_cold_png.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\User\Middlewares\LVGL\GUI_APP\ui\images\ui_img_weather_code37_cold_png.c</FilePath>
+            </File>
+            <File>
+              <FileName>ui_img_weather_code99_unknown_png.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\User\Middlewares\LVGL\GUI_APP\ui\images\ui_img_weather_code99_unknown_png.c</FilePath>
             </File>
           </Files>
         </Group>

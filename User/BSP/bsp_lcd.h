@@ -68,6 +68,7 @@ typedef struct
 
 /* 函数声明 */
 const lcd_res_t* BSP_LCD_GetRes(void);
+void BSP_LCD_SetBacklight(uint8_t brightness);
 
 void BSP_LCD_Init(void);
 void BSP_LCD_Clear(uint16_t color);

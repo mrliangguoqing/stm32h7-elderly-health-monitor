@@ -25,6 +25,15 @@ extern lv_obj_t * ui_MenuHeartRate5;
 extern void ui_event_MenuAlerts5(lv_event_t * e);
 extern lv_obj_t * ui_MenuAlerts5;
 extern lv_obj_t * ui_MenuSettings5;
+extern lv_obj_t * ui_Panel15;
+extern lv_obj_t * ui_LabelTime5;
+extern lv_obj_t * ui_Panel22;
+extern lv_obj_t * ui_Image5;
+extern void ui_event_SliderBrightness(lv_event_t * e);
+extern lv_obj_t * ui_SliderBrightness;
+extern lv_obj_t * ui_Panel24;
+extern lv_obj_t * ui_LabelBrightnessNum;
+extern lv_obj_t * ui_LabelT5;
 // CUSTOM VARIABLES
 
 #ifdef __cplusplus

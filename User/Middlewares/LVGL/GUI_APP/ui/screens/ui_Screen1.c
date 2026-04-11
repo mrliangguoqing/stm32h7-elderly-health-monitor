@@ -401,7 +401,7 @@ void ui_Screen1_screen_init(void)
     lv_label_set_text(ui_LabelT1, "Lux");
     lv_obj_set_style_text_color(ui_LabelT1, lv_color_hex(0xEEEEEE), LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_text_opa(ui_LabelT1, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
-    lv_obj_set_style_text_font(ui_LabelT1, &ui_font_SourceHanSansBold12, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_text_font(ui_LabelT1, &ui_font_SourceHanSansBold16, LV_PART_MAIN | LV_STATE_DEFAULT);
 
     ui_Image3 = lv_image_create(ui_Panel7);
     lv_image_set_src(ui_Image3, &ui_img_light_intensity_png);
@@ -471,7 +471,7 @@ void ui_Screen1_screen_init(void)
     lv_label_set_text(ui_LabelT22, "℃");
     lv_obj_set_style_text_color(ui_LabelT22, lv_color_hex(0xEEEEEE), LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_text_opa(ui_LabelT22, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
-    lv_obj_set_style_text_font(ui_LabelT22, &ui_font_SourceHanSansBold12, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_text_font(ui_LabelT22, &ui_font_SourceHanSansBold16, LV_PART_MAIN | LV_STATE_DEFAULT);
 
     ui_SliderTemp = lv_slider_create(ui_Panel1);
     lv_slider_set_range(ui_SliderTemp, -20, 80);
@@ -555,7 +555,7 @@ void ui_Screen1_screen_init(void)
     lv_label_set_text(ui_LabelT3, "%");
     lv_obj_set_style_text_color(ui_LabelT3, lv_color_hex(0xEEEEEE), LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_text_opa(ui_LabelT3, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
-    lv_obj_set_style_text_font(ui_LabelT3, &ui_font_SourceHanSansBold12, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_text_font(ui_LabelT3, &ui_font_SourceHanSansBold16, LV_PART_MAIN | LV_STATE_DEFAULT);
 
     ui_SliderHumi = lv_slider_create(ui_Panel5);
     lv_slider_set_value(ui_SliderHumi, 0, LV_ANIM_OFF);

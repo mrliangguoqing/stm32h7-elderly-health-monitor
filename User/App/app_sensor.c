@@ -37,8 +37,8 @@ static void Sensor_Task(void *pvParameters)
             {
                 if (p_aht30_data != NULL)
                 {
-                    PAL_LOG(PAL_LOG_LEVEL_DEBUG, "AHT30-Temperature: %.2f °C", p_aht30_data->temperature);
-                    PAL_LOG(PAL_LOG_LEVEL_DEBUG, "AHT30-Humidity   : %.2f %%", p_aht30_data->humidity);
+                    // PAL_LOG(PAL_LOG_LEVEL_DEBUG, "AHT30-Temperature: %.2f °C", p_aht30_data->temperature);
+                    // PAL_LOG(PAL_LOG_LEVEL_DEBUG, "AHT30-Humidity   : %.2f %%", p_aht30_data->humidity);
                 }
             }
         }
@@ -48,7 +48,7 @@ static void Sensor_Task(void *pvParameters)
         {
             if (BSP_BH1750_UpdateData() == 0)
             {
-                PAL_LOG(PAL_LOG_LEVEL_DEBUG, "BH1750-Lux : %f", p_bh1750_data->lux);
+                // PAL_LOG(PAL_LOG_LEVEL_DEBUG, "BH1750-Lux : %f", p_bh1750_data->lux);
             }
         }
 
@@ -57,7 +57,7 @@ static void Sensor_Task(void *pvParameters)
         {
             if (BSP_MQ5_UpdateData() == 0)
             {
-                PAL_LOG(PAL_LOG_LEVEL_DEBUG, "MQ5-Voltage: %.2f V", p_mq5_data->smooth_v);
+                // PAL_LOG(PAL_LOG_LEVEL_DEBUG, "MQ5-Voltage: %.2f V", p_mq5_data->smooth_v);
             }
         }
 
@@ -80,7 +80,7 @@ void App_Sensor_Init(void)
 
     xTaskCreate(Sensor_Task,
                 "Sensor_Task",
-                256,
+                512,
                 NULL,
                 5,
                 &xSensorTaskHandle);

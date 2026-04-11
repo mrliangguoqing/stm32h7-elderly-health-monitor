@@ -26,7 +26,7 @@ del /q /s *.lnp
 del /q /s *.crf
 
 :: 删除 JLink 相关文件
-del /q /s JLink*
+:: del /q /s JLink*
 
 :: 删除其他调试相关文件
 del /q /s *.ddk

@@ -233,7 +233,7 @@ void ui_Screen5_screen_init(void)
     lv_obj_set_width(ui_LabelBrightnessNum, LV_SIZE_CONTENT);   /// 1
     lv_obj_set_height(ui_LabelBrightnessNum, LV_SIZE_CONTENT);    /// 1
     lv_obj_set_align(ui_LabelBrightnessNum, LV_ALIGN_CENTER);
-    lv_label_set_text(ui_LabelBrightnessNum, "00");
+    lv_label_set_text(ui_LabelBrightnessNum, "100");
     lv_obj_set_style_text_color(ui_LabelBrightnessNum, lv_color_hex(0xEEEEEE), LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_text_opa(ui_LabelBrightnessNum, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_text_font(ui_LabelBrightnessNum, &ui_font_RobotoMonoBold16, LV_PART_MAIN | LV_STATE_DEFAULT);
@@ -247,7 +247,7 @@ void ui_Screen5_screen_init(void)
     lv_label_set_text(ui_LabelT5, "%");
     lv_obj_set_style_text_color(ui_LabelT5, lv_color_hex(0xEEEEEE), LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_text_opa(ui_LabelT5, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
-    lv_obj_set_style_text_font(ui_LabelT5, &ui_font_SourceHanSansBold12, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_text_font(ui_LabelT5, &ui_font_SourceHanSansBold16, LV_PART_MAIN | LV_STATE_DEFAULT);
 
     lv_obj_add_event_cb(ui_MenuHome5, ui_event_MenuHome5, LV_EVENT_ALL, NULL);
     lv_obj_add_event_cb(ui_MenuWeather5, ui_event_MenuWeather5, LV_EVENT_ALL, NULL);

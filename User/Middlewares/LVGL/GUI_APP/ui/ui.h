@@ -46,13 +46,53 @@ LV_IMG_DECLARE(ui_img_humidity_png);    // assets/humidity.png
 LV_IMG_DECLARE(ui_img_heart_rate_png);    // assets/heart_rate.png
 LV_IMG_DECLARE(ui_img_spo2_png);    // assets/spo2.png
 LV_IMG_DECLARE(ui_img_brightness_png);    // assets/brightness.png
+LV_IMG_DECLARE(ui_img_0_sunny_png);    // assets/0_sunny.png
+LV_IMG_DECLARE(ui_img_position_png);    // assets/position.png
+LV_IMG_DECLARE(ui_img_weather_code0_sunny_png);    // assets/weather_code0_sunny.png
+LV_IMG_DECLARE(ui_img_weather_code10_shower_png);    // assets/weather_code10_shower.png
+LV_IMG_DECLARE(ui_img_weather_code11_thundershower_png);    // assets/weather_code11_thundershower.png
+LV_IMG_DECLARE(
+    ui_img_weather_code12_thundershower_with_hail_png);    // assets/weather_code12_thundershower_with_hail.png
+LV_IMG_DECLARE(ui_img_weather_code13_light_rain_png);    // assets/weather_code13_light_rain.png
+LV_IMG_DECLARE(ui_img_weather_code14_moderate_rain_png);    // assets/weather_code14_moderate_rain.png
+LV_IMG_DECLARE(ui_img_weather_code15_heavy_rain_png);    // assets/weather_code15_heavy_rain.png
+LV_IMG_DECLARE(ui_img_weather_code16_storm_png);    // assets/weather_code16_storm.png
+LV_IMG_DECLARE(ui_img_weather_code17_heavy_storm_png);    // assets/weather_code17_heavy_storm.png
+LV_IMG_DECLARE(ui_img_weather_code18_severe_storm_png);    // assets/weather_code18_severe_storm.png
+LV_IMG_DECLARE(ui_img_weather_code19_ice_rain_png);    // assets/weather_code19_ice_rain.png
+LV_IMG_DECLARE(ui_img_weather_code1_clear_png);    // assets/weather_code1_clear.png
+LV_IMG_DECLARE(ui_img_weather_code20_sleet_png);    // assets/weather_code20_sleet.png
+LV_IMG_DECLARE(ui_img_weather_code21_snow_flurry_png);    // assets/weather_code21_snow_flurry.png
+LV_IMG_DECLARE(ui_img_weather_code22_light_snow_png);    // assets/weather_code22_light_snow.png
+LV_IMG_DECLARE(ui_img_weather_code23_moderate_snow_png);    // assets/weather_code23_moderate_snow.png
+LV_IMG_DECLARE(ui_img_weather_code24_heavy_snow_png);    // assets/weather_code24_heavy_snow.png
+LV_IMG_DECLARE(ui_img_weather_code25_snowstorm_png);    // assets/weather_code25_snowstorm.png
+LV_IMG_DECLARE(ui_img_weather_code26_dust_png);    // assets/weather_code26_dust.png
+LV_IMG_DECLARE(ui_img_weather_code27_sand_png);    // assets/weather_code27_sand.png
+LV_IMG_DECLARE(ui_img_weather_code28_duststorm_png);    // assets/weather_code28_duststorm.png
+LV_IMG_DECLARE(ui_img_weather_code29_sandstorm_png);    // assets/weather_code29_sandstorm.png
+LV_IMG_DECLARE(ui_img_weather_code30_foggy_png);    // assets/weather_code30_foggy.png
+LV_IMG_DECLARE(ui_img_weather_code31_haze_png);    // assets/weather_code31_haze.png
+LV_IMG_DECLARE(ui_img_weather_code32_windy_png);    // assets/weather_code32_windy.png
+LV_IMG_DECLARE(ui_img_weather_code33_blustery_png);    // assets/weather_code33_blustery.png
+LV_IMG_DECLARE(ui_img_weather_code34_hurricane_png);    // assets/weather_code34_hurricane.png
+LV_IMG_DECLARE(ui_img_weather_code35_tropical_storm_png);    // assets/weather_code35_tropical_storm.png
+LV_IMG_DECLARE(ui_img_weather_code36_tornado_png);    // assets/weather_code36_tornado.png
+LV_IMG_DECLARE(ui_img_weather_code37_cold_png);    // assets/weather_code37_cold.png
+LV_IMG_DECLARE(ui_img_weather_code4_cloudy_png);    // assets/weather_code4_cloudy.png
+LV_IMG_DECLARE(ui_img_weather_code5_partly_cloudy_png);    // assets/weather_code5_partly_cloudy.png
+LV_IMG_DECLARE(ui_img_weather_code6_partly_cloudy_png);    // assets/weather_code6_partly_cloudy.png
+LV_IMG_DECLARE(ui_img_weather_code7_mostly_cloudy_png);    // assets/weather_code7_mostly_cloudy.png
+LV_IMG_DECLARE(ui_img_weather_code8_mostly_cloudy_png);    // assets/weather_code8_mostly_cloudy.png
+LV_IMG_DECLARE(ui_img_weather_code99_unknown_png);    // assets/weather_code99_unknown.png
+LV_IMG_DECLARE(ui_img_weather_code9_overcast_png);    // assets/weather_code9_overcast.png
 
 // FONTS
 LV_FONT_DECLARE(ui_font_RobotoMonoBold14);
 LV_FONT_DECLARE(ui_font_RobotoMonoBold16);
 LV_FONT_DECLARE(ui_font_RobotoMonoBold26);
 LV_FONT_DECLARE(ui_font_RobotoMonoBold40);
-LV_FONT_DECLARE(ui_font_SourceHanSansBold12);
+LV_FONT_DECLARE(ui_font_SourceHanSansBold16);
 LV_FONT_DECLARE(ui_font_SourceHanSansBold26);
 
 // UI INIT

@@ -271,7 +271,7 @@ void ui_Screen3_screen_init(void)
     lv_label_set_text(ui_LabelT6, "BMP");
     lv_obj_set_style_text_color(ui_LabelT6, lv_color_hex(0xEEEEEE), LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_text_opa(ui_LabelT6, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
-    lv_obj_set_style_text_font(ui_LabelT6, &ui_font_SourceHanSansBold12, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_text_font(ui_LabelT6, &ui_font_SourceHanSansBold16, LV_PART_MAIN | LV_STATE_DEFAULT);
 
     ui_Image7 = lv_image_create(ui_Panel11);
     lv_image_set_src(ui_Image7, &ui_img_heart_rate_png);
@@ -359,7 +359,7 @@ void ui_Screen3_screen_init(void)
     lv_label_set_text(ui_LabelT2, "%");
     lv_obj_set_style_text_color(ui_LabelT2, lv_color_hex(0xEEEEEE), LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_text_opa(ui_LabelT2, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
-    lv_obj_set_style_text_font(ui_LabelT2, &ui_font_SourceHanSansBold12, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_text_font(ui_LabelT2, &ui_font_SourceHanSansBold16, LV_PART_MAIN | LV_STATE_DEFAULT);
 
     ui_Image4 = lv_image_create(ui_Panel17);
     lv_image_set_src(ui_Image4, &ui_img_spo2_png);

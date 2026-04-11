@@ -845,7 +845,7 @@ void ui_Screen2_screen_init(void)
     lv_obj_set_width(ui_LabelWeatherDesc1, LV_SIZE_CONTENT);   /// 1
     lv_obj_set_height(ui_LabelWeatherDesc1, LV_SIZE_CONTENT);    /// 1
     lv_obj_set_align(ui_LabelWeatherDesc1, LV_ALIGN_CENTER);
-    lv_label_set_text(ui_LabelWeatherDesc1, "晴");
+    lv_label_set_text(ui_LabelWeatherDesc1, "未知");
     lv_obj_set_style_text_color(ui_LabelWeatherDesc1, lv_color_hex(0xEEEEEE), LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_text_opa(ui_LabelWeatherDesc1, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_text_font(ui_LabelWeatherDesc1, &ui_font_SourceHanSansBold26, LV_PART_MAIN | LV_STATE_DEFAULT);
@@ -872,7 +872,7 @@ void ui_Screen2_screen_init(void)
     lv_obj_set_width(ui_LabelTempMinNUM1, LV_SIZE_CONTENT);   /// 1
     lv_obj_set_height(ui_LabelTempMinNUM1, LV_SIZE_CONTENT);    /// 1
     lv_obj_set_align(ui_LabelTempMinNUM1, LV_ALIGN_CENTER);
-    lv_label_set_text(ui_LabelTempMinNUM1, "--");
+    lv_label_set_text(ui_LabelTempMinNUM1, "00");
     lv_obj_set_style_text_color(ui_LabelTempMinNUM1, lv_color_hex(0xEEEEEE), LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_text_opa(ui_LabelTempMinNUM1, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_text_font(ui_LabelTempMinNUM1, &ui_font_RobotoMonoBold16, LV_PART_MAIN | LV_STATE_DEFAULT);
@@ -881,7 +881,7 @@ void ui_Screen2_screen_init(void)
     lv_obj_set_width(ui_LabelConnector1, LV_SIZE_CONTENT);   /// 1
     lv_obj_set_height(ui_LabelConnector1, LV_SIZE_CONTENT);    /// 1
     lv_obj_set_align(ui_LabelConnector1, LV_ALIGN_CENTER);
-    lv_label_set_text(ui_LabelConnector1, " ~ ");
+    lv_label_set_text(ui_LabelConnector1, "/");
     lv_obj_set_style_text_color(ui_LabelConnector1, lv_color_hex(0xEEEEEE), LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_text_opa(ui_LabelConnector1, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_text_font(ui_LabelConnector1, &ui_font_RobotoMonoBold16, LV_PART_MAIN | LV_STATE_DEFAULT);
@@ -890,7 +890,7 @@ void ui_Screen2_screen_init(void)
     lv_obj_set_width(ui_LabelTempMaxNUM1, LV_SIZE_CONTENT);   /// 1
     lv_obj_set_height(ui_LabelTempMaxNUM1, LV_SIZE_CONTENT);    /// 1
     lv_obj_set_align(ui_LabelTempMaxNUM1, LV_ALIGN_CENTER);
-    lv_label_set_text(ui_LabelTempMaxNUM1, "--");
+    lv_label_set_text(ui_LabelTempMaxNUM1, "00");
     lv_obj_set_style_text_color(ui_LabelTempMaxNUM1, lv_color_hex(0xEEEEEE), LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_text_opa(ui_LabelTempMaxNUM1, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_text_font(ui_LabelTempMaxNUM1, &ui_font_RobotoMonoBold16, LV_PART_MAIN | LV_STATE_DEFAULT);
@@ -901,7 +901,7 @@ void ui_Screen2_screen_init(void)
     lv_obj_set_x(ui_LabelTempUnit1, -25);
     lv_obj_set_y(ui_LabelTempUnit1, 6);
     lv_obj_set_align(ui_LabelTempUnit1, LV_ALIGN_CENTER);
-    lv_label_set_text(ui_LabelTempUnit1, "℃");
+    lv_label_set_text(ui_LabelTempUnit1, " ℃");
     lv_obj_set_style_text_color(ui_LabelTempUnit1, lv_color_hex(0xEEEEEE), LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_text_opa(ui_LabelTempUnit1, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_text_font(ui_LabelTempUnit1, &ui_font_SourceHanSansBold16, LV_PART_MAIN | LV_STATE_DEFAULT);
@@ -1313,7 +1313,7 @@ void ui_Screen2_screen_init(void)
     lv_obj_set_width(ui_LabelWeatherDesc2, LV_SIZE_CONTENT);   /// 1
     lv_obj_set_height(ui_LabelWeatherDesc2, LV_SIZE_CONTENT);    /// 1
     lv_obj_set_align(ui_LabelWeatherDesc2, LV_ALIGN_CENTER);
-    lv_label_set_text(ui_LabelWeatherDesc2, "晴");
+    lv_label_set_text(ui_LabelWeatherDesc2, "未知");
     lv_obj_set_style_text_color(ui_LabelWeatherDesc2, lv_color_hex(0xEEEEEE), LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_text_opa(ui_LabelWeatherDesc2, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_text_font(ui_LabelWeatherDesc2, &ui_font_SourceHanSansBold26, LV_PART_MAIN | LV_STATE_DEFAULT);
@@ -1340,7 +1340,7 @@ void ui_Screen2_screen_init(void)
     lv_obj_set_width(ui_LabelTempMinNUM2, LV_SIZE_CONTENT);   /// 1
     lv_obj_set_height(ui_LabelTempMinNUM2, LV_SIZE_CONTENT);    /// 1
     lv_obj_set_align(ui_LabelTempMinNUM2, LV_ALIGN_CENTER);
-    lv_label_set_text(ui_LabelTempMinNUM2, "--");
+    lv_label_set_text(ui_LabelTempMinNUM2, "00");
     lv_obj_set_style_text_color(ui_LabelTempMinNUM2, lv_color_hex(0xEEEEEE), LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_text_opa(ui_LabelTempMinNUM2, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_text_font(ui_LabelTempMinNUM2, &ui_font_RobotoMonoBold16, LV_PART_MAIN | LV_STATE_DEFAULT);
@@ -1349,7 +1349,7 @@ void ui_Screen2_screen_init(void)
     lv_obj_set_width(ui_LabelConnector2, LV_SIZE_CONTENT);   /// 1
     lv_obj_set_height(ui_LabelConnector2, LV_SIZE_CONTENT);    /// 1
     lv_obj_set_align(ui_LabelConnector2, LV_ALIGN_CENTER);
-    lv_label_set_text(ui_LabelConnector2, " ~ ");
+    lv_label_set_text(ui_LabelConnector2, "/");
     lv_obj_set_style_text_color(ui_LabelConnector2, lv_color_hex(0xEEEEEE), LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_text_opa(ui_LabelConnector2, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_text_font(ui_LabelConnector2, &ui_font_RobotoMonoBold16, LV_PART_MAIN | LV_STATE_DEFAULT);
@@ -1358,7 +1358,7 @@ void ui_Screen2_screen_init(void)
     lv_obj_set_width(ui_LabelTempMaxNUM2, LV_SIZE_CONTENT);   /// 1
     lv_obj_set_height(ui_LabelTempMaxNUM2, LV_SIZE_CONTENT);    /// 1
     lv_obj_set_align(ui_LabelTempMaxNUM2, LV_ALIGN_CENTER);
-    lv_label_set_text(ui_LabelTempMaxNUM2, "--");
+    lv_label_set_text(ui_LabelTempMaxNUM2, "00");
     lv_obj_set_style_text_color(ui_LabelTempMaxNUM2, lv_color_hex(0xEEEEEE), LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_text_opa(ui_LabelTempMaxNUM2, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_text_font(ui_LabelTempMaxNUM2, &ui_font_RobotoMonoBold16, LV_PART_MAIN | LV_STATE_DEFAULT);
@@ -1369,7 +1369,7 @@ void ui_Screen2_screen_init(void)
     lv_obj_set_x(ui_LabelTempUnit2, -25);
     lv_obj_set_y(ui_LabelTempUnit2, 6);
     lv_obj_set_align(ui_LabelTempUnit2, LV_ALIGN_CENTER);
-    lv_label_set_text(ui_LabelTempUnit2, "℃");
+    lv_label_set_text(ui_LabelTempUnit2, " ℃");
     lv_obj_set_style_text_color(ui_LabelTempUnit2, lv_color_hex(0xEEEEEE), LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_text_opa(ui_LabelTempUnit2, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_text_font(ui_LabelTempUnit2, &ui_font_SourceHanSansBold16, LV_PART_MAIN | LV_STATE_DEFAULT);

@@ -654,7 +654,6 @@ void BSP_ESP8266_Time_Print(const NetTime_t *time)
 {
     /* 星期数字对应字符串映射表 */
     const char *week_str[] = {"Invalid", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"};
-    uint8_t w_idx = time->week;
 
     if (time == NULL)
     {
@@ -662,8 +661,9 @@ void BSP_ESP8266_Time_Print(const NetTime_t *time)
         return;
     }
 
-    /* 基础合法性校验：防止打印出 00-00 这种错误数据 */
-    if (w_idx < 1 || w_idx > 7)
+    uint8_t w_idx = time->week;
+
+    if (w_idx < 1 || w_idx > 7) /* 合法性校验 */
     {
         w_idx = 0; /* 指向 "Invalid" */
     }

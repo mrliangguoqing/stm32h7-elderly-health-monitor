@@ -81,6 +81,8 @@ void BSP_MAX30102_Reset(void);
 void BSP_MAX30102_ClearInterrupt(void);
 uint8_t BSP_MAX30102_Init(void);
 void BSP_MAX30102_ReadFifo(uint32_t *red_led, uint32_t *ir_led);
+void BSP_MAX30102_ResetResults(void);
+void BSP_MAX30102_ExecuteAlgorithm(void);
 
 extern max30102_handle_t max30102_handle;
 

@@ -12,7 +12,6 @@
 #include "pal_log.h"
 
 #include "bsp_max30102.h"
-#include "bsp_max30102_algorithm.h"
 
 #include <string.h>
 
@@ -23,6 +22,8 @@ SemaphoreHandle_t xMax30102DataReadySem = NULL;
 TaskHandle_t xMax30102CollectTaskHandle = NULL;
 TaskHandle_t xMax30102CalculateTaskHandle = NULL;
 
+void MAX30102_Update_Buffer(uint16_t start_idx, uint16_t count);
+
 /**
  * @brief  MAX30102 采集数据任务
  * @param  pvParameters: 任务创建时传入的参数
@@ -30,37 +31,17 @@ TaskHandle_t xMax30102CalculateTaskHandle = NULL;
  */
 void MAX30102_Collect_Task(void *pvParameters)
 {
-    /* 初始数据采集 (首次填满 500 个点) */
-    for (int i = 0; i < MAX30102_BUFFER_LEN; i++)
-    {
-        if (xSemaphoreTake(xMax30102DataReadySem, pdMS_TO_TICKS(20)))
-        {
-            BSP_MAX30102_ReadFifo(&max30102_handle.buffer.red_buffer[i],
-                                  &max30102_handle.buffer.ir_buffer[i]);
-        }
-    }
-
-    /* 首次采集完成后，通知计算任务进行第一次计算 */
-    xTaskNotifyGive(xMax30102CalculateTaskHandle);
+    MAX30102_Update_Buffer(0, MAX30102_BUFFER_LEN); /* 初始采集：填满整个 500 点的缓冲区 */
+    xTaskNotifyGive(xMax30102CalculateTaskHandle);  /* 首次采集完成后，通知计算任务进行第一次计算 */
 
     for (;;)
     {
-        /* 循环采集最新的 100 个点 */
-        /* 注意：始终填充 buffer 的最后 100 个位置 (400~499) */
-        for (int i = 400; i < 500; i++)
-        {
-            if (xSemaphoreTake(xMax30102DataReadySem, pdMS_TO_TICKS(20)) == pdTRUE)
-            {
-                BSP_MAX30102_ReadFifo(&max30102_handle.buffer.red_buffer[i],
-                                      &max30102_handle.buffer.ir_buffer[i]);
-            }
-        }
+        /* 循环采集，始终只填充 buffer 的最后 100 个位置 (400~499) */
+        /* 注意：这里不需要做内存滑动，只管填坑 */
+        MAX30102_Update_Buffer(400, 100);
 
-        /* 采集够 100 个点了，唤醒计算任务 */
-        if (xMax30102CalculateTaskHandle != NULL)
-        {
-            xTaskNotifyGive(xMax30102CalculateTaskHandle);
-        }
+        /* 采集够 100 个点，唤醒计算任务 */
+        xTaskNotifyGive(xMax30102CalculateTaskHandle);
     }
 }
 
@@ -82,33 +63,13 @@ void MAX30102_Calculate_Task(void *pvParameters)
         if (current_ir_value < MAX30102_TOUCH_THRESHOLD)
         {
             /* 状态：手指未按下，清空结果并跳过计算 */
-            max30102_handle.data.heart_rate = HEART_RATE_OFF;
-            max30102_handle.data.spo2 = 0;
-            max30102_handle.data.heart_rate_valid = 0;
-            max30102_handle.data.spo2_valid = 0;
-            // PAL_LOG(PAL_LOG_LEVEL_INFO, "Finger removed. Waiting...");
+            BSP_MAX30102_ResetResults();
             vTaskDelay(pdMS_TO_TICKS(200));
         }
         else
         {
             /* 状态：手指已按下，正在计算或已完成 */
-
-            /* 执行原始算法 */
-            maxim_heart_rate_and_oxygen_saturation(
-                max30102_handle.buffer.ir_buffer, MAX30102_BUFFER_LEN,
-                max30102_handle.buffer.red_buffer,
-                &max30102_handle.data.spo2, &max30102_handle.data.spo2_valid,
-                &max30102_handle.data.heart_rate, &max30102_handle.data.heart_rate_valid);
-
-            /* 如果算法还没给出有效结果，手动设为“检测中”旗标 */
-            if (max30102_handle.data.heart_rate_valid == 0)
-            {
-                max30102_handle.data.heart_rate = HEART_RATE_DETECTING;
-            }
-
-            /* 执行平滑滤波算法 */
-            max30102_handle.data.stable_heart_rate = Algo_SmoothHeartRate(max30102_handle.data.heart_rate,
-                                                                          max30102_handle.data.heart_rate_valid);
+            BSP_MAX30102_ExecuteAlgorithm();
 
             // /* 输出结果 */
             // if (max30102_handle.data.heart_rate_valid || max30102_handle.data.spo2_valid)
@@ -132,10 +93,6 @@ void MAX30102_Calculate_Task(void *pvParameters)
         }
     }
 }
-
-/**
- * @brief 系统任务初始化
- */
 
 /**
  * @brief  Max30102 模块初始化
@@ -168,4 +125,27 @@ void App_Max30102_Init(void)
                 NULL,
                 7,
                 &xMax30102CalculateTaskHandle);
+}
+
+/**
+ * @brief  更新 MAX30102 缓冲区数据
+ * @param  start_idx: 开始填充的索引位置
+ * @param  count: 需要采集的数据点数
+ * @retval None
+ */
+void MAX30102_Update_Buffer(uint16_t start_idx, uint16_t count)
+{
+    for (int i = 0; i < count; i++)
+    {
+        /* 阻塞等待传感器数据准备就绪的信号量 */
+        if (xSemaphoreTake(xMax30102DataReadySem, pdMS_TO_TICKS(20)) == pdTRUE)
+        {
+            uint16_t target_idx = start_idx + i;
+            if (target_idx < MAX30102_BUFFER_LEN)
+            {
+                BSP_MAX30102_ReadFifo(&max30102_handle.buffer.red_buffer[target_idx],
+                                      &max30102_handle.buffer.ir_buffer[target_idx]);
+            }
+        }
+    }
 }

@@ -26,6 +26,7 @@ TaskHandle_t xRadarServiceTaskHandle = NULL;
 
 uint8_t Verify_Radar_Checksum(uint8_t *frame, uint16_t len);
 static void Process_Radar_Protocol(uint8_t *pFrame);
+void Radar_Protocol_Parse_Stream(uint8_t *p_buf, uint16_t len);
 
 /**
  * @brief  雷达监测处理任务
@@ -39,43 +40,8 @@ static void Radar_Service_Task(void *pvParameters)
         /* 阻塞等待信号量 */
         if (xSemaphoreTake(xRadarDataReadySem, portMAX_DELAY) == pdPASS)
         {
-            uint16_t cur = 0;
-            uint16_t total = radar_conn.rx_cnt;
-            uint8_t *p = radar_conn.rx_buf;
-
-            /* 只要剩余长度大于最小包长(10字节)就继续解析 */
-            while (cur + 10 <= total)
-            {
-                /* 准确定位帧头 */
-                if (p[cur] == 0x53 && p[cur + 1] == 0x59)
-                {
-                    /* 提取数据长度 */
-                    uint16_t data_len = (p[cur + 4] << 8) | p[cur + 5];
-                    uint16_t full_len = data_len + 9;
-
-                    /* 边界检查，防止 rx_cnt 异常导致内存越界 */
-                    if (cur + full_len <= total)
-                    {
-                        /* 验证帧尾 (54 43) */
-                        if (p[cur + full_len - 2] == 0x54 && p[cur + full_len - 1] == 0x43)
-                        {
-                            /* 进行和校验 */
-                            if (Verify_Radar_Checksum(&p[cur], full_len) == 0)
-                            {
-                                /* 进行协议解析与任务分发逻辑 */
-                                Process_Radar_Protocol(&p[cur]);
-                            }
-
-                            /* 成功解析完一帧，位置直接跳过该帧 */
-                            cur += full_len;
-                            continue;
-                        }
-                    }
-                }
-                cur++; /* 如果没匹配到帧头或帧尾，滑动 1 字节继续找 */
-            }
-
-            BSP_UART_ClearBuffer(&radar_conn);
+            Radar_Protocol_Parse_Stream(radar_conn.rx_buf, radar_conn.rx_cnt); /* 调用解析函数 */
+            BSP_UART_ClearBuffer(&radar_conn);                                 /* 重置串口接收缓冲区状态 */
         }
     }
 }
@@ -180,5 +146,47 @@ static void Process_Radar_Protocol(uint8_t *pFrame)
     default:
         PAL_LOG(PAL_LOG_LEVEL_ERROR, "未定义控制字: 0x%02X", control);
         break;
+    }
+}
+
+/**
+ * @brief  解析雷达原始数据缓冲区
+ * @param  p_buf: 缓冲区首地址
+ * @param  len: 缓冲区内有效数据长度
+ * @retval None
+ */
+void Radar_Protocol_Parse_Stream(uint8_t *p_buf, uint16_t len)
+{
+    uint16_t cur = 0;
+
+    /* 只要剩余长度大于最小包长(10字节)就继续解析 */
+    while (cur + 10 <= len)
+    {
+        /* 定位帧头 */
+        if (p_buf[cur] == 0x53 && p_buf[cur + 1] == 0x59)
+        {
+            /* 提取数据长度并计算整帧长度 */
+            uint16_t data_len = (p_buf[cur + 4] << 8) | p_buf[cur + 5];
+            uint16_t full_len = data_len + 9;
+
+            /* 边界检查 */
+            if (cur + full_len <= len)
+            {
+                /* 验证帧尾 */
+                if (p_buf[cur + full_len - 2] == 0x54 && p_buf[cur + full_len - 1] == 0x43)
+                {
+                    /* 校验和验证 */
+                    if (Verify_Radar_Checksum(&p_buf[cur], full_len) == 0)
+                    {
+                        Process_Radar_Protocol(&p_buf[cur]); /* 协议解析与任务分发 */
+                    }
+                    /* 成功解析或校验失败，都跳过这整一帧 */
+                    cur += full_len;
+                    continue;
+                }
+            }
+        }
+        /* 若未匹配到完整帧，滑动 1 字节继续搜索 */
+        cur++;
     }
 }

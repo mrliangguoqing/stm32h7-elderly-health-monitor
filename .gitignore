@@ -20,6 +20,7 @@
 *.scvd
 *.dbgconf
 *.bak
+*.hex
 
 # --- STM32CubeMX 相关 ---
 # CubeMX 备份文件

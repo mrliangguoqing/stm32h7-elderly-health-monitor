@@ -4,6 +4,7 @@
  */
 
 #include "bsp_max30102.h"
+#include "bsp_max30102_algorithm.h"
 #include "bsp_dwt.h"
 #include "i2c.h"
 
@@ -120,4 +121,39 @@ void BSP_MAX30102_ReadFifo(uint32_t *red_led, uint32_t *ir_led)
         *ir_led = ((uint32_t)data[3] << 16) | ((uint32_t)data[4] << 8) | (uint32_t)data[5];
         *ir_led &= 0x03FFFF;
     }
+}
+
+/**
+ * @brief 重置算法测量结果（当手指离开时调用）
+ */
+void BSP_MAX30102_ResetResults(void)
+{
+    max30102_handle.data.heart_rate = HEART_RATE_OFF;
+    max30102_handle.data.spo2 = 0;
+    max30102_handle.data.heart_rate_valid = 0;
+    max30102_handle.data.spo2_valid = 0;
+    max30102_handle.data.stable_heart_rate = HEART_RATE_OFF;
+}
+
+/**
+ * @brief 执行血氧心率核心算法逻辑
+ */
+void BSP_MAX30102_ExecuteAlgorithm(void)
+{
+    /* 执行原始算法 */
+    maxim_heart_rate_and_oxygen_saturation(
+        max30102_handle.buffer.ir_buffer, MAX30102_BUFFER_LEN,
+        max30102_handle.buffer.red_buffer,
+        &max30102_handle.data.spo2, &max30102_handle.data.spo2_valid,
+        &max30102_handle.data.heart_rate, &max30102_handle.data.heart_rate_valid);
+
+    /* 处理“检测中”状态 */
+    if (max30102_handle.data.heart_rate_valid == 0)
+    {
+        max30102_handle.data.heart_rate = HEART_RATE_DETECTING;
+    }
+
+    /* 执行平滑滤波算法 */
+    max30102_handle.data.stable_heart_rate = Algo_SmoothHeartRate(max30102_handle.data.heart_rate,
+                                                                  max30102_handle.data.heart_rate_valid);
 }

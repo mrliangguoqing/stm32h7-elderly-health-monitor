@@ -29,7 +29,6 @@ volatile uint32_t ulHighFrequencyTimerTicks = 0UL;
  */
 static void System_Monitor_Task(void *pvParameters)
 {
-    /* 建议加大缓冲区或确保任务数量在受控范围 */
     static char pcWriteBuffer[1024];
 
     for (;;)

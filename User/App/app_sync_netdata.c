@@ -13,8 +13,13 @@
 
 #include "pal_log.h"
 
+#include <stdbool.h>
+
 /* 任务句柄：用于外部管理该任务（如删除、挂起、获取状态） */
 TaskHandle_t xSyncNetdataTaskHandle = NULL;
+
+static uint8_t Sync_Weather(void);
+static uint8_t Sync_Time(ds1302_data_t *p_ds1302);
 
 /**
  * @brief  同步网络数据处理任务
@@ -24,88 +29,55 @@ TaskHandle_t xSyncNetdataTaskHandle = NULL;
 static void Sync_Netdata_Task(void *pvParameters)
 {
     TickType_t xLastWakeTime;
-    const TickType_t xFrequency = pdMS_TO_TICKS(3600 * 1000); /* 恒定 1 小时触发一次 */
-    static uint8_t hour_counter = 0;                          /* 小时计数器 */
+    const TickType_t xFrequency = pdMS_TO_TICKS(3600 * 1000);
+    uint8_t hour_counter = 0;
+    uint8_t retry_count = 0;
+    const uint8_t MAX_RETRY = 5; /* 最大重试次数 */
 
     ds1302_data_t *p_ds1302_data = BSP_DS1302_GetData();
 
-    uint8_t status = 0x00;
-
-    /* BSP 层模块初始化 */
     BSP_ESP8266_Init();
 
+    /* 初始强制同步 */
     vTaskPrioritySet(NULL, 11);
+    uint8_t weather_err = 1; /* 默认失败状态 */
+    uint8_t time_err = 1;
 
-    do
+    while ((weather_err || time_err) && (retry_count < MAX_RETRY))
     {
-        status = 0x00;
-
-        if (BSP_ESP8266_WeatherUpdate(&g_weather_info) == 0)
+        /* 如果之前失败了(1)，则尝试同步；如果已经成功(0)，则跳过 */
+        if (weather_err)
         {
-            status |= 0xF0;
-            BSP_ESP8266_Weather_Print(&g_weather_info);
-        }
-        else
-        {
-            PAL_LOG(PAL_LOG_LEVEL_ERROR, "请求天气数据失败\r\n");
+            weather_err = Sync_Weather();
         }
 
-        /* 更新时间到 DS1302 */
-        if (BSP_ESP8266_SyncTime(&g_net_time) == 0)
+        if (time_err)
         {
-            status |= 0x0F;
-            p_ds1302_data->year = g_net_time.year;
-            p_ds1302_data->month = g_net_time.month;
-            p_ds1302_data->day = g_net_time.day;
-            p_ds1302_data->hour = g_net_time.hour;
-            p_ds1302_data->minute = g_net_time.minute;
-            p_ds1302_data->second = g_net_time.second;
-            p_ds1302_data->week = g_net_time.week;
-
-            BSP_DS1302_SetTime(p_ds1302_data);
-
-            BSP_ESP8266_Time_Print(&g_net_time);
+            time_err = Sync_Time(p_ds1302_data);
         }
-        else
+
+        if (weather_err || time_err) /* 如果还有任何一个没成功，就等待重试 */
         {
-            PAL_LOG(PAL_LOG_LEVEL_ERROR, "RTC_Alarm_Task 请求网络时间失败");
+            retry_count++;
+            vTaskDelay(pdMS_TO_TICKS(5000));
         }
-    } while (status != 0xFF);
-
+    }
     vTaskPrioritySet(NULL, 2);
 
-    /* 初始化时间点 */
+    /* 周期性同步 */
     xLastWakeTime = xTaskGetTickCount();
     for (;;)
     {
-        /* 绝对延时，确保每 1 小时准时唤醒 */
-        vTaskDelayUntil(&xLastWakeTime, xFrequency);
+        vTaskDelayUntil(&xLastWakeTime, xFrequency); /* 绝对延时 */
 
-        /* 每 1 小时更新同步天气数据 */
-        if (BSP_ESP8266_WeatherUpdate(&g_weather_info) == 0)
+        Sync_Weather(); /* 每 1 小时同步天气 */
+
+        if (hour_counter % 12 == 0) /* 每 12 小时同步时间 */
         {
-            BSP_ESP8266_Weather_Print(&g_weather_info);
-        }
-        else
-        {
-            PAL_LOG(PAL_LOG_LEVEL_ERROR, "请求天气数据失败\r\n");
+            Sync_Time(p_ds1302_data);
         }
 
-        /* 每 12 小时更新同步时间日期数据 */
-        if (hour_counter % 12 == 0)
-        {
-            if (BSP_ESP8266_SyncTime(&g_net_time) == 0)
-            {
-                BSP_ESP8266_Time_Print(&g_net_time);
-            }
-            else
-            {
-                PAL_LOG(PAL_LOG_LEVEL_ERROR, "请求网络时间失败\r\n");
-            }
-        }
-
-        hour_counter++;
-        if (hour_counter >= 12)
+        if (++hour_counter >= 12)
         {
             hour_counter = 0;
         }
@@ -125,4 +97,49 @@ void App_Sync_Netdata_Init(void)
                 NULL,
                 2,
                 &xSyncNetdataTaskHandle);
+}
+
+/**
+ * @brief  执行天气同步
+ * @return 0: 成功, 1: 失败
+ */
+static uint8_t Sync_Weather(void)
+{
+    if (BSP_ESP8266_WeatherUpdate(&g_weather_info) == 0)
+    {
+        BSP_ESP8266_Weather_Print(&g_weather_info);
+
+        return 0;
+    }
+
+    PAL_LOG(PAL_LOG_LEVEL_ERROR, "请求天气数据失败\r\n");
+
+    return 1;
+}
+
+/**
+ * @brief  执行时间同步并更新硬件 RTC
+ * @return 0: 成功, 1: 失败
+ */
+static uint8_t Sync_Time(ds1302_data_t *p_ds1302)
+{
+    if (BSP_ESP8266_SyncTime(&g_net_time) == 0)
+    {
+        p_ds1302->year = g_net_time.year;
+        p_ds1302->month = g_net_time.month;
+        p_ds1302->day = g_net_time.day;
+        p_ds1302->hour = g_net_time.hour;
+        p_ds1302->minute = g_net_time.minute;
+        p_ds1302->second = g_net_time.second;
+        p_ds1302->week = g_net_time.week;
+
+        BSP_DS1302_SetTime(p_ds1302);
+        BSP_ESP8266_Time_Print(&g_net_time);
+
+        return 0;
+    }
+
+    PAL_LOG(PAL_LOG_LEVEL_ERROR, "请求网络时间失败\r\n");
+
+    return 1;
 }

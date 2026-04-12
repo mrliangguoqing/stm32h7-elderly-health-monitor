@@ -24,42 +24,11 @@ TaskHandle_t xSensorTaskHandle = NULL;
  */
 static void Sensor_Task(void *pvParameters)
 {
-    const aht30_data_t *p_aht30_data = BSP_AHT30_GetData();
-    const bh1750_data_t *p_bh1750_data = BSP_BH1750_GetData();
-    const mq5_data_t *p_mq5_data = BSP_MQ5_GetData();
-
     for (;;)
     {
-        /* 处理 AHT30 温湿度传感器 */
-        if (p_aht30_data != NULL)
-        {
-            if (BSP_AHT30_UpdateData() == 0)
-            {
-                if (p_aht30_data != NULL)
-                {
-                    // PAL_LOG(PAL_LOG_LEVEL_DEBUG, "AHT30-Temperature: %.2f °C", p_aht30_data->temperature);
-                    // PAL_LOG(PAL_LOG_LEVEL_DEBUG, "AHT30-Humidity   : %.2f %%", p_aht30_data->humidity);
-                }
-            }
-        }
-
-        /* 处理 BH1750 光照强度传感器 */
-        if (p_bh1750_data != NULL)
-        {
-            if (BSP_BH1750_UpdateData() == 0)
-            {
-                // PAL_LOG(PAL_LOG_LEVEL_DEBUG, "BH1750-Lux : %f", p_bh1750_data->lux);
-            }
-        }
-
-        /* 处理 MQ-5 可燃气体传感器 */
-        if (p_mq5_data != NULL)
-        {
-            if (BSP_MQ5_UpdateData() == 0)
-            {
-                // PAL_LOG(PAL_LOG_LEVEL_DEBUG, "MQ5-Voltage: %.2f V", p_mq5_data->smooth_v);
-            }
-        }
+        BSP_AHT30_UpdateData();  /* 更新 AHT30 温湿度数据 */
+        BSP_BH1750_UpdateData(); /* BH1750 光照强度数据 */
+        BSP_MQ5_UpdateData();    /* MQ-5 可燃气体数据 */
 
         vTaskDelay(pdMS_TO_TICKS(500));
     }

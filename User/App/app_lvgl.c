@@ -168,7 +168,19 @@ void alarm_ui_initial_state(void)
 void update_rtc_time_cb(lv_timer_t *timer)
 {
     ds1302_data_t *p_ds1302_data = BSP_DS1302_GetData();
-    const char *week_map[] = {"日", "一", "二", "三", "四", "五", "六"};
+
+    if (timer == NULL || p_ds1302_data == NULL)
+    {
+        return;
+    }
+
+    const char *week_map[] = {"Invalid", "一", "二", "三", "四", "五", "六", "日"};
+    uint8_t w_idx = p_ds1302_data->week;
+
+    if (w_idx < 1 || w_idx > 7) /* 合法性校验 */
+    {
+        w_idx = 0; /* 指向 "Invalid" */
+    }
 
     if (g_user_alarm.is_active)
     {
@@ -184,7 +196,7 @@ void update_rtc_time_cb(lv_timer_t *timer)
     lv_label_set_text_fmt(ui_LabelYear, "%04d", p_ds1302_data->year);
     lv_label_set_text_fmt(ui_LabelMonth, "%02d", p_ds1302_data->month);
     lv_label_set_text_fmt(ui_LabelDay, "%02d", p_ds1302_data->day);
-    lv_label_set_text_fmt(ui_LabelWeek, "周%s", week_map[p_ds1302_data->week]);
+    lv_label_set_text_fmt(ui_LabelWeek, "周%s", week_map[w_idx]);
 
     /* 屏幕 2 */
     lv_label_set_text_fmt(ui_LabelTime2, "%02d:%02d:%02d", p_ds1302_data->hour, p_ds1302_data->minute, p_ds1302_data->second);

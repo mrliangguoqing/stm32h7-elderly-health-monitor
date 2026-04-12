@@ -27,6 +27,7 @@ static void BSP_DS1302_WriteByte(uint8_t data);
 static uint8_t BSP_DS1302_ReadByte(void);
 static void BSP_DS1302_WriteReg(uint8_t addr, uint8_t data);
 static uint8_t BSP_DS1302_ReadReg(uint8_t addr);
+static void BSP_DS1302_DataValidate(ds1302_data_t *time);
 
 /**
  * @brief  DS1302 硬件初始化及默认时间设置
@@ -37,7 +38,7 @@ void BSP_DS1302_Init(void)
 	HAL_GPIO_WritePin(DS1302_RST_GPIO_Port, DS1302_RST_Pin, GPIO_PIN_RESET);
 	HAL_GPIO_WritePin(DS1302_SCLK_GPIO_Port, DS1302_SCLK_Pin, GPIO_PIN_RESET);
 
-	BSP_DS1302_SetTime(&ds1302_dev);		   /* 设置日期和时间 */
+	BSP_DS1302_SetTime(&ds1302_dev); /* 设置日期和时间 */
 }
 
 /**
@@ -47,6 +48,11 @@ void BSP_DS1302_Init(void)
  */
 void BSP_DS1302_SetTime(ds1302_data_t *time)
 {
+	if (time == NULL)
+	{
+		return;
+	}
+
 	BSP_DS1302_WriteReg(DS1302_WP_ADDR, 0x00);							 /* 解除写保护，允许写入数据 */
 	BSP_DS1302_WriteReg(DS1302_SEC_ADDR, Dec_To_BCD(time->second));		 /* 设置秒 (转换成BCD码写入) */
 	BSP_DS1302_WriteReg(DS1302_MIN_ADDR, Dec_To_BCD(time->minute));		 /* 设置分 (转换成BCD码写入) */
@@ -65,6 +71,11 @@ void BSP_DS1302_SetTime(ds1302_data_t *time)
  */
 void BSP_DS1302_UpdateData(ds1302_data_t *time)
 {
+	if (time == NULL)
+	{
+		return;
+	}
+
 	time->second = BCD_To_Dec(BSP_DS1302_ReadReg(DS1302_SEC_ADDR));		  /* 读取秒并转换为十进制 */
 	time->minute = BCD_To_Dec(BSP_DS1302_ReadReg(DS1302_MIN_ADDR));		  /* 读取分并转换为十进制 */
 	time->hour = BCD_To_Dec(BSP_DS1302_ReadReg(DS1302_HOUR_ADDR));		  /* 读取时并转换为十进制 */
@@ -72,6 +83,8 @@ void BSP_DS1302_UpdateData(ds1302_data_t *time)
 	time->month = BCD_To_Dec(BSP_DS1302_ReadReg(DS1302_MONTH_ADDR));	  /* 读取月并转换为十进制 */
 	time->week = BCD_To_Dec(BSP_DS1302_ReadReg(DS1302_WEEK_ADDR));		  /* 读取星期并转换为十进制 */
 	time->year = BCD_To_Dec(BSP_DS1302_ReadReg(DS1302_YEAR_ADDR)) + 2000; /* 读取年并加上世纪偏移 */
+
+	BSP_DS1302_DataValidate(time); /* 对时间数据合法性校验与修正 */
 }
 
 /**
@@ -209,4 +222,31 @@ static uint8_t BSP_DS1302_ReadReg(uint8_t addr)
 
 	HAL_GPIO_WritePin(DS1302_RST_GPIO_Port, DS1302_RST_Pin, GPIO_PIN_RESET);
 	return data;
+}
+
+/**
+ * @brief  DS1302 时间数据合法性校验与修正
+ * @param  time: 指向待校验的时间结构体指针
+ * @note   1. 自动处理秒、分、时的溢出 (取模运算)
+ * 		   2. 强制限制日、月在有效范围内 (如 1-12 月)
+ * 		   3. 确保结构体指针有效，防止非法内存访问
+ */
+static void BSP_DS1302_DataValidate(ds1302_data_t *time)
+{
+	if (time == NULL)
+	{
+		return;
+	}
+
+	/* 使用取模运算强制限制范围 */
+	time->second %= 60;
+	time->minute %= 60;
+	time->hour %= 24;
+	time->day = (time->day == 0) ? 1 : (time->day > 31 ? 31 : time->day);
+	time->month = (time->month == 0) ? 1 : (time->month > 12 ? 12 : time->month);
+
+	if (time->week < 1 || time->week > 7)
+	{
+		time->week = 0;
+	}
 }

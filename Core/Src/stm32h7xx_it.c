@@ -93,6 +93,15 @@ void NMI_Handler(void)
 void HardFault_Handler(void)
 {
   /* USER CODE BEGIN HardFault_IRQn 0 */
+  /* 获取栈指针 */
+  __asm volatile(
+      " tst lr, #4                                                \n"
+      " ite eq                                                    \n"
+      " mrseq r0, msp                                             \n"
+      " mrsne r0, psp                                             \n"
+      " ldr r1, [r0, #24]                                         \n" /* r1 就是 PC 寄存器的值 */
+      " bkpt #0                                                   \n" /* 程序会停在这里 */
+  );
 
   /* USER CODE END HardFault_IRQn 0 */
   while (1)

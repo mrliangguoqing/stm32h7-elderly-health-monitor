@@ -120,7 +120,7 @@
         <SetRegEntry>
           <Number>0</Number>
           <Key>DLGUARM</Key>
-          <Name></Name>
+          <Name>?楬?埼?愊?</Name>
         </SetRegEntry>
         <SetRegEntry>
           <Number>0</Number>
@@ -933,7 +933,7 @@
 
   <Group>
     <GroupName>User/APP</GroupName>
-    <tvExp>0</tvExp>
+    <tvExp>1</tvExp>
     <tvExpOptDlg>0</tvExpOptDlg>
     <cbSel>0</cbSel>
     <RteFlg>0</RteFlg>
